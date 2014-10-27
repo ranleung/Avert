@@ -37,9 +37,9 @@ class Spawner {
         
         switch team {
         case .Friend:
-            shape.color = SKColor.blueColor()
+            shape.color = UIColor.blueColor()
         case .Enemy:
-            shape.color = SKColor.orangeColor()
+            shape.color = UIColor.orangeColor()
         }
         
         var destination: CGPoint!
@@ -72,7 +72,11 @@ class Spawner {
         
         let moveAction = SKAction.moveTo(destination, duration: NSTimeInterval(duration))
         let moveActionDone = SKAction.removeFromParent()
-        shape.runAction(SKAction.sequence([moveAction, moveActionDone]))
+        let respawnAction = SKAction.runBlock { () -> Void in
+            self.spawnShape(originSide, team: team, scene: scene)
+        }
+        
+        shape.runAction(SKAction.sequence([moveAction, respawnAction, moveActionDone]))
         
         
         
