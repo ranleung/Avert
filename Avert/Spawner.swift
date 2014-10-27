@@ -33,6 +33,7 @@ class Spawner {
         
         let rect = CGRect(x: 0, y: 0, width: 50, height: 50)
         let shape = SKShapeNode(rect: rect)
+        shape.fillColor = UIColor.blueColor()
         var destination: CGPoint!
         
         switch originSide {
