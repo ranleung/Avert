@@ -12,11 +12,14 @@ class GameScene: SKScene {
    
     var menuNode: MenuScreenNode?
     var helpNode: HelpScreen?
+    var gameOverNode: GameOverNode?
     var showMenu = true
     var showHelpMenu = false
     var showGameOver = false
     
     override func didMoveToView(view: SKView) {
+        self.gameOverNode = GameOverNode(scene: self)
+        self.helpNode = HelpScreen(scene: self)
         self.menuNode = MenuScreenNode(scene: self)
         self.addChild(self.menuNode!)
     }
@@ -29,7 +32,17 @@ class GameScene: SKScene {
         if self.showHelpMenu == true {
             self.helpMenuHelper(touches)
         }
+        if self.showGameOver == true {
+            self.gameOverMenuHelper(touches)
+        }
     }
+   
+    override func update(currentTime: CFTimeInterval) {
+        
+        
+    }
+    
+    // MARK: Various Menu Helper Functions
     
     func menuHelper(touches: NSSet) {
         for touch in touches {
@@ -38,6 +51,7 @@ class GameScene: SKScene {
                 println("PlayButton Touched")
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
+                self.addGameOverScreen()
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("HelpButton Touched")
@@ -57,14 +71,24 @@ class GameScene: SKScene {
             }
         }
     }
-   
-    override func update(currentTime: CFTimeInterval) {
-        
-        
+    
+    func gameOverMenuHelper(touches: NSSet) {
+        for touch in touches {
+            var nodeAtTouch = self.gameOverNode?.nodeAtPoint(touch.locationInNode(self.gameOverNode))
+            if nodeAtTouch?.name == "NewGameButton" {
+                println("New Game Touched")
+                self.gameOverNode?.removeFromParent()
+                self.addMenuScreen()
+            }
+            if nodeAtTouch?.name == "HelpButton" {
+                println("Help Button Pressed")
+                self.gameOverNode?.removeFromParent()
+                self.addHelpScreen()
+            }
+        }
     }
     
     func addHelpScreen() {
-        self.helpNode = HelpScreen(scene: self)
         self.addChild(self.helpNode!)
         self.showHelpMenu = true
         self.showMenu = false
@@ -74,5 +98,10 @@ class GameScene: SKScene {
         self.addChild(self.menuNode!)
         self.showHelpMenu = false
         self.showMenu = true
+    }
+    func addGameOverScreen() {
+        self.addChild(self.gameOverNode!)
+        self.showGameOver = true
+        self.showMenu = false
     }
 }
