@@ -7,7 +7,9 @@
 //
 
 import UIKit
+import SpriteKit
 
 class MenuScreenNode: SKNode {
-   
+    var playButton: SKNode?
+    var helpButton: SKNode?
 }
