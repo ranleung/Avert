@@ -10,6 +10,8 @@ import SpriteKit
 
 class GameScene: SKScene {
    
+    // MARK - Overwritten SKScene functions
+    
     override func didMoveToView(view: SKView) {
         
     }
@@ -21,6 +23,6 @@ class GameScene: SKScene {
    
     override func update(currentTime: CFTimeInterval) {
         
-        
     }
+    
 }
