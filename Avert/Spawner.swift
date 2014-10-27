@@ -12,6 +12,7 @@ class Spawner {
     
     enum OriginSide {
         case Up, Down, Left, Right
+        static let allValues = [Up, Down, Left, Right]
     }
     
     enum ShapeTeam {
@@ -29,11 +30,18 @@ class Spawner {
         return self.random() * (max - min) + min
     }
     
-    func spawnShape (originSide: OriginSide, scene: SKScene) {
+    func spawnShape (originSide: OriginSide, team: ShapeTeam, scene: SKScene) {
         
         let rect = CGRect(x: 0, y: 0, width: 50, height: 50)
         let shape = SKShapeNode(rect: rect)
-        shape.fillColor = UIColor.blueColor()
+        
+        switch team {
+        case .Friend:
+            shape.fillColor = UIColor.blueColor()
+        case .Enemy:
+            shape.fillColor = UIColor.orangeColor()
+        }
+        
         var destination: CGPoint!
         
         switch originSide {

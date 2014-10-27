@@ -34,10 +34,10 @@ class GameScene: SKScene {
         self.previousTime = currentTime
         self.timeSinceLastSpawn = self.timeSinceLastSpawn + self.deltaTime
         if self.timeSinceLastSpawn > 2.0 {
-            spawner.spawnShape(Spawner.OriginSide.Up, scene: self)
-            spawner.spawnShape(Spawner.OriginSide.Down, scene: self)
-            spawner.spawnShape(Spawner.OriginSide.Left, scene: self)
-            spawner.spawnShape(Spawner.OriginSide.Right, scene: self)
+            for side in Spawner.OriginSide.allValues {
+                spawner.spawnShape(side, team: Spawner.ShapeTeam.Enemy, scene: self)
+                spawner.spawnShape(side, team: Spawner.ShapeTeam.Friend, scene: self)
+            }
             self.timeSinceLastSpawn = 0
         }
     }
