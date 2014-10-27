@@ -1,0 +1,430 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2819FECCC0005D63BE /* AppDelegate.swift */; };
+		701E6A2B19FECCC0005D63BE /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 701E6A2A19FECCC0005D63BE /* GameScene.sks */; };
+		701E6A2D19FECCC0005D63BE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2C19FECCC0005D63BE /* GameScene.swift */; };
+		701E6A2F19FECCC0005D63BE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2E19FECCC0005D63BE /* GameViewController.swift */; };
+		701E6A3219FECCC0005D63BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 701E6A3019FECCC0005D63BE /* Main.storyboard */; };
+		701E6A3419FECCC0005D63BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 701E6A3319FECCC0005D63BE /* Images.xcassets */; };
+		701E6A3719FECCC0005D63BE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 701E6A3519FECCC0005D63BE /* LaunchScreen.xib */; };
+		701E6A4319FECCC0005D63BE /* AvertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A4219FECCC0005D63BE /* AvertTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		701E6A3D19FECCC0005D63BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 701E6A1B19FECCC0005D63BE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 701E6A2219FECCC0005D63BE;
+			remoteInfo = Avert;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		701E6A2319FECCC0005D63BE /* Avert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Avert.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		701E6A2719FECCC0005D63BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		701E6A2819FECCC0005D63BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		701E6A2A19FECCC0005D63BE /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		701E6A2C19FECCC0005D63BE /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		701E6A2E19FECCC0005D63BE /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		701E6A3119FECCC0005D63BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		701E6A3319FECCC0005D63BE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		701E6A3619FECCC0005D63BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		701E6A3C19FECCC0005D63BE /* AvertTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvertTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		701E6A4119FECCC0005D63BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		701E6A4219FECCC0005D63BE /* AvertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvertTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		701E6A2019FECCC0005D63BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		701E6A3919FECCC0005D63BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		701E6A1A19FECCC0005D63BE = {
+			isa = PBXGroup;
+			children = (
+				701E6A2519FECCC0005D63BE /* Avert */,
+				701E6A3F19FECCC0005D63BE /* AvertTests */,
+				701E6A2419FECCC0005D63BE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		701E6A2419FECCC0005D63BE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				701E6A2319FECCC0005D63BE /* Avert.app */,
+				701E6A3C19FECCC0005D63BE /* AvertTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		701E6A2519FECCC0005D63BE /* Avert */ = {
+			isa = PBXGroup;
+			children = (
+				701E6A2819FECCC0005D63BE /* AppDelegate.swift */,
+				701E6A2A19FECCC0005D63BE /* GameScene.sks */,
+				701E6A2C19FECCC0005D63BE /* GameScene.swift */,
+				701E6A2E19FECCC0005D63BE /* GameViewController.swift */,
+				701E6A3019FECCC0005D63BE /* Main.storyboard */,
+				701E6A3319FECCC0005D63BE /* Images.xcassets */,
+				701E6A3519FECCC0005D63BE /* LaunchScreen.xib */,
+				701E6A2619FECCC0005D63BE /* Supporting Files */,
+			);
+			path = Avert;
+			sourceTree = "<group>";
+		};
+		701E6A2619FECCC0005D63BE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				701E6A2719FECCC0005D63BE /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		701E6A3F19FECCC0005D63BE /* AvertTests */ = {
+			isa = PBXGroup;
+			children = (
+				701E6A4219FECCC0005D63BE /* AvertTests.swift */,
+				701E6A4019FECCC0005D63BE /* Supporting Files */,
+			);
+			path = AvertTests;
+			sourceTree = "<group>";
+		};
+		701E6A4019FECCC0005D63BE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				701E6A4119FECCC0005D63BE /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		701E6A2219FECCC0005D63BE /* Avert */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 701E6A4619FECCC0005D63BE /* Build configuration list for PBXNativeTarget "Avert" */;
+			buildPhases = (
+				701E6A1F19FECCC0005D63BE /* Sources */,
+				701E6A2019FECCC0005D63BE /* Frameworks */,
+				701E6A2119FECCC0005D63BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Avert;
+			productName = Avert;
+			productReference = 701E6A2319FECCC0005D63BE /* Avert.app */;
+			productType = "com.apple.product-type.application";
+		};
+		701E6A3B19FECCC0005D63BE /* AvertTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 701E6A4919FECCC0005D63BE /* Build configuration list for PBXNativeTarget "AvertTests" */;
+			buildPhases = (
+				701E6A3819FECCC0005D63BE /* Sources */,
+				701E6A3919FECCC0005D63BE /* Frameworks */,
+				701E6A3A19FECCC0005D63BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				701E6A3E19FECCC0005D63BE /* PBXTargetDependency */,
+			);
+			name = AvertTests;
+			productName = AvertTests;
+			productReference = 701E6A3C19FECCC0005D63BE /* AvertTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		701E6A1B19FECCC0005D63BE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = Randall;
+				TargetAttributes = {
+					701E6A2219FECCC0005D63BE = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					701E6A3B19FECCC0005D63BE = {
+						CreatedOnToolsVersion = 6.1;
+						TestTargetID = 701E6A2219FECCC0005D63BE;
+					};
+				};
+			};
+			buildConfigurationList = 701E6A1E19FECCC0005D63BE /* Build configuration list for PBXProject "Avert" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 701E6A1A19FECCC0005D63BE;
+			productRefGroup = 701E6A2419FECCC0005D63BE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				701E6A2219FECCC0005D63BE /* Avert */,
+				701E6A3B19FECCC0005D63BE /* AvertTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		701E6A2119FECCC0005D63BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				701E6A3719FECCC0005D63BE /* LaunchScreen.xib in Resources */,
+				701E6A3419FECCC0005D63BE /* Images.xcassets in Resources */,
+				701E6A2B19FECCC0005D63BE /* GameScene.sks in Resources */,
+				701E6A3219FECCC0005D63BE /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		701E6A3A19FECCC0005D63BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		701E6A1F19FECCC0005D63BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				701E6A2D19FECCC0005D63BE /* GameScene.swift in Sources */,
+				701E6A2F19FECCC0005D63BE /* GameViewController.swift in Sources */,
+				701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		701E6A3819FECCC0005D63BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				701E6A4319FECCC0005D63BE /* AvertTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		701E6A3E19FECCC0005D63BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 701E6A2219FECCC0005D63BE /* Avert */;
+			targetProxy = 701E6A3D19FECCC0005D63BE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		701E6A3019FECCC0005D63BE /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				701E6A3119FECCC0005D63BE /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		701E6A3519FECCC0005D63BE /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				701E6A3619FECCC0005D63BE /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		701E6A4419FECCC0005D63BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		701E6A4519FECCC0005D63BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		701E6A4719FECCC0005D63BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Avert/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		701E6A4819FECCC0005D63BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Avert/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		701E6A4A19FECCC0005D63BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = AvertTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Avert.app/Avert";
+			};
+			name = Debug;
+		};
+		701E6A4B19FECCC0005D63BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = AvertTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Avert.app/Avert";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		701E6A1E19FECCC0005D63BE /* Build configuration list for PBXProject "Avert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				701E6A4419FECCC0005D63BE /* Debug */,
+				701E6A4519FECCC0005D63BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		701E6A4619FECCC0005D63BE /* Build configuration list for PBXNativeTarget "Avert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				701E6A4719FECCC0005D63BE /* Debug */,
+				701E6A4819FECCC0005D63BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		701E6A4919FECCC0005D63BE /* Build configuration list for PBXNativeTarget "AvertTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				701E6A4A19FECCC0005D63BE /* Debug */,
+				701E6A4B19FECCC0005D63BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 701E6A1B19FECCC0005D63BE /* Project object */;
+}
