@@ -11,31 +11,33 @@ import SpriteKit
 class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!";
-        myLabel.fontSize = 65;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
+
+        let hero = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: 50, height: 50))
         
-        self.addChild(myLabel)
+        hero.fillColor = UIColor.blackColor()
+        hero.xScale = 0.5
+        hero.yScale = 0.5
+        hero.position = CGPoint(x: 400, y: 400)
+        
+        let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
+        
+        hero.runAction(SKAction.repeatActionForever(action))
+        
+        self.addChild(hero)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
         
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
             
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
             
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
             
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
             
-            sprite.runAction(SKAction.repeatActionForever(action))
             
-            self.addChild(sprite)
+            
+            
+            
         }
     }
    
