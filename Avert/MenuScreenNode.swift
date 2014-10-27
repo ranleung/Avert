@@ -46,9 +46,4 @@ class MenuScreenNode: SKNode {
         super.init(coder: aDecoder)
         fatalError("init(coder:) has not been implemented")
     }
-    func recieveTouchEvent(touches: NSSet) {
-        for touch in touches {
-            
-        }
-    }
 }
