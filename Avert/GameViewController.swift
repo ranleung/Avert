@@ -29,6 +29,8 @@ class GameViewController: UIViewController {
         
         skView.presentScene(scene)
         
+        // Set up player shape
+        
     }
 
     override func prefersStatusBarHidden() -> Bool {
