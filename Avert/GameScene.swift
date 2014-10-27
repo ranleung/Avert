@@ -20,7 +20,7 @@ class GameScene: SKScene {
     
     // MARK - Overwritten SKScene functions
     override func didMoveToView(view: SKView) {
-        
+        startSpawn()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -29,16 +29,21 @@ class GameScene: SKScene {
     }
    
     override func update(currentTime: CFTimeInterval) {
+        
+        
         self.currentTime = currentTime
         self.deltaTime = self.currentTime - self.previousTime
         self.previousTime = currentTime
         self.timeSinceLastSpawn = self.timeSinceLastSpawn + self.deltaTime
-        if self.timeSinceLastSpawn > 2.0 {
-            for side in Spawner.OriginSide.allValues {
-                spawner.spawnShape(side, team: Spawner.ShapeTeam.Enemy, scene: self)
-                spawner.spawnShape(side, team: Spawner.ShapeTeam.Friend, scene: self)
-            }
-            self.timeSinceLastSpawn = 0
+
+        self.timeSinceLastSpawn = 0
+
+    }
+    
+    func startSpawn () {
+        for side in Spawner.OriginSide.allValues {
+            spawner.spawnShape(side, team: Spawner.ShapeTeam.Enemy, scene: self)
+            spawner.spawnShape(side, team: Spawner.ShapeTeam.Friend, scene: self)
         }
     }
     

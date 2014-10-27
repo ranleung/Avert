@@ -32,14 +32,14 @@ class Spawner {
     
     func spawnShape (originSide: OriginSide, team: ShapeTeam, scene: SKScene) {
         
-        let rect = CGRect(x: 0, y: 0, width: 50, height: 50)
-        let shape = SKShapeNode(rect: rect)
+        let shapeSideSize = scene.size.width * random(min: 0.03, max: 0.055)
+        let shape = SKSpriteNode(texture: nil, size: CGSize(width: shapeSideSize, height: shapeSideSize))
         
         switch team {
         case .Friend:
-            shape.fillColor = UIColor.blueColor()
+            shape.color = SKColor.blueColor()
         case .Enemy:
-            shape.fillColor = UIColor.orangeColor()
+            shape.color = SKColor.orangeColor()
         }
         
         var destination: CGPoint!
@@ -68,7 +68,7 @@ class Spawner {
         
         scene.addChild(shape)
         
-        let duration = CGFloat(2.0)
+        let duration = random(min: 2.0, max: 4.0)
         
         let moveAction = SKAction.moveTo(destination, duration: NSTimeInterval(duration))
         let moveActionDone = SKAction.removeFromParent()
