@@ -10,45 +10,23 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    var hero: SKSpriteNode!
+    var hero : SKSpriteNode!
     var heroRotationSpeed = 5
     var panGestureRecognizer : UIPanGestureRecognizer!
     var lastTouchedLocation : CGPoint!
     var startPosition : CGPoint!
-    var heroCategory = 0x1 << 0
-    var wallsCategory = 0x1 << 1
-    var collisionBehvaior : UICollisionBehavior!
-    var animator : UIDynamicAnimator!
-    
     
     override func didMoveToView(view: SKView) {
 
         //Create starting hero and position center
-        let path = CGPathCreateWithRect(CGRect(x: 0.0, y: 0.0, width: 50, height: 50), nil)
         self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: CGSize(width: 50, height: 50))
         self.hero.xScale = 0.5
         self.hero.yScale = 0.5
         self.hero.position = CGPointMake(view.frame.width/2, view.frame.height/2)
-        let action = SKAction.rotateByAngle(CGFloat(M_PI), duration: 1)
-        
-        self.hero.runAction(SKAction.repeatActionForever(action))
         self.hero.physicsBody?.dynamic = true
-        self.hero.physicsBody?.restitution = 1
-        self.hero.physicsBody?.friction = 0.2
-        self.hero.physicsBody?.mass = 1
-        self.hero.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.hero.frame)
         
-//        self.hero.physicsBody?.categoryBitMask = UInt32(self.heroCategory)
-//        self.hero.physicsBody?.collisionBitMask = 0
-        //self.physicsBody = SKPhysicsBody(edgeLoopFromRect: self.view!.frame)
-//        scene?.physicsBody?.categoryBitMask = UInt32(wallsCategory)
-//        scene?.physicsBody?.collisionBitMask = 0
-        
-//        self.animator = UIDynamicAnimator(referenceView: self.view!)
-//        self.collisionBehvaior = UICollisionBehavior(items: [self.hero])
-//        self.collisionBehvaior.translatesReferenceBoundsIntoBoundary = true
-//        self.animator.addBehavior(collisionBehvaior)
-//        
+        let action = SKAction.rotateByAngle(CGFloat(M_PI), duration: 1)
+        self.hero.runAction(SKAction.repeatActionForever(action))
 
         self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
         self.view?.addGestureRecognizer(panGestureRecognizer)
@@ -82,6 +60,7 @@ class GameScene: SKScene {
                     self.hero.position = newLocation
                     println("Changed \(self.hero.position)")
             }
+            //move hero back on screen
             //bottom left corner
             if self.hero.position.x <= 19 {
                 self.hero.position = CGPoint(x: 20, y: self.hero.position.y)
@@ -103,4 +82,8 @@ class GameScene: SKScene {
             println("Ended \(self.hero.position)")
         }
     }
+    
+    
+    
+    
 }
