@@ -22,7 +22,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var pauseButton: SKSpriteNode?
     var resumeButton: SKSpriteNode?
     var pausedLabel: SKLabelNode?
-    var gameIsPaused = false
     
     // Hero properties
     var hero : SKSpriteNode!
@@ -42,7 +41,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Points properties
     var points: UInt32 = 0
     var squaresAcquired: UInt16 = 0
-    
     var shapesArray = [Shape]()
     
     // Contact properties
@@ -63,10 +61,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.helpNode = HelpScreen(scene: self)
         self.menuNode = MenuScreenNode(scene: self)
         self.addChild(self.menuNode!)
+        self.physicsWorld.contactDelegate = self
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.paused = true
         
         
-        // Initializing and setting pause and resum buttons
+        // Initializing and setting pause and resume buttons
         self.addPauseAndResumeButtons()
     }
     
@@ -81,12 +81,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.showGameOver == true {
             self.gameOverMenuHelper(touches)
         }
-        if self.gameIsPaused == false {
-            self.pauseHelper(touches)
-        }
-        if self.gameIsPaused == true {
-            self.resumeHelper(touches)
-        }
+        self.pauseHelper(touches)
     }
 
     override func update(currentTime: CFTimeInterval) {
@@ -123,11 +118,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             default:
                 timeIntervalForPoints = 0.1
             }
-            
             if self.timeSincePointGiven > timeIntervalForPoints {
                 self.points += 1
                 self.timeSincePointGiven = 0
                 println(self.points)
+            }
+        }
+        
+        for shape in shapesArray {
+            if !shape.alive {
+                shape.spawnSprite()
+                shape.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: shape.sprite!.size)
+                shape.sprite?.physicsBody?.collisionBitMask = 0
+                shape.sprite?.physicsBody?.categoryBitMask = shape.contactCategory!
+                shape.alive = true
             }
         }
     }
@@ -235,6 +239,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.shapesArray = [Shape]()
                 startSpawn()
                 self.addChild(self.pauseButton!)
+                
+                self.showGameOver = false
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
                 self.paused = false
@@ -275,31 +281,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func pauseHelper(touches: NSSet) {
-        for touch in touches {
-            var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.pauseButton!.parent))
-            if nodeAtTouch.name == "PauseButton" {
-                println("Pause Touched")
-                self.pauseButton?.removeFromParent()
-                self.addChild(self.resumeButton!)
-                self.gameIsPaused = true
-                self.panGestureRecognizer.enabled = false
-                self.addChild(self.pausedLabel!)
-                self.pauseGame()
+        if self.paused == false {
+            for touch in touches {
+                var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.pauseButton!.parent))
+                if nodeAtTouch.name == "PauseButton" {
+                    println("Pause Touched")
+                    self.pauseButton?.removeFromParent()
+                    self.addChild(self.resumeButton!)
+                    self.panGestureRecognizer.enabled = false
+                    self.addChild(self.pausedLabel!)
+                    self.pauseGame()
+                }
             }
-        }
-    }
-    
-    func resumeHelper(touches: NSSet) {
-        for touch in touches {
-            var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.resumeButton!.parent))
-            if nodeAtTouch.name == "PlayButton" {
-                println("Resume Touched")
-                self.resumeButton?.removeFromParent()
-                self.addChild(self.pauseButton!)
-                self.gameIsPaused = false
-                self.panGestureRecognizer.enabled = true
-                self.pausedLabel?.removeFromParent()
-                self.pauseGame()
+        } else {
+            for touch in touches {
+                var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.resumeButton!.parent))
+                if nodeAtTouch.name == "PlayButton" {
+                    println("Resume Touched")
+                    self.resumeButton?.removeFromParent()
+                    self.addChild(self.pauseButton!)
+                    self.panGestureRecognizer.enabled = true
+                    self.pausedLabel?.removeFromParent()
+                    self.pauseGame()
+                }
             }
         }
     }
@@ -328,15 +332,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.resumeButton?.position = CGPoint(x: self.frame.width - self.resumeButton!.frame.width, y: self.frame.height - self.resumeButton!.frame.height)
         self.pauseButton?.name = "PauseButton"
         self.resumeButton?.name = "PlayButton"
-        
         self.pausedLabel = SKLabelNode(text: "Paused")
         self.pausedLabel?.fontName = "Optima-Bold"
         self.pausedLabel?.fontSize = 50
-        self.pausedLabel?.fontColor = SKColor.redColor()
         self.pausedLabel?.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+        
+        }
+
+        
+        // Check to see which body in the contact is the hero and shape
+        //MARK: - Contact Delegate Methods
+        
+    func didBeginContact(contact: SKPhysicsContact) {
+        var shapeTouched : SKNode
+
+         // Check to see which body in the contact is the hero and shape
+        if contact.bodyA.node?.zRotation == 0 {
+            shapeTouched = contact.bodyA.node!
+        } else {
+            shapeTouched = contact.bodyB.node!
+        }
+        
+        if self.showGameOver == false {
+            for shape in shapesArray {
+                if shapeTouched == shape.sprite {
+                    println("Found sprite")
+                    if shape.team == Shape.ShapeTeam.Friend {
+                        shape.alive = false
+                        shape.sprite?.removeFromParent()
+                    }
+                    else {
+                        self.addGameOverScreen()
+                        self.hero.removeFromParent()
+                    }
+                }
+            }
+        }
     }
     
     func pauseGame() {
-        self.paused = self.gameIsPaused
+        self.paused = !self.paused
     }
 }
