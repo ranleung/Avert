@@ -83,9 +83,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 shape.alive = true
             }
         }
-        
-        
-        
     }
     
     // MARK: - Control Methods
@@ -137,6 +134,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: heroSize)
         self.hero.position = CGPointMake(self.heroView!.frame.width/2, self.heroView!.frame.height/2)
         self.heroCategory = (self.friendCategory | self.enemyCategory)
+        
         self.hero.physicsBody = SKPhysicsBody(rectangleOfSize: heroSize)
         self.hero.physicsBody?.collisionBitMask = 0
         self.hero.physicsBody?.contactTestBitMask = self.heroCategory!
@@ -180,7 +178,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Instantiate game
                 self.heroView = view
                 addHero()
+                
+                if !self.shapesArray.isEmpty {
+                    for shape in self.shapesArray {
+                        shape.sprite?.removeFromParent()
+                    }
+                }
+                
+                self.shapesArray = [Shape]()
                 startSpawn()
+                
+                self.showGameOver = false
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
             }
@@ -239,6 +247,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //MARK: - Contact Delegate Methods
     
     func didBeginContact(contact: SKPhysicsContact) {
-        println("CONTACT!")
+        var shapeTouched : SKNode
+        
+        // Check to see which body in the contact is the hero and shape
+        if contact.bodyA.node?.zRotation == 0 {
+            shapeTouched = contact.bodyA.node!
+        } else {
+            shapeTouched = contact.bodyB.node!
+        }
+        
+        if self.showGameOver == false {
+            for shape in shapesArray {
+                if shapeTouched == shape.sprite {
+                    println("Found sprite")
+                    if shape.team == Shape.ShapeTeam.Friend {
+                        shape.alive = false
+                        shape.sprite?.removeFromParent()
+                    }
+                    else {
+                        self.addGameOverScreen()
+                        self.hero.removeFromParent()
+                    }
+                }
+            }
+        }
     }
 }
