@@ -13,20 +13,21 @@ class MenuScreenNode: SKNode {
     var playButton: SKLabelNode!
     var helpButton: SKLabelNode!
     var titleLabel: SKLabelNode!
+    var font = "Chalkduster"
     //var gameCenterButton: SKSpriteNode?
     
     init(scene: SKScene) {
         super.init()
 
         self.titleLabel = SKLabelNode(text: "Avert")
-        self.titleLabel.fontName = "Chalkduster"
+        self.titleLabel.fontName = self.font
         self.titleLabel.fontSize = 50
         
         self.titleLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame))
         self.addChild(self.titleLabel)
         
         self.playButton = SKLabelNode(text: "Play")
-        self.playButton.fontName = "Chalkduster"
+        self.playButton.fontName = self.font
         self.playButton.fontSize = 20
         self.playButton.name = "PlayButton"
         
@@ -34,7 +35,7 @@ class MenuScreenNode: SKNode {
         self.addChild(self.playButton)
         
         self.helpButton = SKLabelNode(text: "Help")
-        self.helpButton.fontName = "Chalkduster"
+        self.helpButton.fontName = self.font
         self.helpButton.fontSize = 20
         self.helpButton.name = "HelpButton"
         

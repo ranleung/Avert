@@ -14,26 +14,27 @@ class GameOverNode: SKNode {
     var newGameLabel: SKLabelNode!
     var helpScreenLabel: SKLabelNode!
     var scoreLabel: SKLabelNode!
+    var font = "Chalkduster"
     
     init(scene: SKScene) {
         super.init()
         
         self.titleLabel = SKLabelNode(text: "Game Over")
-        self.titleLabel.fontName = "Chalkduster"
+        self.titleLabel.fontName = self.font
         self.titleLabel.fontSize = 30
         
         self.titleLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame))
         self.addChild(self.titleLabel)
         
         self.scoreLabel = SKLabelNode(text: "Score: 0000")
-        self.scoreLabel.fontName = "Chalkduster"
+        self.scoreLabel.fontName = self.font
         self.scoreLabel.fontSize = 50
         
         self.scoreLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame) + self.titleLabel.frame.height)
         self.addChild(self.scoreLabel)
         
         self.newGameLabel = SKLabelNode(text: "New Game")
-        self.newGameLabel.fontName = "Chalkduster"
+        self.newGameLabel.fontName = self.font
         self.newGameLabel.fontSize = 20
         self.newGameLabel.name = "NewGameButton"
         
@@ -41,7 +42,7 @@ class GameOverNode: SKNode {
         self.addChild(self.newGameLabel)
         
         self.helpScreenLabel = SKLabelNode(text: "Help")
-        self.helpScreenLabel.fontName = "Chalkduster"
+        self.helpScreenLabel.fontName = self.font
         self.helpScreenLabel.fontSize = 20
         self.helpScreenLabel.name = "HelpButton"
         
