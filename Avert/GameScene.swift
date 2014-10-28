@@ -57,7 +57,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         appDelegate.gameScene = self
         
         //keep view for addHero()
-        self.gameOverNode = GameOverNode(scene: self)
         self.helpNode = HelpScreen(scene: self)
         self.menuNode = MenuScreenNode(scene: self)
         self.addChild(self.menuNode!)
@@ -319,6 +318,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.showMenu = true
     }
     func addGameOverScreen() {
+        self.gameOverNode = GameOverNode(scene: self, score: self.points)
         self.addChild(self.gameOverNode!)
         self.showGameOver = true
         self.showMenu = false
@@ -362,7 +362,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     else {
                         self.addGameOverScreen()
+                        self.paused = true
+                        self.pauseButton?.removeFromParent()
                         self.hero.removeFromParent()
+                        self.points = 0
                     }
                 }
             }
