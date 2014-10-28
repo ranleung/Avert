@@ -66,6 +66,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28EDBB9B1A000CD200A8FD4F /* Menus */ = {
+			isa = PBXGroup;
+			children = (
+				2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */,
+				2823649819FEFDF5005318DD /* GameOverNode.swift */,
+				D59D1FFF19FEF1BD00CDB93F /* HelpScreen.swift */,
+			);
+			name = Menus;
+			sourceTree = "<group>";
+		};
 		701E6A1A19FECCC0005D63BE = {
 			isa = PBXGroup;
 			children = (
@@ -91,9 +101,7 @@
 				701E6A2C19FECCC0005D63BE /* GameScene.swift */,
 				035FBF9919FEDF2B00BE3401 /* Spawner.swift */,
 				701E6A2E19FECCC0005D63BE /* GameViewController.swift */,
-				2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */,
-				2823649819FEFDF5005318DD /* GameOverNode.swift */,
-				D59D1FFF19FEF1BD00CDB93F /* HelpScreen.swift */,
+				28EDBB9B1A000CD200A8FD4F /* Menus */,
 				701E6A3019FECCC0005D63BE /* Main.storyboard */,
 				701E6A3319FECCC0005D63BE /* Images.xcassets */,
 				701E6A3519FECCC0005D63BE /* LaunchScreen.xib */,

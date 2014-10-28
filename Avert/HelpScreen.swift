@@ -22,7 +22,7 @@ class HelpScreen: SKNode {
     var thirdRuleLabel: SKLabelNode!
     var thirdRuleLabelLine2: SKLabelNode!
     var fourthRuleLabel: SKLabelNode!
-    var font = "Chalkduster"
+    var font = "Optima-Bold"
     
     init(scene: SKScene) {
         super.init()
@@ -33,7 +33,7 @@ class HelpScreen: SKNode {
         self.titleLabel.position = CGPoint(x: scene.frame.origin.x + self.titleLabel.frame.width * 0.75, y: scene.frame.height - self.titleLabel.frame.height)
         self.addChild(self.titleLabel)
         
-        self.backLabel = SKLabelNode(text: "Back")
+        self.backLabel = SKLabelNode(text: "Back ->")
         self.backLabel.fontName = self.font
         self.backLabel.fontSize = 20
         self.backLabel.position = CGPoint(x: scene.frame.width - self.backLabel.frame.width, y: scene.frame.origin.y + self.backLabel.frame.height / 2)

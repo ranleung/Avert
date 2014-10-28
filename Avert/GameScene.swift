@@ -18,6 +18,11 @@ class GameScene: SKScene {
     var showHelpMenu = false
     var showGameOver = false
     
+    // Pause Button Properties
+    var pauseButton: SKSpriteNode?
+    var resumeButton: SKSpriteNode?
+    var gameIsPaused = false
+    
     // Hero properties
     var hero : SKSpriteNode!
     var heroRotationSpeed = 5
@@ -44,6 +49,9 @@ class GameScene: SKScene {
         self.helpNode = HelpScreen(scene: self)
         self.menuNode = MenuScreenNode(scene: self)
         self.addChild(self.menuNode!)
+        
+        // Initializing and setting pause and resum buttons
+        self.addPauseAndResumeButtons()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -56,6 +64,12 @@ class GameScene: SKScene {
         }
         if self.showGameOver == true {
             self.gameOverMenuHelper(touches)
+        }
+        if self.gameIsPaused == false {
+            self.pauseHelper(touches)
+        }
+        if self.gameIsPaused == true {
+            self.resumeHelper(touches)
         }
     }
 
@@ -147,7 +161,7 @@ class GameScene: SKScene {
                 self.heroView = view
                 addHero()
                 startSpawn()
-                
+                self.addChild(self.pauseButton!)
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
             }
@@ -186,6 +200,30 @@ class GameScene: SKScene {
         }
     }
     
+    func pauseHelper(touches: NSSet) {
+        for touch in touches {
+            var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.pauseButton!.parent))
+            if nodeAtTouch.name == "PauseButton" {
+                println("Pause Touched")
+                self.pauseButton?.removeFromParent()
+                self.addChild(self.resumeButton!)
+                self.gameIsPaused = true
+            }
+        }
+    }
+    
+    func resumeHelper(touches: NSSet) {
+        for touch in touches {
+            var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.resumeButton!.parent))
+            if nodeAtTouch.name == "PlayButton" {
+                println("Resume Touched")
+                self.resumeButton?.removeFromParent()
+                self.addChild(self.pauseButton!)
+                self.gameIsPaused = false
+            }
+        }
+    }
+    
     func addHelpScreen() {
         self.addChild(self.helpNode!)
         self.showHelpMenu = true
@@ -202,4 +240,14 @@ class GameScene: SKScene {
         self.showGameOver = true
         self.showMenu = false
     }
+    
+    func addPauseAndResumeButtons() {
+        self.pauseButton = SKSpriteNode(imageNamed: "PauseButton")
+        self.resumeButton = SKSpriteNode(imageNamed: "PlayButton")
+        self.pauseButton?.position = CGPoint(x: self.frame.width - self.pauseButton!.frame.width, y: self.frame.height - self.pauseButton!.frame.height)
+        self.resumeButton?.position = CGPoint(x: self.frame.width - self.resumeButton!.frame.width, y: self.frame.height - self.resumeButton!.frame.height)
+        self.pauseButton?.name = "PauseButton"
+        self.resumeButton?.name = "PlayButton"
+    }
+    
 }
