@@ -17,7 +17,16 @@ class GameScene: SKScene {
     var showHelpMenu = false
     var showGameOver = false
     
+    let spawner = Spawner()
+    var currentTime = 0.0
+    var previousTime = 0.0
+    var deltaTime = 0.0
+    var timeSinceLastSpawn = 0.0
+    
+    
+    // MARK - Overwritten SKScene functions
     override func didMoveToView(view: SKView) {
+        startSpawn()
         self.gameOverNode = GameOverNode(scene: self)
         self.helpNode = HelpScreen(scene: self)
         self.menuNode = MenuScreenNode(scene: self)
@@ -40,10 +49,24 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         
         
+        self.currentTime = currentTime
+        self.deltaTime = self.currentTime - self.previousTime
+        self.previousTime = currentTime
+        self.timeSinceLastSpawn = self.timeSinceLastSpawn + self.deltaTime
+
+        self.timeSinceLastSpawn = 0
+
+    }
+    
+    func startSpawn () {
+        for side in Spawner.OriginSide.allValues {
+            spawner.spawnShape(side, team: Spawner.ShapeTeam.Enemy, scene: self)
+            spawner.spawnShape(side, team: Spawner.ShapeTeam.Friend, scene: self)
+        }
     }
     
     // MARK: Various Menu Helper Functions
-    
+        
     func menuHelper(touches: NSSet) {
         for touch in touches {
             var nodeAtTouch = self.menuNode?.nodeAtPoint(touch.locationInNode(self.menuNode))
