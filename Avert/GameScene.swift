@@ -25,7 +25,15 @@ class GameScene: SKScene {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
-        
+        if self.showMenu == true {
+            self.menuHelper(touches)
+        }
+        if self.showHelpMenu == true {
+            self.helpMenuHelper(touches)
+        }
+        if self.showGameOver == true {
+            self.gameOverMenuHelper(touches)
+        }
     }
    
     override func update(currentTime: CFTimeInterval) {
