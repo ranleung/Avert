@@ -68,7 +68,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.paused = true
         
         self.dimmingLayer = SKSpriteNode(color: UIColor.blackColor(), size: self.frame.size)
-        self.dimmingLayer?.alpha = 0.2
+        self.dimmingLayer?.alpha = 0.5
         self.dimmingLayer?.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
         
         
@@ -220,6 +220,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             friendShape.sprite?.physicsBody?.collisionBitMask = 0
             friendShape.sprite?.physicsBody?.categoryBitMask = friendCategory
             self.shapesArray.append(friendShape)
+            //self.addChild(self.dimmingLayer!)
         }
     }
     
@@ -249,9 +250,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
                 self.paused = false
+                self.dimmingLayer?.removeFromParent()
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("HelpButton Touched")
+                self.dimmingLayer?.removeFromParent()
                 self.menuNode?.removeFromParent()
                 self.addHelpScreen()
             }
@@ -264,6 +267,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if nodeAtTouch?.name == "BackButton" {
                 print("BackButton Touched")
                 self.helpNode?.removeFromParent()
+                self.dimmingLayer?.removeFromParent()
                 self.addMenuScreen()
             }
         }
@@ -275,11 +279,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if nodeAtTouch?.name == "NewGameButton" {
                 println("New Game Touched")
                 self.gameOverNode?.removeFromParent()
+                self.dimmingLayer?.removeFromParent()
                 self.addMenuScreen()
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("Help Button Pressed")
                 self.gameOverNode?.removeFromParent()
+                self.dimmingLayer?.removeFromParent()
                 self.addHelpScreen()
             }
         }
@@ -372,7 +378,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     else {
                         self.addGameOverScreen()
-                        self.paused = true
+                        self.paused = false
                         self.pauseButton?.removeFromParent()
                         self.hero.removeFromParent()
                         self.points = 0
