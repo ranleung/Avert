@@ -43,6 +43,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var squaresAcquired: UInt16 = 0
     var shapesArray = [Shape]()
     
+    // Powerups properties
+    var powerupsArray = [Powerup]()
+    var timeSinceLastPowerup = 0.0
+    var timeIntervalForPowerups : Double?
+    
     // Contact properties
     let friendCategory : UInt32 = 0x1 << 0
     let enemyCategory : UInt32 = 0x1 << 1
@@ -64,6 +69,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.paused = true
+        
+        // Initializing powerup spawns
+        self.timeIntervalForPowerups = Double(Float(arc4random() % 5) + 5)
         
         
         // Initializing and setting pause and resume buttons
@@ -91,8 +99,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.currentTime = currentTime
             self.deltaTime = self.currentTime - self.previousTime
             self.previousTime = currentTime
+            self.timeSinceLastPowerup = self.timeSinceLastPowerup + self.deltaTime
             self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
             var timeIntervalForPoints = 1.0
+            
             
             switch self.squaresAcquired {
             case 0...5:
@@ -118,11 +128,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             default:
                 timeIntervalForPoints = 0.1
             }
+            
             if self.timeSincePointGiven > timeIntervalForPoints {
                 self.points += 1
                 self.timeSincePointGiven = 0
                 println(self.points)
             }
+            
+            if self.timeSinceLastPowerup > timeIntervalForPowerups {
+                self.timeIntervalForPowerups = Double(Float(arc4random() % 5) + 5)
+                self.timeSinceLastPowerup = 0
+                let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Friend, scene: self)
+                self.powerupsArray.append(spawnedPowerup)
+            }
+            
         }
         
         for shape in shapesArray {
@@ -134,6 +153,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 shape.alive = true
             }
         }
+        
     }
     
     // MARK: - Control Methods
