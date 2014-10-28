@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
    
     // Menu properties
     var menuNode: MenuScreenNode?
@@ -32,8 +32,6 @@ class GameScene: SKScene {
     var startPosition : CGPoint!
     var heroView: SKView?
     
-    let spawner = Spawner()
-    
     // Timer properties
     var currentTime = 0.0
     var previousTime = 0.0
@@ -45,6 +43,12 @@ class GameScene: SKScene {
     var points: UInt32 = 0
     var squaresAcquired: UInt16 = 0
     
+    var shapesArray = [Shape]()
+    
+    // Contact properties
+    let friendCategory : UInt32 = 0x1 << 0
+    let enemyCategory : UInt32 = 0x1 << 1
+    var heroCategory : UInt32?
     
     // MARK: - Overwritten SKScene Methods
     
@@ -144,7 +148,6 @@ class GameScene: SKScene {
                     touchLocation = CGPointMake(touchLocation.x, -touchLocation.y)
                     var newLocation = CGPointMake(startPosition.x + touchLocation.x, startPosition.y + touchLocation.y)
                     self.hero.position = newLocation
-                    println("Changed \(self.hero.position)")
             }
             //move hero back on screen
             //bottom left corner
@@ -173,9 +176,15 @@ class GameScene: SKScene {
     
     func addHero() {
         //Create starting hero and position center
-        self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: CGSize(width: self.heroView!.frame.width * 0.035, height: self.heroView!.frame.width * 0.035))
+        let heroSideLength = self.heroView!.frame.width * 0.035
+        let heroSize = CGSize(width: heroSideLength, height: heroSideLength)
+        self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: heroSize)
         self.hero.position = CGPointMake(self.heroView!.frame.width/2, self.heroView!.frame.height/2)
-        self.hero.physicsBody?.dynamic = true
+        self.heroCategory = (self.friendCategory | self.enemyCategory)
+        
+        self.hero.physicsBody = SKPhysicsBody(rectangleOfSize: heroSize)
+        self.hero.physicsBody?.collisionBitMask = 0
+        self.hero.physicsBody?.contactTestBitMask = self.heroCategory!
         
         let action = SKAction.rotateByAngle(CGFloat(M_PI), duration: 1)
         self.hero.runAction(SKAction.repeatActionForever(action))
@@ -188,9 +197,20 @@ class GameScene: SKScene {
     }
     
     func startSpawn () {
-        for side in Spawner.OriginSide.allValues {
-            spawner.spawnShape(side, team: Spawner.ShapeTeam.Enemy, scene: self)
-            spawner.spawnShape(side, team: Spawner.ShapeTeam.Friend, scene: self)
+        for side in Shape.OriginSide.allValues {
+            let enemyShape = Shape.spawnShape(side, team: Shape.ShapeTeam.Enemy, scene: self)
+            enemyShape.contactCategory = enemyCategory
+            enemyShape.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: enemyShape.sprite!.size)
+            enemyShape.sprite?.physicsBody?.collisionBitMask = 0
+            enemyShape.sprite?.physicsBody?.categoryBitMask = enemyCategory
+            self.shapesArray.append(enemyShape)
+            
+            let friendShape = Shape.spawnShape(side, team: Shape.ShapeTeam.Friend, scene: self)
+            friendShape.contactCategory = friendCategory
+            friendShape.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: friendShape.sprite!.size)
+            friendShape.sprite?.physicsBody?.collisionBitMask = 0
+            friendShape.sprite?.physicsBody?.categoryBitMask = friendCategory
+            self.shapesArray.append(friendShape)
         }
     }
     
@@ -205,6 +225,14 @@ class GameScene: SKScene {
                 // Instantiate game
                 self.heroView = view
                 addHero()
+                
+                if !self.shapesArray.isEmpty {
+                    for shape in self.shapesArray {
+                        shape.sprite?.removeFromParent()
+                    }
+                }
+                
+                self.shapesArray = [Shape]()
                 startSpawn()
                 self.addChild(self.pauseButton!)
                 self.showMenu = false
