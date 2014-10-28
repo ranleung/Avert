@@ -20,7 +20,7 @@ class Spawner {
     }
     
     
-    // MARK - randomization functions
+    // MARK: - Randomization Methods
     
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
@@ -29,6 +29,8 @@ class Spawner {
     func random(#min: CGFloat, max: CGFloat) -> CGFloat {
         return self.random() * (max - min) + min
     }
+    
+    // MARK: - Spawning Methods
     
     func spawnShape (originSide: OriginSide, team: ShapeTeam, scene: SKScene) {
         

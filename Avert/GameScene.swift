@@ -10,6 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene {
    
+    // Menu properties
     var menuNode: MenuScreenNode?
     var helpNode: HelpScreen?
     var gameOverNode: GameOverNode?
@@ -17,27 +18,28 @@ class GameScene: SKScene {
     var showHelpMenu = false
     var showGameOver = false
     
+    // Hero properties
     var hero : SKSpriteNode!
     var heroRotationSpeed = 5
     var panGestureRecognizer : UIPanGestureRecognizer!
     var lastTouchedLocation : CGPoint!
     var startPosition : CGPoint!
     var heroView: SKView?
+    
     let spawner = Spawner()
+    
+    // Timer properties
     var currentTime = 0.0
     var previousTime = 0.0
     var deltaTime = 0.0
     var timeSinceLastSpawn = 0.0
     
     
-    // MARK - Overwritten SKScene functions
+    // MARK: - Overwritten SKScene Methods
+    
     override func didMoveToView(view: SKView) {
         
         //keep view for addHero()
-        self.heroView = view
-        addHero()
-        
-        startSpawn()
         self.gameOverNode = GameOverNode(scene: self)
         self.helpNode = HelpScreen(scene: self)
         self.menuNode = MenuScreenNode(scene: self)
@@ -59,13 +61,15 @@ class GameScene: SKScene {
 
     override func update(currentTime: CFTimeInterval) {
 
+        // Timer updates, currently unused
         self.currentTime = currentTime
         self.deltaTime = self.currentTime - self.previousTime
         self.previousTime = currentTime
         self.timeSinceLastSpawn = self.timeSinceLastSpawn + self.deltaTime
-        
         self.timeSinceLastSpawn = 0
     }
+    
+    // MARK: - Control Methods
 
     func handlePan (panGestureRecognizer: UIPanGestureRecognizer) {
         if panGestureRecognizer.state == UIGestureRecognizerState.Began {
@@ -106,6 +110,8 @@ class GameScene: SKScene {
         }
     }
     
+    // MARK: - Character Creation Methods
+    
     func addHero() {
         //Create starting hero and position center
         self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: CGSize(width: self.heroView!.frame.width * 0.035, height: self.heroView!.frame.width * 0.035))
@@ -129,16 +135,21 @@ class GameScene: SKScene {
         }
     }
     
-    // MARK: Various Menu Helper Functions
+    // MARK: - Various Menu Helper Methods
         
     func menuHelper(touches: NSSet) {
         for touch in touches {
             var nodeAtTouch = self.menuNode?.nodeAtPoint(touch.locationInNode(self.menuNode))
             if nodeAtTouch?.name == "PlayButton" {
                 println("PlayButton Touched")
+                
+                // Instantiate game
+                self.heroView = view
+                addHero()
+                startSpawn()
+                
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
-                self.addGameOverScreen()
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("HelpButton Touched")
