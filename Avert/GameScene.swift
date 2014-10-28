@@ -26,13 +26,13 @@ class GameScene: SKScene {
     var startPosition : CGPoint!
     var heroView: SKView?
     
-    let spawner = Spawner()
-    
     // Timer properties
     var currentTime = 0.0
     var previousTime = 0.0
     var deltaTime = 0.0
     var timeSinceLastSpawn = 0.0
+    
+    var shapesArray = [Shape]()
     
     
     // MARK: - Overwritten SKScene Methods
@@ -67,6 +67,14 @@ class GameScene: SKScene {
         self.previousTime = currentTime
         self.timeSinceLastSpawn = self.timeSinceLastSpawn + self.deltaTime
         self.timeSinceLastSpawn = 0
+        
+        for shape in shapesArray {
+            if !shape.alive {
+                shape.spawnSprite()
+                shape.alive = true
+            }
+        }
+        
     }
     
     // MARK: - Control Methods
@@ -85,7 +93,6 @@ class GameScene: SKScene {
                     touchLocation = CGPointMake(touchLocation.x, -touchLocation.y)
                     var newLocation = CGPointMake(startPosition.x + touchLocation.x, startPosition.y + touchLocation.y)
                     self.hero.position = newLocation
-                    println("Changed \(self.hero.position)")
             }
             //move hero back on screen
             //bottom left corner
@@ -129,9 +136,9 @@ class GameScene: SKScene {
     }
     
     func startSpawn () {
-        for side in Spawner.OriginSide.allValues {
-            spawner.spawnShape(side, team: Spawner.ShapeTeam.Enemy, scene: self)
-            spawner.spawnShape(side, team: Spawner.ShapeTeam.Friend, scene: self)
+        for side in Shape.OriginSide.allValues {
+            self.shapesArray.append(Shape.spawnShape(side, team: Shape.ShapeTeam.Enemy, scene: self))
+            self.shapesArray.append(Shape.spawnShape(side, team: Shape.ShapeTeam.Friend, scene: self))
         }
     }
     

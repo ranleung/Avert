@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		035FBF9A19FEDF2B00BE3401 /* Spawner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035FBF9919FEDF2B00BE3401 /* Spawner.swift */; };
+		15E8D8CB1A000E4E007BFE60 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8D8CA1A000E4E007BFE60 /* Shape.swift */; };
 		2823649919FEFDF5005318DD /* GameOverNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2823649819FEFDF5005318DD /* GameOverNode.swift */; };
 		2890953E19FEDAFE000AD9CB /* MenuScreenNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */; };
 		701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2819FECCC0005D63BE /* AppDelegate.swift */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		035FBF9919FEDF2B00BE3401 /* Spawner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spawner.swift; sourceTree = "<group>"; };
+		15E8D8CA1A000E4E007BFE60 /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		2823649819FEFDF5005318DD /* GameOverNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverNode.swift; sourceTree = "<group>"; };
 		2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScreenNode.swift; sourceTree = "<group>"; };
 		701E6A2319FECCC0005D63BE /* Avert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Avert.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +92,7 @@
 				701E6A2819FECCC0005D63BE /* AppDelegate.swift */,
 				701E6A2C19FECCC0005D63BE /* GameScene.swift */,
 				035FBF9919FEDF2B00BE3401 /* Spawner.swift */,
+				15E8D8CA1A000E4E007BFE60 /* Shape.swift */,
 				701E6A2E19FECCC0005D63BE /* GameViewController.swift */,
 				2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */,
 				2823649819FEFDF5005318DD /* GameOverNode.swift */,
@@ -234,6 +237,7 @@
 				701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */,
 				D59D200019FEF1BD00CDB93F /* HelpScreen.swift in Sources */,
 				2823649919FEFDF5005318DD /* GameOverNode.swift in Sources */,
+				15E8D8CB1A000E4E007BFE60 /* Shape.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
