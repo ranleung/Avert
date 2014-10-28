@@ -197,7 +197,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.addGestureRecognizer(panGestureRecognizer)
         self.addChild(self.hero)
 
-
     }
     
     func startSpawn () {
