@@ -48,6 +48,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let enemyCategory : UInt32 = 0x1 << 1
     var heroCategory : UInt32?
     
+    // Dimming layer
+    var dimmingLayer: SKSpriteNode?
+    
     // MARK: - Overwritten SKScene Methods
     
     override func didMoveToView(view: SKView) {
@@ -63,6 +66,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.paused = true
+        
+        self.dimmingLayer = SKSpriteNode(color: UIColor.blackColor(), size: self.frame.size)
+        self.dimmingLayer?.alpha = 0.2
+        self.dimmingLayer?.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
         
         
         // Initializing and setting pause and resume buttons
@@ -310,18 +317,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(self.helpNode!)
         self.showHelpMenu = true
         self.showMenu = false
+        self.addChild(self.dimmingLayer!)
     }
     
     func addMenuScreen() {
         self.addChild(self.menuNode!)
         self.showHelpMenu = false
         self.showMenu = true
+        self.addChild(self.dimmingLayer!)
     }
     func addGameOverScreen() {
         self.gameOverNode = GameOverNode(scene: self, score: self.points)
         self.addChild(self.gameOverNode!)
         self.showGameOver = true
         self.showMenu = false
+        self.addChild(self.dimmingLayer!)
     }
     
     func addPauseAndResumeButtons() {
