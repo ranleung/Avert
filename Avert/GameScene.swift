@@ -39,6 +39,11 @@ class GameScene: SKScene {
     var previousTime = 0.0
     var deltaTime = 0.0
     var timeSinceLastSpawn = 0.0
+    var timeSincePointGiven = 0.0
+    
+    // Points properties
+    var points: UInt32 = 0
+    var squares: UInt16 = 0
     
     
     // MARK: - Overwritten SKScene Methods
@@ -54,6 +59,8 @@ class GameScene: SKScene {
         self.helpNode = HelpScreen(scene: self)
         self.menuNode = MenuScreenNode(scene: self)
         self.addChild(self.menuNode!)
+        self.paused = true
+        
         
         // Initializing and setting pause and resum buttons
         self.addPauseAndResumeButtons()
@@ -81,11 +88,45 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
 
         // Timer updates, currently unused
-        self.currentTime = currentTime
-        self.deltaTime = self.currentTime - self.previousTime
-        self.previousTime = currentTime
-        self.timeSinceLastSpawn = self.timeSinceLastSpawn + self.deltaTime
-        self.timeSinceLastSpawn = 0
+        if self.paused == false {
+            self.currentTime = currentTime
+            self.deltaTime = self.currentTime - self.previousTime
+            self.previousTime = currentTime
+            self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
+            var timeIntervalForPoints = 1.0
+            self.squares = 50
+            
+            switch self.squares {
+            case 0...5:
+                timeIntervalForPoints = 1.0
+            case 6...10:
+                timeIntervalForPoints = 0.9
+            case 11...15:
+                timeIntervalForPoints = 0.8
+            case 16...20:
+                timeIntervalForPoints = 0.7
+            case 21...25:
+                timeIntervalForPoints = 0.6
+            case 26...30:
+                timeIntervalForPoints = 0.5
+            case 31...35:
+                timeIntervalForPoints = 0.4
+            case 36...40:
+                timeIntervalForPoints = 0.3
+            case 41...45:
+                timeIntervalForPoints = 0.2
+            case 46...50:
+                timeIntervalForPoints = 0.1
+            default:
+                timeIntervalForPoints = 0.1
+            }
+            
+            if self.timeSincePointGiven > timeIntervalForPoints {
+                self.points += 1
+                self.timeSincePointGiven = 0
+                println(self.points)
+            }
+        }
     }
     
     // MARK: - Control Methods
@@ -169,6 +210,7 @@ class GameScene: SKScene {
                 self.addChild(self.pauseButton!)
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
+                self.paused = false
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("HelpButton Touched")
