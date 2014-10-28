@@ -43,7 +43,7 @@ class GameScene: SKScene {
     
     // Points properties
     var points: UInt32 = 0
-    var squares: UInt16 = 0
+    var squaresAcquired: UInt16 = 0
     
     
     // MARK: - Overwritten SKScene Methods
@@ -94,9 +94,8 @@ class GameScene: SKScene {
             self.previousTime = currentTime
             self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
             var timeIntervalForPoints = 1.0
-            self.squares = 50
             
-            switch self.squares {
+            switch self.squaresAcquired {
             case 0...5:
                 timeIntervalForPoints = 1.0
             case 6...10:
