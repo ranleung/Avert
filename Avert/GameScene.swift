@@ -10,6 +10,12 @@ import SpriteKit
 
 class GameScene: SKScene {
    
+    var menuNode: MenuScreenNode?
+    var helpNode: HelpScreen?
+    var gameOverNode: GameOverNode?
+    var showMenu = true
+    var showHelpMenu = false
+    var showGameOver = false
     
     let spawner = Spawner()
     var currentTime = 0.0
@@ -21,6 +27,10 @@ class GameScene: SKScene {
     // MARK - Overwritten SKScene functions
     override func didMoveToView(view: SKView) {
         startSpawn()
+        self.gameOverNode = GameOverNode(scene: self)
+        self.helpNode = HelpScreen(scene: self)
+        self.menuNode = MenuScreenNode(scene: self)
+        self.addChild(self.menuNode!)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -55,4 +65,66 @@ class GameScene: SKScene {
         }
     }
     
+    // MARK: Various Menu Helper Functions
+        
+    func menuHelper(touches: NSSet) {
+        for touch in touches {
+            var nodeAtTouch = self.menuNode?.nodeAtPoint(touch.locationInNode(self.menuNode))
+            if nodeAtTouch?.name == "PlayButton" {
+                println("PlayButton Touched")
+                self.showMenu = false
+                self.menuNode?.removeFromParent()
+                self.addGameOverScreen()
+            }
+            if nodeAtTouch?.name == "HelpButton" {
+                println("HelpButton Touched")
+                self.menuNode?.removeFromParent()
+                self.addHelpScreen()
+            }
+        }
+    }
+    
+    func helpMenuHelper(touches: NSSet) {
+        for touch in touches {
+            var nodeAtTouch = self.helpNode?.nodeAtPoint(touch.locationInNode(self.helpNode))
+            if nodeAtTouch?.name == "BackButton" {
+                print("BackButton Touched")
+                self.helpNode?.removeFromParent()
+                self.addMenuScreen()
+            }
+        }
+    }
+    
+    func gameOverMenuHelper(touches: NSSet) {
+        for touch in touches {
+            var nodeAtTouch = self.gameOverNode?.nodeAtPoint(touch.locationInNode(self.gameOverNode))
+            if nodeAtTouch?.name == "NewGameButton" {
+                println("New Game Touched")
+                self.gameOverNode?.removeFromParent()
+                self.addMenuScreen()
+            }
+            if nodeAtTouch?.name == "HelpButton" {
+                println("Help Button Pressed")
+                self.gameOverNode?.removeFromParent()
+                self.addHelpScreen()
+            }
+        }
+    }
+    
+    func addHelpScreen() {
+        self.addChild(self.helpNode!)
+        self.showHelpMenu = true
+        self.showMenu = false
+    }
+    
+    func addMenuScreen() {
+        self.addChild(self.menuNode!)
+        self.showHelpMenu = false
+        self.showMenu = true
+    }
+    func addGameOverScreen() {
+        self.addChild(self.gameOverNode!)
+        self.showGameOver = true
+        self.showMenu = false
+    }
 }
