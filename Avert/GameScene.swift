@@ -121,13 +121,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if self.timeSincePointGiven > timeIntervalForPoints {
                 self.points += 1
                 self.timeSincePointGiven = 0
-                println(self.points)
+                println("points: \(self.points)")
             }
         }
         
         for shape in shapesArray {
             if !shape.alive {
-                shape.spawnSprite()
+                shape.spawnSprite(self.squaresAcquired)
                 shape.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: shape.sprite!.size)
                 shape.sprite?.physicsBody?.collisionBitMask = 0
                 shape.sprite?.physicsBody?.categoryBitMask = shape.contactCategory!
@@ -202,14 +202,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func startSpawn () {
         for side in Shape.OriginSide.allValues {
-            let enemyShape = Shape.spawnShape(side, team: Shape.ShapeTeam.Enemy, scene: self)
+            let enemyShape = Shape.spawnShape(self.squaresAcquired, originSide: side, team: Shape.ShapeTeam.Enemy, scene: self)
             enemyShape.contactCategory = enemyCategory
             enemyShape.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: enemyShape.sprite!.size)
             enemyShape.sprite?.physicsBody?.collisionBitMask = 0
             enemyShape.sprite?.physicsBody?.categoryBitMask = enemyCategory
             self.shapesArray.append(enemyShape)
             
-            let friendShape = Shape.spawnShape(side, team: Shape.ShapeTeam.Friend, scene: self)
+            let friendShape = Shape.spawnShape(self.squaresAcquired, originSide: side, team: Shape.ShapeTeam.Friend, scene: self)
             friendShape.contactCategory = friendCategory
             friendShape.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: friendShape.sprite!.size)
             friendShape.sprite?.physicsBody?.collisionBitMask = 0
@@ -359,6 +359,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     println("Found sprite")
                     if shape.team == Shape.ShapeTeam.Friend {
                         shape.alive = false
+                        
+                        // Increase total points and squares acquired count
+                        self.squaresAcquired += 1
+                        println("squares acquired: \(self.squaresAcquired)")
+                        var pointsConstant = 20
+                        
+                        switch self.squaresAcquired {
+                        case 0...5:
+                            pointsConstant = 20
+                        case 6...10:
+                            pointsConstant = 25
+                        case 11...15:
+                            pointsConstant = 30
+                        case 16...20:
+                            pointsConstant = 35
+                        case 21...25:
+                            pointsConstant = 40
+                        case 26...30:
+                            pointsConstant = 45
+                        case 31...35:
+                            pointsConstant = 50
+                        case 36...40:
+                            pointsConstant = 55
+                        case 41...45:
+                            pointsConstant = 60
+                        case 46...50:
+                            pointsConstant = 65
+                        default:
+                            pointsConstant = 70
+                        }
+                        self.points += pointsConstant
+                        println("scale: \(self.hero.xScale)")
+                       
+                        // Increase size of hero square
+                        if self.hero.xScale <= 2.5 {
+                            self.hero.xScale = self.hero.xScale + 0.03
+                            self.hero.yScale = self.hero.yScale + 0.03
+                        }
+                        
                         shape.sprite?.removeFromParent()
                     }
                     else {
