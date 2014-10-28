@@ -18,6 +18,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var showHelpMenu = false
     var showGameOver = false
     
+    // Pause Button Properties
+    var pauseButton: SKSpriteNode?
+    var resumeButton: SKSpriteNode?
+    var pausedLabel: SKLabelNode?
+    
     // Hero properties
     var hero : SKSpriteNode!
     var heroRotationSpeed = 5
@@ -31,7 +36,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var previousTime = 0.0
     var deltaTime = 0.0
     var timeSinceLastSpawn = 0.0
+    var timeSincePointGiven = 0.0
     
+    // Points properties
+    var points: UInt32 = 0
+    var squaresAcquired: UInt16 = 0
     var shapesArray = [Shape]()
     
     // Contact properties
@@ -43,6 +52,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         
+        // sending reference of self to AppDelegate
+        var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        appDelegate.gameScene = self
+        
         //keep view for addHero()
         self.gameOverNode = GameOverNode(scene: self)
         self.helpNode = HelpScreen(scene: self)
@@ -50,6 +63,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(self.menuNode!)
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        self.paused = true
+        
+        
+        // Initializing and setting pause and resume buttons
+        self.addPauseAndResumeButtons()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -63,16 +81,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.showGameOver == true {
             self.gameOverMenuHelper(touches)
         }
+        self.pauseHelper(touches)
     }
 
     override func update(currentTime: CFTimeInterval) {
 
         // Timer updates, currently unused
-        self.currentTime = currentTime
-        self.deltaTime = self.currentTime - self.previousTime
-        self.previousTime = currentTime
-        self.timeSinceLastSpawn = self.timeSinceLastSpawn + self.deltaTime
-        self.timeSinceLastSpawn = 0
+        if self.paused == false {
+            self.currentTime = currentTime
+            self.deltaTime = self.currentTime - self.previousTime
+            self.previousTime = currentTime
+            self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
+            var timeIntervalForPoints = 1.0
+            
+            switch self.squaresAcquired {
+            case 0...5:
+                timeIntervalForPoints = 1.0
+            case 6...10:
+                timeIntervalForPoints = 0.9
+            case 11...15:
+                timeIntervalForPoints = 0.8
+            case 16...20:
+                timeIntervalForPoints = 0.7
+            case 21...25:
+                timeIntervalForPoints = 0.6
+            case 26...30:
+                timeIntervalForPoints = 0.5
+            case 31...35:
+                timeIntervalForPoints = 0.4
+            case 36...40:
+                timeIntervalForPoints = 0.3
+            case 41...45:
+                timeIntervalForPoints = 0.2
+            case 46...50:
+                timeIntervalForPoints = 0.1
+            default:
+                timeIntervalForPoints = 0.1
+            }
+            if self.timeSincePointGiven > timeIntervalForPoints {
+                self.points += 1
+                self.timeSincePointGiven = 0
+                println(self.points)
+            }
+        }
         
         for shape in shapesArray {
             if !shape.alive {
@@ -187,10 +238,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 self.shapesArray = [Shape]()
                 startSpawn()
+                self.addChild(self.pauseButton!)
                 
                 self.showGameOver = false
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
+                self.paused = false
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("HelpButton Touched")
@@ -227,6 +280,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func pauseHelper(touches: NSSet) {
+        if self.paused == false {
+            for touch in touches {
+                var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.pauseButton!.parent))
+                if nodeAtTouch.name == "PauseButton" {
+                    println("Pause Touched")
+                    self.pauseButton?.removeFromParent()
+                    self.addChild(self.resumeButton!)
+                    self.panGestureRecognizer.enabled = false
+                    self.addChild(self.pausedLabel!)
+                    self.pauseGame()
+                }
+            }
+        } else {
+            for touch in touches {
+                var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.resumeButton!.parent))
+                if nodeAtTouch.name == "PlayButton" {
+                    println("Resume Touched")
+                    self.resumeButton?.removeFromParent()
+                    self.addChild(self.pauseButton!)
+                    self.panGestureRecognizer.enabled = true
+                    self.pausedLabel?.removeFromParent()
+                    self.pauseGame()
+                }
+            }
+        }
+    }
+    
     func addHelpScreen() {
         self.addChild(self.helpNode!)
         self.showHelpMenu = true
@@ -244,12 +325,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.showMenu = false
     }
     
-    //MARK: - Contact Delegate Methods
-    
-    func didBeginContact(contact: SKPhysicsContact) {
-        var shapeTouched : SKNode
+    func addPauseAndResumeButtons() {
+        self.pauseButton = SKSpriteNode(imageNamed: "PauseButton")
+        self.resumeButton = SKSpriteNode(imageNamed: "PlayButton")
+        self.pauseButton?.position = CGPoint(x: self.frame.width - self.pauseButton!.frame.width, y: self.frame.height - self.pauseButton!.frame.height)
+        self.resumeButton?.position = CGPoint(x: self.frame.width - self.resumeButton!.frame.width, y: self.frame.height - self.resumeButton!.frame.height)
+        self.pauseButton?.name = "PauseButton"
+        self.resumeButton?.name = "PlayButton"
+        self.pausedLabel = SKLabelNode(text: "Paused")
+        self.pausedLabel?.fontName = "Optima-Bold"
+        self.pausedLabel?.fontSize = 50
+        self.pausedLabel?.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+        
+        }
+
         
         // Check to see which body in the contact is the hero and shape
+        //MARK: - Contact Delegate Methods
+        
+    func didBeginContact(contact: SKPhysicsContact) {
+        var shapeTouched : SKNode
+
+         // Check to see which body in the contact is the hero and shape
         if contact.bodyA.node?.zRotation == 0 {
             shapeTouched = contact.bodyA.node!
         } else {
@@ -271,5 +368,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+    }
+    
+    func pauseGame() {
+        self.paused = !self.paused
     }
 }

@@ -13,7 +13,7 @@ class MenuScreenNode: SKNode {
     var playButton: SKLabelNode!
     var helpButton: SKLabelNode!
     var titleLabel: SKLabelNode!
-    var font = "Chalkduster"
+    var font = "Optima-Bold"
     //var gameCenterButton: SKSpriteNode?
     
     init(scene: SKScene) {
