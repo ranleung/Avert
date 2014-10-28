@@ -44,6 +44,10 @@ class GameScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
+        // sending reference of self to AppDelegate
+        var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        appDelegate.gameScene = self
+        
         //keep view for addHero()
         self.gameOverNode = GameOverNode(scene: self)
         self.helpNode = HelpScreen(scene: self)
@@ -208,6 +212,7 @@ class GameScene: SKScene {
                 self.pauseButton?.removeFromParent()
                 self.addChild(self.resumeButton!)
                 self.gameIsPaused = true
+                self.pauseGame()
             }
         }
     }
@@ -220,6 +225,7 @@ class GameScene: SKScene {
                 self.resumeButton?.removeFromParent()
                 self.addChild(self.pauseButton!)
                 self.gameIsPaused = false
+                self.pauseGame()
             }
         }
     }
@@ -250,4 +256,7 @@ class GameScene: SKScene {
         self.resumeButton?.name = "PlayButton"
     }
     
+    func pauseGame() {
+        self.paused = self.gameIsPaused
+    }
 }
