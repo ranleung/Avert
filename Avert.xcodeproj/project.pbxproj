@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2823649919FEFDF5005318DD /* GameOverNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2823649819FEFDF5005318DD /* GameOverNode.swift */; };
+		2890953E19FEDAFE000AD9CB /* MenuScreenNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */; };
 		701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2819FECCC0005D63BE /* AppDelegate.swift */; };
 		701E6A2D19FECCC0005D63BE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2C19FECCC0005D63BE /* GameScene.swift */; };
 		701E6A2F19FECCC0005D63BE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2E19FECCC0005D63BE /* GameViewController.swift */; };
@@ -14,6 +16,7 @@
 		701E6A3419FECCC0005D63BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 701E6A3319FECCC0005D63BE /* Images.xcassets */; };
 		701E6A3719FECCC0005D63BE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 701E6A3519FECCC0005D63BE /* LaunchScreen.xib */; };
 		701E6A4319FECCC0005D63BE /* AvertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A4219FECCC0005D63BE /* AvertTests.swift */; };
+		D59D200019FEF1BD00CDB93F /* HelpScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59D1FFF19FEF1BD00CDB93F /* HelpScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2823649819FEFDF5005318DD /* GameOverNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverNode.swift; sourceTree = "<group>"; };
+		2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScreenNode.swift; sourceTree = "<group>"; };
 		701E6A2319FECCC0005D63BE /* Avert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Avert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		701E6A2719FECCC0005D63BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		701E6A2819FECCC0005D63BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -38,6 +43,7 @@
 		701E6A3C19FECCC0005D63BE /* AvertTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AvertTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		701E6A4119FECCC0005D63BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		701E6A4219FECCC0005D63BE /* AvertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvertTests.swift; sourceTree = "<group>"; };
+		D59D1FFF19FEF1BD00CDB93F /* HelpScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +88,9 @@
 				701E6A2819FECCC0005D63BE /* AppDelegate.swift */,
 				701E6A2C19FECCC0005D63BE /* GameScene.swift */,
 				701E6A2E19FECCC0005D63BE /* GameViewController.swift */,
+				2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */,
+				2823649819FEFDF5005318DD /* GameOverNode.swift */,
+				D59D1FFF19FEF1BD00CDB93F /* HelpScreen.swift */,
 				701E6A3019FECCC0005D63BE /* Main.storyboard */,
 				701E6A3319FECCC0005D63BE /* Images.xcassets */,
 				701E6A3519FECCC0005D63BE /* LaunchScreen.xib */,
@@ -217,7 +226,10 @@
 			files = (
 				701E6A2D19FECCC0005D63BE /* GameScene.swift in Sources */,
 				701E6A2F19FECCC0005D63BE /* GameViewController.swift in Sources */,
+				2890953E19FEDAFE000AD9CB /* MenuScreenNode.swift in Sources */,
 				701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */,
+				D59D200019FEF1BD00CDB93F /* HelpScreen.swift in Sources */,
+				2823649919FEFDF5005318DD /* GameOverNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
