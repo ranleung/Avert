@@ -21,6 +21,7 @@ class GameScene: SKScene {
     // Pause Button Properties
     var pauseButton: SKSpriteNode?
     var resumeButton: SKSpriteNode?
+    var pausedLabel: SKLabelNode?
     var gameIsPaused = false
     
     // Hero properties
@@ -212,6 +213,8 @@ class GameScene: SKScene {
                 self.pauseButton?.removeFromParent()
                 self.addChild(self.resumeButton!)
                 self.gameIsPaused = true
+                self.panGestureRecognizer.enabled = false
+                self.addChild(self.pausedLabel!)
                 self.pauseGame()
             }
         }
@@ -225,6 +228,8 @@ class GameScene: SKScene {
                 self.resumeButton?.removeFromParent()
                 self.addChild(self.pauseButton!)
                 self.gameIsPaused = false
+                self.panGestureRecognizer.enabled = true
+                self.pausedLabel?.removeFromParent()
                 self.pauseGame()
             }
         }
@@ -254,6 +259,12 @@ class GameScene: SKScene {
         self.resumeButton?.position = CGPoint(x: self.frame.width - self.resumeButton!.frame.width, y: self.frame.height - self.resumeButton!.frame.height)
         self.pauseButton?.name = "PauseButton"
         self.resumeButton?.name = "PlayButton"
+        
+        self.pausedLabel = SKLabelNode(text: "Paused")
+        self.pausedLabel?.fontName = "Optima-Bold"
+        self.pausedLabel?.fontSize = 50
+        self.pausedLabel?.fontColor = SKColor.redColor()
+        self.pausedLabel?.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
     }
     
     func pauseGame() {
