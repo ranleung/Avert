@@ -15,26 +15,18 @@ class GameScene: SKScene {
     var panGestureRecognizer : UIPanGestureRecognizer!
     var lastTouchedLocation : CGPoint!
     var startPosition : CGPoint!
+    var heroView: SKView?
+    
     
     override func didMoveToView(view: SKView) {
-
-        //Create starting hero and position center
-        self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: CGSize(width: 50, height: 50))
-        self.hero.xScale = 0.5
-        self.hero.yScale = 0.5
-        self.hero.position = CGPointMake(view.frame.width/2, view.frame.height/2)
-        self.hero.physicsBody?.dynamic = true
         
-        let action = SKAction.rotateByAngle(CGFloat(M_PI), duration: 1)
-        self.hero.runAction(SKAction.repeatActionForever(action))
-
-        self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
-        self.view?.addGestureRecognizer(panGestureRecognizer)
-        self.addChild(self.hero)
+        //keep view for addHero()
+        self.heroView = view
+        addHero()
+        
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        
         for touch: AnyObject in touches {
 
         }
@@ -81,6 +73,20 @@ class GameScene: SKScene {
         if panGestureRecognizer.state == UIGestureRecognizerState.Ended {
             println("Ended \(self.hero.position)")
         }
+    }
+    
+    func addHero() {
+        //Create starting hero and position center
+        self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: CGSize(width: self.heroView!.frame.width * 0.035, height: self.heroView!.frame.width * 0.035))
+        self.hero.position = CGPointMake(self.heroView!.frame.width/2, self.heroView!.frame.height/2)
+        self.hero.physicsBody?.dynamic = true
+        
+        let action = SKAction.rotateByAngle(CGFloat(M_PI), duration: 1)
+        self.hero.runAction(SKAction.repeatActionForever(action))
+        
+        self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
+        self.view?.addGestureRecognizer(panGestureRecognizer)
+        self.addChild(self.hero)
     }
     
     
