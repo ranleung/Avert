@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
    
     // Menu properties
     var menuNode: MenuScreenNode?
@@ -34,6 +34,10 @@ class GameScene: SKScene {
     
     var shapesArray = [Shape]()
     
+    // Contact properties
+    let friendCategory : UInt32 = 0x1 << 0
+    let enemyCategory : UInt32 = 0x1 << 1
+    var heroCategory : UInt32?
     
     // MARK: - Overwritten SKScene Methods
     
@@ -44,6 +48,8 @@ class GameScene: SKScene {
         self.helpNode = HelpScreen(scene: self)
         self.menuNode = MenuScreenNode(scene: self)
         self.addChild(self.menuNode!)
+        self.physicsWorld.contactDelegate = self
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -71,9 +77,14 @@ class GameScene: SKScene {
         for shape in shapesArray {
             if !shape.alive {
                 shape.spawnSprite()
+                shape.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: shape.sprite!.size)
+                shape.sprite?.physicsBody?.collisionBitMask = 0
+                shape.sprite?.physicsBody?.categoryBitMask = shape.contactCategory!
                 shape.alive = true
             }
         }
+        
+        
         
     }
     
@@ -121,9 +132,14 @@ class GameScene: SKScene {
     
     func addHero() {
         //Create starting hero and position center
-        self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: CGSize(width: self.heroView!.frame.width * 0.035, height: self.heroView!.frame.width * 0.035))
+        let heroSideLength = self.heroView!.frame.width * 0.035
+        let heroSize = CGSize(width: heroSideLength, height: heroSideLength)
+        self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: heroSize)
         self.hero.position = CGPointMake(self.heroView!.frame.width/2, self.heroView!.frame.height/2)
-        self.hero.physicsBody?.dynamic = true
+        self.heroCategory = (self.friendCategory | self.enemyCategory)
+        self.hero.physicsBody = SKPhysicsBody(rectangleOfSize: heroSize)
+        self.hero.physicsBody?.collisionBitMask = 0
+        self.hero.physicsBody?.contactTestBitMask = self.heroCategory!
         
         let action = SKAction.rotateByAngle(CGFloat(M_PI), duration: 1)
         self.hero.runAction(SKAction.repeatActionForever(action))
@@ -137,8 +153,19 @@ class GameScene: SKScene {
     
     func startSpawn () {
         for side in Shape.OriginSide.allValues {
-            self.shapesArray.append(Shape.spawnShape(side, team: Shape.ShapeTeam.Enemy, scene: self))
-            self.shapesArray.append(Shape.spawnShape(side, team: Shape.ShapeTeam.Friend, scene: self))
+            let enemyShape = Shape.spawnShape(side, team: Shape.ShapeTeam.Enemy, scene: self)
+            enemyShape.contactCategory = enemyCategory
+            enemyShape.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: enemyShape.sprite!.size)
+            enemyShape.sprite?.physicsBody?.collisionBitMask = 0
+            enemyShape.sprite?.physicsBody?.categoryBitMask = enemyCategory
+            self.shapesArray.append(enemyShape)
+            
+            let friendShape = Shape.spawnShape(side, team: Shape.ShapeTeam.Friend, scene: self)
+            friendShape.contactCategory = friendCategory
+            friendShape.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: friendShape.sprite!.size)
+            friendShape.sprite?.physicsBody?.collisionBitMask = 0
+            friendShape.sprite?.physicsBody?.categoryBitMask = friendCategory
+            self.shapesArray.append(friendShape)
         }
     }
     
@@ -154,7 +181,6 @@ class GameScene: SKScene {
                 self.heroView = view
                 addHero()
                 startSpawn()
-                
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
             }
@@ -208,5 +234,11 @@ class GameScene: SKScene {
         self.addChild(self.gameOverNode!)
         self.showGameOver = true
         self.showMenu = false
+    }
+    
+    //MARK: - Contact Delegate Methods
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        println("CONTACT!")
     }
 }

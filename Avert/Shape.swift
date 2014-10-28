@@ -15,6 +15,7 @@ class Shape {
     var team : ShapeTeam
     var alive = true
     var scene : SKScene
+    var contactCategory : UInt32?
     
     enum OriginSide {
         case Up, Down, Left, Right
