@@ -66,7 +66,7 @@ class MenuController {
         scene.addChild(self.dimmingLayer!)
     }
     
-    func generateGameOverScreen(scene: GameScene, score: UInt32) -> GameOverNode {
+    func generateGameOverScreen(scene: GameScene, score: Int) -> GameOverNode {
         self.gameOverNode = GameOverNode(scene: scene, score: score)
         scene.addChild(self.gameOverNode!)
         scene.showGameOver = true
