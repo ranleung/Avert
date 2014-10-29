@@ -91,10 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
         self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
         
-        
-        // Initializing and setting pause and resume buttons
-        self.addPauseAndResumeButtons()
-        
+        self.registerAppTransitionEvents()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -115,47 +112,48 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         // Timer updates, currently unused
         if self.paused == false {
-            self.currentTime = currentTime
-            self.deltaTime = self.currentTime - self.previousTime
-            if self.deltaTime > 1 {
-                self.deltaTime = 0
-            }
-            self.previousTime = currentTime
-            self.timeSinceLastGoodPowerup = self.timeSinceLastGoodPowerup + self.deltaTime
-            self.timeSinceLastBadPowerup = self.timeSinceLastBadPowerup + self.deltaTime
-            self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
-            var timeIntervalForPoints = 1.0
-            
-            
-            switch self.squaresAcquired {
-            case 0...5:
-                timeIntervalForPoints = 1.0
-            case 6...10:
-                timeIntervalForPoints = 0.9
-            case 11...15:
-                timeIntervalForPoints = 0.8
-            case 16...20:
-                timeIntervalForPoints = 0.7
-            case 21...25:
-                timeIntervalForPoints = 0.6
-            case 26...30:
-                timeIntervalForPoints = 0.5
-            case 31...35:
-                timeIntervalForPoints = 0.4
-            case 36...40:
-                timeIntervalForPoints = 0.3
-            case 41...45:
-                timeIntervalForPoints = 0.2
-            case 46...50:
-                timeIntervalForPoints = 0.1
-            default:
-                timeIntervalForPoints = 0.1
-            }
-            
-            if self.timeSincePointGiven > timeIntervalForPoints {
-                self.points += 1
-                self.timeSincePointGiven = 0
-                println("points: \(self.points)")
+            self.pointsCounterLabel?.text = "Points: \(self.points)"
+
+            if self.pointsShouldIncrease != false {
+                self.currentTime = currentTime
+                self.deltaTime = self.currentTime - self.previousTime
+                if self.deltaTime > 1 {
+                    self.deltaTime = 0
+                }
+                self.previousTime = currentTime
+                self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
+                self.timeSinceLastGoodPowerup = self.timeSinceLastGoodPowerup + self.deltaTime
+                self.timeSinceLastBadPowerup = self.timeSinceLastBadPowerup + self.deltaTime
+                var timeIntervalForPoints = 1.0
+                
+                switch self.squaresAcquired {
+                case 0...5:
+                    timeIntervalForPoints = 1.0
+                case 6...10:
+                    timeIntervalForPoints = 0.9
+                case 11...15:
+                    timeIntervalForPoints = 0.8
+                case 16...20:
+                    timeIntervalForPoints = 0.7
+                case 21...25:
+                    timeIntervalForPoints = 0.6
+                case 26...30:
+                    timeIntervalForPoints = 0.5
+                case 31...35:
+                    timeIntervalForPoints = 0.4
+                case 36...40:
+                    timeIntervalForPoints = 0.3
+                case 41...45:
+                    timeIntervalForPoints = 0.2
+                case 46...50:
+                    timeIntervalForPoints = 0.1
+                default:
+                    timeIntervalForPoints = 0.1
+                }
+                if self.timeSincePointGiven > timeIntervalForPoints {
+                    self.points += 1
+                    self.timeSincePointGiven = 0
+                }
             }
             
             if self.timeSinceLastGoodPowerup > timeIntervalForGoodPowerup {

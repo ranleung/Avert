@@ -108,6 +108,7 @@
 				701E6A2C19FECCC0005D63BE /* GameScene.swift */,
 				15BA3A241A01715D00FA7AB7 /* Timer.swift */,
 				15BA3A261A019E6300FA7AB7 /* Powerup.swift */,
+				28A5B10C1A016343005911B8 /* MenuController.swift */,
 				15E8D8CA1A000E4E007BFE60 /* Shape.swift */,
 				701E6A2E19FECCC0005D63BE /* GameViewController.swift */,
 				28EDBB9B1A000CD200A8FD4F /* Menus */,
