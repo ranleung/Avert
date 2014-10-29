@@ -13,7 +13,12 @@ class Powerup: Shape {
     class func spawnPowerup (team: ShapeTeam, scene: SKScene, shapesAcquired: UInt16) -> Powerup {
         let powerup = Powerup(side: randomSide(), team: team, scene: scene)
         powerup.spawnSprite(shapesAcquired)
-        powerup.sprite?.color = UIColor.greenColor()
+        switch team {
+        case .Friend:
+            powerup.sprite?.color = UIColor.greenColor()
+        case .Enemy:
+            powerup.sprite?.color = UIColor.redColor()
+        }
         return powerup
     }
     
@@ -29,8 +34,16 @@ class Powerup: Shape {
         case .Friend:
             switch randomPowerup {
             case 1:
-                let smallSideLength = scene.size.width * 0.025
-                hero.size = CGSize(width: smallSideLength, height: smallSideLength)
+                let newscale = hero.xScale - 0.3
+                if newscale >= 0.9 {
+                    hero.xScale = newscale
+                    hero.yScale = newscale
+                }
+                else {
+                    hero.xScale = 0.9
+                    hero.yScale = 0.9
+                }
+                println(hero.xScale)
             case 2:
                 break
             case 3:
@@ -41,7 +54,15 @@ class Powerup: Shape {
         case .Enemy:
             switch randomPowerup {
             case 1:
-                break
+                let newscale = hero.xScale + 0.3
+                if newscale <= 2.5 {
+                    hero.xScale = newscale
+                    hero.yScale = newscale
+                }
+                else {
+                    hero.xScale = 2.5
+                    hero.yScale = 2.5
+                }
             case 2:
                 break
             case 3:

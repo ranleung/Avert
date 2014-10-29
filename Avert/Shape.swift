@@ -24,6 +24,7 @@ class Shape {
     
     enum ShapeTeam {
         case Friend, Enemy
+        static let allValues = [Friend, Enemy]
     }
     
     init(side: OriginSide, team: ShapeTeam, scene: SKScene) {

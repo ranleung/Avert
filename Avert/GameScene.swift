@@ -45,8 +45,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Powerups properties
     var powerupsDictionary: [String: Powerup?] = ["Friend": nil, "Enemy": nil]
-    var timeSinceLastPowerup = 0.0
-    var timeIntervalForPowerups : Double?
+    var timeSinceLastGoodPowerup = 1.0
+    var timeSinceLastBadPowerup = 0.0
+    var timeIntervalForGoodPowerup : Double?
+    var timeIntervalForBadPowerup : Double?
     
     // Contact properties
     let friendCategory : UInt32 = 0x1 << 0
@@ -72,7 +74,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.paused = true
         
         // Initializing powerup spawns
-        self.timeIntervalForPowerups = Double(Float(arc4random() % 5) + 5)
+        self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+        self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
         
         
         // Initializing and setting pause and resume buttons
@@ -103,7 +106,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.deltaTime = 0
             }
             self.previousTime = currentTime
-            self.timeSinceLastPowerup = self.timeSinceLastPowerup + self.deltaTime
+            self.timeSinceLastGoodPowerup = self.timeSinceLastGoodPowerup + self.deltaTime
+            self.timeSinceLastBadPowerup = self.timeSinceLastBadPowerup + self.deltaTime
             self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
             var timeIntervalForPoints = 1.0
             
@@ -139,19 +143,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 println("points: \(self.points)")
             }
             
-            if self.timeSinceLastPowerup > timeIntervalForPowerups {
-                self.timeIntervalForPowerups = Double(Float(arc4random() % 5) + 4)
-                self.timeSinceLastPowerup = 0
+            if self.timeSinceLastGoodPowerup > timeIntervalForGoodPowerup {
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeSinceLastGoodPowerup = 0
                 let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Friend, scene: self, shapesAcquired: self.squaresAcquired)
                 spawnedPowerup.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: spawnedPowerup.sprite!.size)
                 spawnedPowerup.sprite?.physicsBody?.collisionBitMask = 0
                 spawnedPowerup.sprite?.physicsBody?.categoryBitMask = powerupCategory
-                switch spawnedPowerup.team {
-                case .Friend:
-                    self.powerupsDictionary["Friend"] = spawnedPowerup
-                case .Enemy:
-                    self.powerupsDictionary["Enemy"] = spawnedPowerup
-                }
+                self.powerupsDictionary["Friend"] = spawnedPowerup
+
+                
+            }
+            
+            if self.timeSinceLastBadPowerup > timeIntervalForGoodPowerup {
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeSinceLastBadPowerup = 0
+                let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Enemy, scene: self, shapesAcquired: self.squaresAcquired)
+                spawnedPowerup.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: spawnedPowerup.sprite!.size)
+                spawnedPowerup.sprite?.physicsBody?.collisionBitMask = 0
+                spawnedPowerup.sprite?.physicsBody?.categoryBitMask = powerupCategory
+                self.powerupsDictionary["Enemy"] = spawnedPowerup
                 
             }
             

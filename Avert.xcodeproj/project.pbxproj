@@ -84,6 +84,7 @@
 				701E6A2519FECCC0005D63BE /* Avert */,
 				701E6A3F19FECCC0005D63BE /* AvertTests */,
 				701E6A2419FECCC0005D63BE /* Products */,
+				701E6A3519FECCC0005D63BE /* LaunchScreen.xib */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,7 +108,6 @@
 				28EDBB9B1A000CD200A8FD4F /* Menus */,
 				701E6A3019FECCC0005D63BE /* Main.storyboard */,
 				701E6A3319FECCC0005D63BE /* Images.xcassets */,
-				701E6A3519FECCC0005D63BE /* LaunchScreen.xib */,
 				701E6A2619FECCC0005D63BE /* Supporting Files */,
 			);
 			path = Avert;
@@ -282,6 +282,7 @@
 				701E6A3619FECCC0005D63BE /* Base */,
 			);
 			name = LaunchScreen.xib;
+			path = Avert;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
