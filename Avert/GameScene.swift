@@ -40,7 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timeSincePointGiven = 0.0
     
     // Points properties
-    var points: UInt32 = 0
+    var points: Int = 0
     var squaresAcquired: UInt16 = 0
     var shapesArray = [Shape]()
     var pointsCounterLabel: SKLabelNode?
