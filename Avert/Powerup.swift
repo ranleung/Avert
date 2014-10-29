@@ -33,7 +33,7 @@ class Powerup: Shape {
         case .Friend:
             switch randomPowerup {
             case 1:
-                let newscale = hero.xScale - 0.3
+                let newscale = hero.xScale - CGFloat(0.3)
                 if newscale >= 0.9 {
                     hero.xScale = newscale
                     hero.yScale = newscale
@@ -54,7 +54,7 @@ class Powerup: Shape {
         case .Enemy:
             switch randomPowerup {
             case 1:
-                let newscale = hero.xScale + 0.3
+                let newscale = hero.xScale + CGFloat(0.3)
                 if newscale <= 2.5 {
                     hero.xScale = newscale
                     hero.yScale = newscale
