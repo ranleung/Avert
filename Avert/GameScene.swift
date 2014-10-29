@@ -249,6 +249,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.showGameOver = false
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
+                self.dimmingLayer?.removeFromParent()
                 self.paused = false
                 self.dimmingLayer?.removeFromParent()
             }
@@ -297,10 +298,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.pauseButton!.parent))
                 if nodeAtTouch.name == "PauseButton" {
                     println("Pause Touched")
-                    self.pauseButton?.removeFromParent()
-                    self.addChild(self.resumeButton!)
-                    self.panGestureRecognizer.enabled = false
-                    self.addChild(self.pausedLabel!)
+                    self.addChild(self.dimmingLayer!)
                     self.pauseGame()
                 }
             }
@@ -309,10 +307,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.resumeButton!.parent))
                 if nodeAtTouch.name == "PlayButton" {
                     println("Resume Touched")
-                    self.resumeButton?.removeFromParent()
-                    self.addChild(self.pauseButton!)
-                    self.panGestureRecognizer.enabled = true
-                    self.pausedLabel?.removeFromParent()
+                    self.dimmingLayer?.removeFromParent()
                     self.pauseGame()
                 }
             }
@@ -390,5 +385,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func pauseGame() {
         self.paused = !self.paused
+        if self.paused == false {
+            self.pauseButton?.removeFromParent()
+            self.addChild(self.resumeButton!)
+            self.panGestureRecognizer.enabled = false
+            self.addChild(self.pausedLabel!)
+        } else {
+            self.resumeButton?.removeFromParent()
+            self.addChild(self.pauseButton!)
+            self.panGestureRecognizer.enabled = true
+            self.pausedLabel?.removeFromParent()
+        }
     }
 }
