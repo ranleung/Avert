@@ -23,6 +23,33 @@ class Powerup: Shape {
     }
     
     func givePowerup(hero: SKSpriteNode) {
+//        let randomPowerup = arc4random() % 3 + 1
+        let randomPowerup = 1
+        switch self.team {
+        case .Friend:
+            switch randomPowerup {
+            case 1:
+                let smallSideLength = scene.size.width * 0.025
+                hero.size = CGSize(width: smallSideLength, height: smallSideLength)
+            case 2:
+                break
+            case 3:
+                break
+            default:
+                break
+            }
+        case .Enemy:
+            switch randomPowerup {
+            case 1:
+                break
+            case 2:
+                break
+            case 3:
+                break
+            default:
+                break
+            }
+        }
         
     }
 }
