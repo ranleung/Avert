@@ -45,6 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var points: UInt32 = 0
     var squaresAcquired: UInt16 = 0
     var shapesArray = [Shape]()
+    var pointsCounterLabel: SKLabelNode?
     
     // Contact properties
     let friendCategory : UInt32 = 0x1 << 0
@@ -72,6 +73,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.resumeButton = self.menuController.resumeButton
         self.pausedLabel = self.menuController.pausedLabel
         self.dimmingLayer = self.menuController.dimmingLayer
+        self.pointsCounterLabel = self.menuController.scoreLabel
         
         self.addChild(self.menuNode!)
         self.physicsWorld.contactDelegate = self
@@ -131,6 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             if self.timeSincePointGiven > timeIntervalForPoints {
                 self.points += 1
+                self.pointsCounterLabel?.text = "Points: \(self.points)"
                 self.timeSincePointGiven = 0
                 println(self.points)
             }
@@ -241,6 +244,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.heroView = view
                 addHero()
                 
+                self.addChild(self.pointsCounterLabel!)
+                
                 if !self.shapesArray.isEmpty {
                     for shape in self.shapesArray {
                         shape.sprite?.removeFromParent()
@@ -345,7 +350,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         shape.sprite?.removeFromParent()
                     }
                     else {
-                        //self.addGameOverScreen()
+                        self.pointsCounterLabel?.removeFromParent()
                         self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points)
                         self.paused = false
                         self.pauseButton?.removeFromParent()

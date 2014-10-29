@@ -19,6 +19,7 @@ class MenuController {
     var resumeButton: SKSpriteNode?
     var pausedLabel: SKLabelNode?
     var dimmingLayer: SKSpriteNode?
+    var scoreLabel: SKLabelNode?
     
     init(scene: GameScene) {
         self.menuNode = MenuScreenNode(scene: scene)
@@ -42,6 +43,12 @@ class MenuController {
         self.dimmingLayer?.alpha = 0.5
         self.dimmingLayer?.zPosition = 1.0
         self.dimmingLayer?.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame))
+        
+        self.scoreLabel = SKLabelNode(text: "Points: 0")
+        self.scoreLabel?.position = CGPoint(x: scene.frame.origin.x + self.scoreLabel!.frame.width * 0.5, y: scene.frame.height - self.scoreLabel!.frame.height * 1.5)
+        self.scoreLabel?.zPosition = 2.0
+        self.scoreLabel?.fontName = "Optima-Bold"
+        self.scoreLabel?.fontSize = 20
         
     }
     
