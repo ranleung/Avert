@@ -45,13 +45,13 @@ class Shape {
     
     // MARK: - Spawning Methods
     
-    class func spawnShape (originSide: OriginSide, team: ShapeTeam, scene: SKScene) -> Shape {
+    class func spawnShape (squaresAcquired: UInt16, originSide: OriginSide, team: ShapeTeam, scene: SKScene) -> Shape {
         let shape = Shape(side: originSide, team: team, scene: scene)
-        shape.spawnSprite()
+        shape.spawnSprite(squaresAcquired)
         return shape
     }
     
-    func spawnSprite() {
+    func spawnSprite(squaresAquired: UInt16) {
         
         let shapeSideSize = self.scene.size.width * self.random(min: 0.03, max: 0.055)
         
@@ -90,7 +90,48 @@ class Shape {
         
         scene.addChild(sprite)
         
-        let duration = self.random(min: 2.0, max: 4.0)
+        var min: CGFloat = 4.0
+        var max: CGFloat = 6.0
+        
+        switch squaresAquired {
+        case 0...5:
+            min = 3.0
+            max = 5.0
+        case 6...10:
+            min = 2.5
+            max = 4.5
+        case 11...15:
+            min = 2.0
+            max = 4.0
+        case 16...20:
+            min = 1.5
+            max = 3.5
+        case 21...25:
+            min = 1.4
+            max = 3.25
+        case 26...30:
+            min = 1.3
+            max = 3.125
+        case 31...35:
+            min = 1.2
+            max = 3.0
+        case 36...40:
+            min = 1.1
+            max = 2.75
+        case 41...45:
+            min = 1.0
+            max = 2.5
+        case 46...50:
+            min = 0.9
+            max = 2.25
+        default:
+            min = 0.8
+            max = 1.5
+        }
+        
+        
+        
+        var duration = self.random(min: min, max: max)
         
         let moveAction = SKAction.moveTo(destination, duration: NSTimeInterval(duration))
         let moveActionDone = SKAction.removeFromParent()
