@@ -27,9 +27,8 @@ class Powerup: Shape {
         return Powerup.OriginSide.allValues[Int(randomIndex)]
     }
     
-    func givePowerup(hero: SKSpriteNode) {
-//        let randomPowerup = arc4random() % 3 + 1
-        let randomPowerup = 1
+    func givePowerup(hero: SKSpriteNode, scene: GameScene) {
+        let randomPowerup = arc4random() % 2 + 1
         switch self.team {
         case .Friend:
             switch randomPowerup {
@@ -45,7 +44,8 @@ class Powerup: Shape {
                 }
                 println(hero.xScale)
             case 2:
-                break
+                scene.points += 500
+                println("New points: \(scene.points)")
             case 3:
                 break
             default:
@@ -64,7 +64,8 @@ class Powerup: Shape {
                     hero.yScale = 2.5
                 }
             case 2:
-                break
+                scene.points -= 500
+                println("New points: \(scene.points)")
             case 3:
                 break
             default:

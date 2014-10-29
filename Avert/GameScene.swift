@@ -453,7 +453,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for (team, powerup) in powerupsDictionary {
                 if powerup != nil {
                     if shapeTouched == powerup!.sprite {
-                        powerup?.givePowerup(self.hero)
+                        powerup?.givePowerup(self.hero, scene: self)
                         switch powerup!.team {
                         case .Friend:
                             self.powerupsDictionary["Friend"] = nil
