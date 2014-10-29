@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		15E8D8CB1A000E4E007BFE60 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8D8CA1A000E4E007BFE60 /* Shape.swift */; };
 		2823649919FEFDF5005318DD /* GameOverNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2823649819FEFDF5005318DD /* GameOverNode.swift */; };
+		286F95DF1A017E7B0085C1E6 /* DeathParticleEmitter.sks in Resources */ = {isa = PBXBuildFile; fileRef = 286F95DD1A017E7B0085C1E6 /* DeathParticleEmitter.sks */; };
+		286F95E01A017E7B0085C1E6 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 286F95DE1A017E7B0085C1E6 /* spark.png */; };
 		2890953E19FEDAFE000AD9CB /* MenuScreenNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */; };
 		28A5B10D1A016343005911B8 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5B10C1A016343005911B8 /* MenuController.swift */; };
 		701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2819FECCC0005D63BE /* AppDelegate.swift */; };
@@ -34,6 +36,8 @@
 /* Begin PBXFileReference section */
 		15E8D8CA1A000E4E007BFE60 /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		2823649819FEFDF5005318DD /* GameOverNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverNode.swift; sourceTree = "<group>"; };
+		286F95DD1A017E7B0085C1E6 /* DeathParticleEmitter.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DeathParticleEmitter.sks; sourceTree = "<group>"; };
+		286F95DE1A017E7B0085C1E6 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScreenNode.swift; sourceTree = "<group>"; };
 		28A5B10C1A016343005911B8 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		701E6A2319FECCC0005D63BE /* Avert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Avert.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +121,8 @@
 			isa = PBXGroup;
 			children = (
 				701E6A2719FECCC0005D63BE /* Info.plist */,
+				286F95DD1A017E7B0085C1E6 /* DeathParticleEmitter.sks */,
+				286F95DE1A017E7B0085C1E6 /* spark.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -218,9 +224,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				286F95E01A017E7B0085C1E6 /* spark.png in Resources */,
 				701E6A3719FECCC0005D63BE /* LaunchScreen.xib in Resources */,
 				701E6A3419FECCC0005D63BE /* Images.xcassets in Resources */,
 				701E6A3219FECCC0005D63BE /* Main.storyboard in Resources */,
+				286F95DF1A017E7B0085C1E6 /* DeathParticleEmitter.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

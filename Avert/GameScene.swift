@@ -8,8 +8,6 @@
 
 import SpriteKit
 
-// this is a test comment
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
     // Menu properties
@@ -40,6 +38,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var deltaTime = 0.0
     var timeSinceLastSpawn = 0.0
     var timeSincePointGiven = 0.0
+    var deathTimer = 0.0
+    var playerIsDead = false
     
     // Points properties
     var points: UInt32 = 0
@@ -55,6 +55,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Dimming layer
     var dimmingLayer: SKSpriteNode?
     var playerHasPaused = false
+    
+    // Particle Emitter
+    var particleEmitter: SKEmitterNode?
+    
     
     // MARK: - Overwritten SKScene Methods
     
@@ -74,6 +78,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.pausedLabel = self.menuController.pausedLabel
         self.dimmingLayer = self.menuController.dimmingLayer
         self.pointsCounterLabel = self.menuController.scoreLabel
+        
+        let uncastedEmitter: AnyObject = NSKeyedUnarchiver.unarchiveObjectWithFile(NSBundle.mainBundle().pathForResource("DeathParticleEmitter", ofType: "sks")!)!
+        self.particleEmitter = uncastedEmitter as? SKEmitterNode
         
         self.addChild(self.menuNode!)
         self.physicsWorld.contactDelegate = self
@@ -147,6 +154,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 shape.sprite?.physicsBody?.categoryBitMask = shape.contactCategory!
                 shape.alive = true
             }
+        }
+        
+        if self.playerIsDead == true {
+            self.currentTime = currentTime
+            self.deltaTime = self.currentTime - self.previousTime
+            self.previousTime = currentTime
+            self.deathTimer += self.deltaTime
         }
     }
     
@@ -389,12 +403,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         shape.sprite?.removeFromParent()
                     }
                     else {
+                        self.hero.addChild(self.particleEmitter!)
+                        self.playerIsDead = true
+                        while self.deathTimer < 1.0 {
+                            println(self.deathTimer)
+                        }
                         self.pointsCounterLabel?.removeFromParent()
                         self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points)
                         self.paused = false
                         self.pauseButton?.removeFromParent()
                         self.hero.removeFromParent()
                         self.points = 0
+                        self.playerIsDead = false
                     }
                 }
             }
