@@ -13,6 +13,7 @@ import SpriteKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
     // Menu properties
+    var menuController: MenuController!
     var menuNode: MenuScreenNode?
     var helpNode: HelpScreen?
     var gameOverNode: GameOverNode?
@@ -63,21 +64,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         appDelegate.gameScene = self
         
         //keep view for addHero()
-        self.helpNode = HelpScreen(scene: self)
-        self.menuNode = MenuScreenNode(scene: self)
+        self.menuController = MenuController(scene: self)
+        
+        self.helpNode = self.menuController.helpNode
+        self.menuNode = self.menuController.menuNode
+        self.pauseButton = self.menuController.pauseButton
+        self.resumeButton = self.menuController.resumeButton
+        self.pausedLabel = self.menuController.pausedLabel
+        self.dimmingLayer = self.menuController.dimmingLayer
+        
         self.addChild(self.menuNode!)
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.paused = true
-        
-        self.dimmingLayer = SKSpriteNode(color: UIColor.blackColor(), size: self.frame.size)
-        self.dimmingLayer?.alpha = 0.5
-        self.dimmingLayer?.zPosition = 1.0
-        self.dimmingLayer?.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
-        
-        
-        // Initializing and setting pause and resume buttons
-        self.addPauseAndResumeButtons()
         
         self.registerAppTransitionEvents()
     }
@@ -263,7 +262,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 println("HelpButton Touched")
                 self.dimmingLayer?.removeFromParent()
                 self.menuNode?.removeFromParent()
-                self.addHelpScreen()
+                //self.addHelpScreen()
+                self.menuController.addHelpScreen(self)
             }
         }
     }
@@ -275,7 +275,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("BackButton Touched")
                 self.helpNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
-                self.addMenuScreen()
+                //self.addMenuScreen()
+                self.menuController.addMenuScreen(self)
             }
         }
     }
@@ -287,13 +288,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 println("New Game Touched")
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
-                self.addMenuScreen()
+                //self.addMenuScreen()
+                self.menuController.addMenuScreen(self)
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("Help Button Pressed")
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
-                self.addHelpScreen()
+                //self.addHelpScreen()
+                self.menuController.addHelpScreen(self)
             }
         }
     }
@@ -320,45 +323,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func addHelpScreen() {
-        self.addChild(self.helpNode!)
-        self.showHelpMenu = true
-        self.showMenu = false
-        self.addChild(self.dimmingLayer!)
-    }
-    
-    func addMenuScreen() {
-        self.addChild(self.menuNode!)
-        self.showHelpMenu = false
-        self.showMenu = true
-        self.addChild(self.dimmingLayer!)
-    }
-    func addGameOverScreen() {
-        self.gameOverNode = GameOverNode(scene: self, score: self.points)
-        self.addChild(self.gameOverNode!)
-        self.showGameOver = true
-        self.showMenu = false
-        self.addChild(self.dimmingLayer!)
-    }
-    
-    func addPauseAndResumeButtons() {
-        self.pauseButton = SKSpriteNode(imageNamed: "PauseButton")
-        self.resumeButton = SKSpriteNode(imageNamed: "PlayButton")
-        self.pauseButton?.position = CGPoint(x: self.frame.width - self.pauseButton!.frame.width, y: self.frame.height - self.pauseButton!.frame.height)
-        self.resumeButton?.position = CGPoint(x: self.frame.width - self.resumeButton!.frame.width, y: self.frame.height - self.resumeButton!.frame.height)
-        self.pauseButton?.name = "PauseButton"
-        self.resumeButton?.name = "PlayButton"
-        self.pausedLabel = SKLabelNode(text: "Paused")
-        self.pausedLabel?.fontName = "Optima-Bold"
-        self.pausedLabel?.fontSize = 50
-        self.pausedLabel?.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
-        self.pauseButton?.zPosition = 2.0
-        self.resumeButton?.zPosition = 2.0
-        self.pausedLabel?.zPosition = 2.0
-        
-        }
-
-        
         // Check to see which body in the contact is the hero and shape
         //MARK: - Contact Delegate Methods
         
@@ -381,7 +345,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         shape.sprite?.removeFromParent()
                     }
                     else {
-                        self.addGameOverScreen()
+                        //self.addGameOverScreen()
+                        self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points)
                         self.paused = false
                         self.pauseButton?.removeFromParent()
                         self.hero.removeFromParent()
