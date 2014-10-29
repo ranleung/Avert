@@ -412,7 +412,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     else {
                         self.addGameOverScreen()
                         let deathSFX = SKAction.playSoundFileNamed("avert_death.mp3", waitForCompletion: false)
-                        self.hero.runAction(deathSFX)
+                        println("sfx action fired")
+                        shape.sprite?.runAction(deathSFX)
                         self.hero.removeFromParent()
                     }
                 }
@@ -434,7 +435,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             self.audioPlayer?.prepareToPlay()
             self.audioPlayer?.numberOfLoops = -1
-            self.audioPlayer?.volume = 0.6
+            self.audioPlayer?.volume = 0
             self.audioPlayer?.play()
         }
     }
