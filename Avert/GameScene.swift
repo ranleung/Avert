@@ -142,7 +142,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if self.timeSinceLastPowerup > timeIntervalForPowerups {
                 self.timeIntervalForPowerups = Double(Float(arc4random() % 5) + 4)
                 self.timeSinceLastPowerup = 0
-                let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Friend, scene: self)
+                let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Friend, scene: self, shapesAcquired: self.squaresAcquired)
                 spawnedPowerup.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: spawnedPowerup.sprite!.size)
                 spawnedPowerup.sprite?.physicsBody?.collisionBitMask = 0
                 spawnedPowerup.sprite?.physicsBody?.categoryBitMask = powerupCategory
@@ -442,7 +442,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for (team, powerup) in powerupsDictionary {
                 if powerup != nil {
                     if shapeTouched == powerup!.sprite {
-                        powerup?.givePowerup()
+                        powerup?.givePowerup(self.hero)
                         switch powerup!.team {
                         case .Friend:
                             self.powerupsDictionary["Friend"] = nil
