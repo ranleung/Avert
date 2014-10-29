@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
@@ -48,6 +49,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let enemyCategory : UInt32 = 0x1 << 1
     var heroCategory : UInt32?
     
+    //Music properties
+    var audioPlayer : AVAudioPlayer?
+    
     // MARK: - Overwritten SKScene Methods
     
     override func didMoveToView(view: SKView) {
@@ -68,6 +72,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Initializing and setting pause and resume buttons
         self.addPauseAndResumeButtons()
+        
+        //play music
+        self.playMusic()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -398,10 +405,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.hero.yScale = self.hero.yScale + 0.03
                         }
                         
+                        let collectSFX = SKAction.playSoundFileNamed("avert_collect.mp3", waitForCompletion: false)
+                        self.hero.runAction(collectSFX)
                         shape.sprite?.removeFromParent()
                     }
                     else {
                         self.addGameOverScreen()
+                        let deathSFX = SKAction.playSoundFileNamed("avert_death.mp3", waitForCompletion: false)
+                        self.hero.runAction(deathSFX)
                         self.hero.removeFromParent()
                     }
                 }
@@ -411,5 +422,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func pauseGame() {
         self.paused = !self.paused
+    }
+    
+    //MARK: - AVAudio Methods
+    func playMusic() {
+        var error : NSError?
+        var localURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("avertmusic.mp3", ofType: nil)!)
+        self.audioPlayer = AVAudioPlayer(contentsOfURL: localURL, error: &error)
+        if error != nil {
+            println("something bad happened")
+        } else {
+            self.audioPlayer?.prepareToPlay()
+            self.audioPlayer?.numberOfLoops = -1
+            self.audioPlayer?.volume = 1.0
+            self.audioPlayer?.play()
+        }
     }
 }
