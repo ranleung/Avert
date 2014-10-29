@@ -45,7 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Powerups properties
     var powerupsDictionary: [String: Powerup?] = ["Friend": nil, "Enemy": nil]
-    var timeSinceLastGoodPowerup = 4.0
+    var timeSinceLastGoodPowerup = 1.0
     var timeSinceLastBadPowerup = 0.0
     var timeIntervalForGoodPowerup : Double?
     var timeIntervalForBadPowerup : Double?

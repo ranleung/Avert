@@ -28,7 +28,7 @@ class Powerup: Shape {
     }
     
     func givePowerup(hero: SKSpriteNode, scene: GameScene) {
-        let randomPowerup = arc4random() % 1 + 3
+        let randomPowerup = arc4random() % 3 + 1
         switch self.team {
         case .Friend:
             switch randomPowerup {
@@ -80,17 +80,17 @@ class Powerup: Shape {
         timer.zPosition = -1
         timer.position = CGPoint(x: (scene.size.width / 2) - (timer.size.width / 2), y: scene.size.height - (2 * timer.size.height))
         scene.addChild(timer)
-        for shape in scene.shapesArray {
-            if shape.team != team {
-                shape.switchTeam(scene)
-            }
-        }
         timer.runTimer { () -> Void in
             timer.removeFromParent()
             for shape in scene.shapesArray {
                 if shape.originalTeam != team {
                     shape.switchTeam(scene)
                 }
+            }
+        }
+        for shape in scene.shapesArray {
+            if shape.team != team {
+                shape.switchTeam(scene)
             }
         }
     }

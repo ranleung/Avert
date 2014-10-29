@@ -49,7 +49,7 @@ class Shape {
     // MARK: - Spawning Methods
     
     class func spawnShape (squaresAcquired: UInt16, originSide: OriginSide, team: ShapeTeam, scene: SKScene) -> Shape {
-        let shape = Shape(side: originSide, team: team, scene: scene)
+        var shape = Shape(side: originSide, team: team, scene: scene)
         shape.spawnSprite(squaresAcquired)
         return shape
     }
@@ -132,8 +132,6 @@ class Shape {
             max = 1.5
         }
         
-        
-        
         var duration = self.random(min: min, max: max)
         
         let moveAction = SKAction.moveTo(destination, duration: NSTimeInterval(duration))
@@ -149,13 +147,15 @@ class Shape {
     
     func switchTeam (scene: GameScene) {
         switch self.team {
+            
         case .Friend:
             self.team = Shape.ShapeTeam.Enemy
-            self.sprite?.color = UIColor(red: 0, green: 144/255, blue: 1, alpha: 1)
+            self.sprite?.color = UIColor(red: 1, green: 150/255, blue: 0, alpha: 1)
             self.sprite?.physicsBody?.categoryBitMask = scene.enemyCategory
+            
         case .Enemy:
             self.team = Shape.ShapeTeam.Friend
-            self.sprite?.color = UIColor(red: 1, green: 150/255, blue: 0, alpha: 1)
+            self.sprite?.color = UIColor(red: 0, green: 144/255, blue: 1, alpha: 1)
             self.sprite?.physicsBody?.categoryBitMask = scene.friendCategory
         }
     }
