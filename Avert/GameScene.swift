@@ -80,13 +80,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.dimmingLayer = self.menuController.dimmingLayer
         self.pointsCounterLabel = self.menuController.scoreLabel
         
-        let uncastedEmitter: AnyObject = NSKeyedUnarchiver.unarchiveObjectWithFile(NSBundle.mainBundle().pathForResource("DeathParticleEmitter", ofType: "sks")!)!
-        self.particleEmitter = uncastedEmitter as? SKEmitterNode
-        
         self.addChild(self.menuNode!)
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.paused = true
+        println(self.deathTimer)
         
         self.registerAppTransitionEvents()
     }
@@ -106,15 +104,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     override func update(currentTime: CFTimeInterval) {
-
-        // Timer updates, currently unused
+        
+        self.currentTime = currentTime
+        self.deltaTime = self.currentTime - self.previousTime
+        self.previousTime = currentTime
+        
         if self.paused == false {
             self.pointsCounterLabel?.text = "Points: \(self.points)"
 
             if self.pointsShouldIncrease != false {
-                self.currentTime = currentTime
-                self.deltaTime = self.currentTime - self.previousTime
-                self.previousTime = currentTime
                 self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
                 var timeIntervalForPoints = 1.0
                 
@@ -150,6 +148,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        
+        self.deathTimer += self.deltaTime
+        
         for shape in shapesArray {
             if !shape.alive {
                 shape.spawnSprite(self.squaresAcquired)
@@ -158,13 +159,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 shape.sprite?.physicsBody?.categoryBitMask = shape.contactCategory!
                 shape.alive = true
             }
-        }
-        
-        if self.playerIsDead == true {
-            self.currentTime = currentTime
-            self.deltaTime = self.currentTime - self.previousTime
-            self.previousTime = currentTime
-            self.deathTimer += self.deltaTime
         }
     }
     
@@ -261,9 +255,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Instantiate game
                 self.heroView = view
                 addHero()
-                
                 self.addChild(self.pointsCounterLabel!)
-                
+                self.particleEmitter?.removeFromParent()
                 if !self.shapesArray.isEmpty {
                     for shape in self.shapesArray {
                         shape.sprite?.removeFromParent()
@@ -286,7 +279,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 println("HelpButton Touched")
                 self.dimmingLayer?.removeFromParent()
                 self.menuNode?.removeFromParent()
-                //self.addHelpScreen()
                 self.menuController.addHelpScreen(self)
             }
         }
@@ -299,7 +291,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("BackButton Touched")
                 self.helpNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
-                //self.addMenuScreen()
                 self.menuController.addMenuScreen(self)
             }
         }
@@ -312,14 +303,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 println("New Game Touched")
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
-                //self.addMenuScreen()
                 self.menuController.addMenuScreen(self)
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("Help Button Pressed")
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
-                //self.addHelpScreen()
                 self.menuController.addHelpScreen(self)
             }
         }
@@ -409,17 +398,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         shape.sprite?.removeFromParent()
                     }
                     else {
-                        self.hero.addChild(self.particleEmitter!)
+                        self.deathTimer = 0.0
+                        self.createParticleEmitter()
+                        self.particleEmitter?.position = CGPoint(x: CGRectGetMidX(self.hero.frame), y: CGRectGetMidY(self.hero.frame))
+                        self.addChild(self.particleEmitter!)
                         self.playerIsDead = true
-                        while self.deathTimer < 1.0 {
-                            println(self.deathTimer)
-                        }
                         self.pointsCounterLabel?.removeFromParent()
                         self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points)
                         self.paused = false
                         self.pauseButton?.removeFromParent()
                         self.hero.removeFromParent()
                         self.points = 0
+                        self.squaresAcquired = 0
+                        self.pointsShouldIncrease = false
                         self.playerIsDead = false
                     }
                 }
@@ -476,6 +467,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.playerHasPaused == true {
             self.paused = self.playerHasPaused
         }
+    }
+    
+    func createParticleEmitter() {
+        var uncastedEmitter: AnyObject = NSKeyedUnarchiver.unarchiveObjectWithFile(NSBundle.mainBundle().pathForResource("DeathParticleEmitter", ofType: "sks")!)!
+        self.particleEmitter = uncastedEmitter as? SKEmitterNode
     }
     
 }
