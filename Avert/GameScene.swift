@@ -45,7 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Powerups properties
     var powerupsDictionary: [String: Powerup?] = ["Friend": nil, "Enemy": nil]
-    var timeSinceLastGoodPowerup = 1.0
+    var timeSinceLastGoodPowerup = 4.0
     var timeSinceLastBadPowerup = 0.0
     var timeIntervalForGoodPowerup : Double?
     var timeIntervalForBadPowerup : Double?
@@ -81,12 +81,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Initializing and setting pause and resume buttons
         self.addPauseAndResumeButtons()
         
-        // Testing timer
-        var timer = Timer.addTimer(self)
-        
-        timer.zPosition = -1
-        timer.position = CGPoint(x: (self.size.width / 2) - (timer.size.width / 2), y: self.size.height - (2 * timer.size.height))
-        self.addChild(timer)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {

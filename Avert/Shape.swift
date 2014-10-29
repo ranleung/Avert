@@ -16,6 +16,7 @@ class Shape {
     var alive = true
     var scene : SKScene
     var contactCategory : UInt32?
+    var originalTeam : ShapeTeam
     
     enum OriginSide {
         case Up, Down, Left, Right
@@ -31,6 +32,7 @@ class Shape {
         self.side = side
         self.team = team
         self.scene = scene
+        self.originalTeam = team
     }
     
     
@@ -143,6 +145,19 @@ class Shape {
         sprite.runAction(SKAction.sequence([moveAction, respawnAction, moveActionDone]))
 
         self.sprite = sprite
+    }
+    
+    func switchTeam (scene: GameScene) {
+        switch self.team {
+        case .Friend:
+            self.team = Shape.ShapeTeam.Enemy
+            self.sprite?.color = UIColor(red: 0, green: 144/255, blue: 1, alpha: 1)
+            self.sprite?.physicsBody?.categoryBitMask = scene.enemyCategory
+        case .Enemy:
+            self.team = Shape.ShapeTeam.Friend
+            self.sprite?.color = UIColor(red: 1, green: 150/255, blue: 0, alpha: 1)
+            self.sprite?.physicsBody?.categoryBitMask = scene.friendCategory
+        }
     }
     
 }

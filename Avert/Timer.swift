@@ -10,7 +10,7 @@ import SpriteKit
 
 class Timer : SKSpriteNode {
     var timerArray = [SKSpriteNode]()
-    
+    var timeRemaining = 3.0
     
     class func addTimer(scene: SKScene) -> Timer {
         let newTimerHeight = scene.size.width * 0.025
@@ -29,6 +29,21 @@ class Timer : SKSpriteNode {
         return newTimer
     }
     
+    func runTimer(completionHandler: () -> Void) {
+        let timerTickAction = SKAction.runBlock({ () -> Void in
+            println("TICK")
+            var removedPixel = self.timerArray.removeLast()
+            removedPixel.removeFromParent()
+        })
+        let timerDelay = SKAction.waitForDuration(0.5)
+        let timerFullTick = SKAction.sequence([timerDelay, timerTickAction])
+        let timerSequence = SKAction.sequence([timerFullTick, timerFullTick, timerFullTick, timerFullTick, timerFullTick, timerFullTick])
+        self.runAction(timerSequence, completion: { () -> Void in
+            completionHandler()
+        })
+        
+            
+    }
     
     
 }
