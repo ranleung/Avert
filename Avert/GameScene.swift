@@ -52,7 +52,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Dimming layer
     var dimmingLayer: SKSpriteNode?
-    
     var playerHasPaused = false
     
     // MARK: - Overwritten SKScene Methods
@@ -413,12 +412,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func registerAppTransitionEvents() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillResignActive:", name: UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillEnterForeground:", name: UIApplicationWillEnterForegroundNotification, object: nil)
+    }
+    
+    func applicationWillResignActive(application: UIApplication) {
+        if self.playerHasPaused == true {
+            self.paused = self.playerHasPaused
+        }
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
         if self.playerHasPaused == true {
             self.paused = self.playerHasPaused
-            println("a;lsdfj")
         }
     }
+    
+    func applicationDidEnterBackground(application: UIApplication) {
+        if self.playerHasPaused == true {
+            self.paused = self.playerHasPaused
+        }
+    }
+    
+    func applicationWillEnterForeground(application: UIApplication) {
+        if self.playerHasPaused == true {
+            self.paused = self.playerHasPaused
+        }
+    }
+    
 }
