@@ -59,7 +59,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Overwritten SKScene Methods
     
     override func didMoveToView(view: SKView) {
-        
+    
         // sending reference of self to AppDelegate
         var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         appDelegate.gameScene = self
@@ -80,6 +80,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Initializing and setting pause and resume buttons
         self.addPauseAndResumeButtons()
+        
+        // Testing timer
+        var timer = Timer.addTimer(self)
+        
+        timer.zPosition = -1
+        timer.position = CGPoint(x: (self.size.width / 2) - (timer.size.width / 2), y: self.size.height - (2 * timer.size.height))
+        self.addChild(timer)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
