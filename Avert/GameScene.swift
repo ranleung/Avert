@@ -8,8 +8,6 @@
 
 import SpriteKit
 
-// this is a test comment
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
     // Menu properties
