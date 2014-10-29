@@ -129,9 +129,14 @@ class Shape {
             max = 1.5
         }
         
-        
-        
         var duration = self.random(min: min, max: max)
+        
+        switch self.side {
+        case .Left, .Right:
+            duration = (scene.size.width / scene.size.height) * duration
+        case .Up, .Down:
+            break
+        }
         
         let moveAction = SKAction.moveTo(destination, duration: NSTimeInterval(duration))
         let moveActionDone = SKAction.removeFromParent()
