@@ -8,6 +8,7 @@
 
 import SpriteKit
 import AVFoundation
+import AudioToolbox
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
@@ -49,18 +50,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let enemyCategory : UInt32 = 0x1 << 1
     var heroCategory : UInt32?
     
-    //Music properties
+    // Sound properties
     var audioPlayer : AVAudioPlayer?
+    var optionSelectedSound : SystemSoundID?
     
     // MARK: - Overwritten SKScene Methods
     
     override func didMoveToView(view: SKView) {
         
-        // sending reference of self to AppDelegate
+        // Sending reference of self to AppDelegate
         var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         appDelegate.gameScene = self
         
-        //keep view for addHero()
+        // Keep view for addHero()
         self.gameOverNode = GameOverNode(scene: self)
         self.helpNode = HelpScreen(scene: self)
         self.menuNode = MenuScreenNode(scene: self)
@@ -73,8 +75,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Initializing and setting pause and resume buttons
         self.addPauseAndResumeButtons()
         
-        //play music
+        // Play music
         self.playMusic()
+        
+        // Initialize menu sound effect
+        self.initializeOptionSelectedSound()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -251,11 +256,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
                 self.paused = false
+                AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("HelpButton Touched")
                 self.menuNode?.removeFromParent()
                 self.addHelpScreen()
+                AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
         }
     }
@@ -267,6 +274,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("BackButton Touched")
                 self.helpNode?.removeFromParent()
                 self.addMenuScreen()
+                AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
         }
     }
@@ -278,11 +286,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 println("New Game Touched")
                 self.gameOverNode?.removeFromParent()
                 self.addMenuScreen()
+                AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("Help Button Pressed")
                 self.gameOverNode?.removeFromParent()
                 self.addHelpScreen()
+                AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
         }
     }
@@ -298,6 +308,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.panGestureRecognizer.enabled = false
                     self.addChild(self.pausedLabel!)
                     self.pauseGame()
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
                 }
             }
         } else {
@@ -310,6 +321,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.panGestureRecognizer.enabled = true
                     self.pausedLabel?.removeFromParent()
                     self.pauseGame()
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
                 }
             }
         }
@@ -435,8 +447,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             self.audioPlayer?.prepareToPlay()
             self.audioPlayer?.numberOfLoops = -1
-            self.audioPlayer?.volume = 0
+            self.audioPlayer?.volume = 0.25
             self.audioPlayer?.play()
         }
+    }
+    
+    func initializeOptionSelectedSound() {
+        var soundID: SystemSoundID = 0
+        let soundURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(), "avert_select", "caf", nil)
+        AudioServicesCreateSystemSoundID(soundURL, &soundID)
+        println(soundID)
+        self.optionSelectedSound = soundID
     }
 }
