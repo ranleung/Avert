@@ -28,7 +28,7 @@ class Powerup: Shape {
     }
     
     func givePowerup(hero: SKSpriteNode, scene: GameScene) {
-        let randomPowerup = arc4random() % 3 + 1
+        let randomPowerup = arc4random() % 1 + 2
         switch self.team {
         case .Friend:
             switch randomPowerup {
@@ -64,7 +64,7 @@ class Powerup: Shape {
                     hero.yScale = 2.5
                 }
             case 2:
-                scene.points -= 500
+                scene.points -= 5000
                 println("New points: \(scene.points)")
             case 3:
                 self.swapPowerup(scene, team: ShapeTeam.Enemy)
