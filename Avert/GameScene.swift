@@ -44,6 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var squaresAcquired: UInt16 = 0
     var shapesArray = [Shape]()
     var pointsCounterLabel: SKLabelNode?
+    var pointsShouldIncrease = false
     
     // Contact properties
     let friendCategory : UInt32 = 0x1 << 0
@@ -101,40 +102,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.paused == false {
             self.pointsCounterLabel?.text = "Points: \(self.points)"
 
-            self.currentTime = currentTime
-            self.deltaTime = self.currentTime - self.previousTime
-            self.previousTime = currentTime
-            self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
-            var timeIntervalForPoints = 1.0
-            
-            switch self.squaresAcquired {
-            case 0...5:
-                timeIntervalForPoints = 1.0
-            case 6...10:
-                timeIntervalForPoints = 0.9
-            case 11...15:
-                timeIntervalForPoints = 0.8
-            case 16...20:
-                timeIntervalForPoints = 0.7
-            case 21...25:
-                timeIntervalForPoints = 0.6
-            case 26...30:
-                timeIntervalForPoints = 0.5
-            case 31...35:
-                timeIntervalForPoints = 0.4
-            case 36...40:
-                timeIntervalForPoints = 0.3
-            case 41...45:
-                timeIntervalForPoints = 0.2
-            case 46...50:
-                timeIntervalForPoints = 0.1
-            default:
-                timeIntervalForPoints = 0.1
-            }
-            if self.timeSincePointGiven > timeIntervalForPoints {
-                self.points += 1
-                self.timeSincePointGiven = 0
-                println("points: \(self.points)")
+            if self.pointsShouldIncrease != false {
+                self.currentTime = currentTime
+                self.deltaTime = self.currentTime - self.previousTime
+                self.previousTime = currentTime
+                self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
+                var timeIntervalForPoints = 1.0
+                
+                switch self.squaresAcquired {
+                case 0...5:
+                    timeIntervalForPoints = 1.0
+                case 6...10:
+                    timeIntervalForPoints = 0.9
+                case 11...15:
+                    timeIntervalForPoints = 0.8
+                case 16...20:
+                    timeIntervalForPoints = 0.7
+                case 21...25:
+                    timeIntervalForPoints = 0.6
+                case 26...30:
+                    timeIntervalForPoints = 0.5
+                case 31...35:
+                    timeIntervalForPoints = 0.4
+                case 36...40:
+                    timeIntervalForPoints = 0.3
+                case 41...45:
+                    timeIntervalForPoints = 0.2
+                case 46...50:
+                    timeIntervalForPoints = 0.1
+                default:
+                    timeIntervalForPoints = 0.1
+                }
+                if self.timeSincePointGiven > timeIntervalForPoints {
+                    self.points += 1
+                    self.timeSincePointGiven = 0
+                    println("points: \(self.points)")
+                }
             }
         }
         
@@ -261,6 +264,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.dimmingLayer?.removeFromParent()
                 self.paused = false
                 self.dimmingLayer?.removeFromParent()
+                self.pointsShouldIncrease = true
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("HelpButton Touched")
@@ -322,6 +326,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     println("Resume Touched")
                     self.dimmingLayer?.removeFromParent()
                     self.pauseGame()
+                    self.pointsShouldIncrease = true
                 }
             }
         }
@@ -390,11 +395,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     else {
                         self.pointsCounterLabel?.removeFromParent()
                         self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points)
-                        self.paused = true
+                        self.paused = false
                         self.pauseButton?.removeFromParent()
                         self.hero.removeFromParent()
                         self.points = 0
                         self.squaresAcquired = 0
+                        self.pointsShouldIncrease = false
                     }
                 }
             }
@@ -408,11 +414,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.addChild(self.resumeButton!)
                 self.panGestureRecognizer.enabled = false
                 self.addChild(self.pausedLabel!)
+                self.pointsShouldIncrease = true
             } else {
                 self.resumeButton?.removeFromParent()
                 self.addChild(self.pauseButton!)
                 self.panGestureRecognizer.enabled = true
                 self.pausedLabel?.removeFromParent()
+                self.pointsShouldIncrease = false
             }
             self.playerHasPaused = !self.playerHasPaused
             self.paused = self.playerHasPaused
