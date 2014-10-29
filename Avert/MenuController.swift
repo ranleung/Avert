@@ -20,6 +20,8 @@ class MenuController {
     var pausedLabel: SKLabelNode?
     var dimmingLayer: SKSpriteNode?
     var scoreLabel: SKLabelNode?
+    var soundOn: SKSpriteNode!
+    var soundOff: SKSpriteNode!
     
     init(scene: GameScene) {
         self.menuNode = MenuScreenNode(scene: scene)
@@ -27,8 +29,8 @@ class MenuController {
         
         self.pauseButton = SKSpriteNode(imageNamed: "PauseButton")
         self.resumeButton = SKSpriteNode(imageNamed: "PlayButton")
-        self.pauseButton?.position = CGPoint(x: scene.frame.width - self.pauseButton!.frame.width, y: scene.frame.height - self.pauseButton!.frame.height)
-        self.resumeButton?.position = CGPoint(x: scene.frame.width - self.resumeButton!.frame.width, y: scene.frame.height - self.resumeButton!.frame.height)
+        self.pauseButton?.position = CGPoint(x: scene.frame.width - self.pauseButton!.frame.width/2, y: scene.frame.height - self.pauseButton!.frame.height/2.5)
+        self.resumeButton?.position = CGPoint(x: scene.frame.width - self.pauseButton!.frame.width/2, y: scene.frame.height - self.pauseButton!.frame.height/2.5)
         self.pauseButton?.name = "PauseButton"
         self.resumeButton?.name = "PlayButton"
         self.pausedLabel = SKLabelNode(text: "Paused")
@@ -50,6 +52,23 @@ class MenuController {
         self.scoreLabel?.fontName = "Optima-Bold"
         self.scoreLabel?.fontSize = 20
         
+        self.soundOn = SKSpriteNode(imageNamed: "SoundOn")
+        self.soundOff = SKSpriteNode(imageNamed: "SoundOff")
+        self.soundOn.position = CGPoint(x: scene.frame.width - self.soundOn.frame.width/2, y: scene.frame.origin.y + self.soundOn.frame.height/2)
+        self.soundOff.position = CGPoint(x: scene.frame.width - self.soundOn.frame.width/2, y: scene.frame.origin.y + self.soundOn.frame.height/2)
+        self.soundOn?.name = "SoundOn"
+        self.soundOff?.name = "SoundOff"
+        self.soundOn.xScale = 0.35
+        self.soundOn.yScale = 0.35
+        self.soundOff.xScale = 0.35
+        self.soundOff.yScale = 0.35
+        self.soundOn.zPosition = 2.0
+        self.soundOff.zPosition = 2.0
+        
+        self.pauseButton?.xScale = 0.4
+        self.pauseButton?.yScale = 0.4
+        self.resumeButton?.xScale = 0.4
+        self.resumeButton?.yScale = 0.4
     }
     
     func addHelpScreen(scene: GameScene) {
@@ -57,6 +76,7 @@ class MenuController {
         scene.showHelpMenu = true
         scene.showMenu = false
         scene.addChild(self.dimmingLayer!)
+        self.removeSoundButtons(scene)
     }
     
     func addMenuScreen(scene: GameScene) {
@@ -64,6 +84,9 @@ class MenuController {
         scene.showHelpMenu = false
         scene.showMenu = true
         scene.addChild(self.dimmingLayer!)
+        if scene.soundOn?.parent == nil && scene.soundOff?.parent == nil {
+            self.addSoundButtons(scene, sound: scene.soundPlaying)
+        }
     }
     
     func generateGameOverScreen(scene: GameScene, score: UInt32) -> GameOverNode {
@@ -72,6 +95,25 @@ class MenuController {
         scene.showGameOver = true
         scene.showMenu = false
         scene.addChild(self.dimmingLayer!)
+        if scene.soundOn?.parent == nil && scene.soundOff?.parent == nil {
+            self.addSoundButtons(scene, sound: scene.soundPlaying)
+        }
         return self.gameOverNode!
+    }
+    
+    func addSoundButtons(scene: GameScene, sound: Bool) {
+        
+        if sound == true {
+            scene.addChild(scene.soundOn!)
+        } else {
+            scene.addChild(scene.soundOff!)
+        }
+    }
+    
+    func removeSoundButtons(scene: GameScene) {
+        
+        scene.soundOn?.removeFromParent()
+        scene.soundOff?.removeFromParent()
+        
     }
 }

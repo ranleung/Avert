@@ -56,6 +56,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var dimmingLayer: SKSpriteNode?
     var playerHasPaused = false
     
+    // Sounds Buttons
+    var soundOn: SKSpriteNode?
+    var soundOff: SKSpriteNode?
+    var soundPlaying = true
+    
     // MARK: - Overwritten SKScene Methods
     
     override func didMoveToView(view: SKView) {
@@ -74,8 +79,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.pausedLabel = self.menuController.pausedLabel
         self.dimmingLayer = self.menuController.dimmingLayer
         self.pointsCounterLabel = self.menuController.scoreLabel
+        self.soundOn = self.menuController.soundOn
+        self.soundOff = self.menuController.soundOff
         
         self.addChild(self.menuNode!)
+        self.addChild(self.soundOn!)
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.paused = true
@@ -95,6 +103,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.gameOverMenuHelper(touches)
         }
         self.pauseHelper(touches)
+        self.soundHelper(touches)
     }
 
     override func update(currentTime: CFTimeInterval) {
@@ -240,6 +249,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if nodeAtTouch?.name == "PlayButton" {
                 println("PlayButton Touched")
                 
+                self.menuController.removeSoundButtons(self)
+                
                 // Instantiate game
                 self.heroView = view
                 addHero()
@@ -314,6 +325,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     println("Pause Touched")
                     self.addChild(self.dimmingLayer!)
                     self.pauseGame()
+                    self.menuController.addSoundButtons(self, sound: self.soundPlaying)
                 }
             }
         } else {
@@ -323,6 +335,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     println("Resume Touched")
                     self.dimmingLayer?.removeFromParent()
                     self.pauseGame()
+                    self.menuController.removeSoundButtons(self)
+                }
+            }
+        }
+    }
+    
+    func soundHelper(touches: NSSet) {
+        if soundPlaying == true {
+            for touch in touches {
+                var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.soundOn!.parent))
+                if nodeAtTouch.name == "SoundOn" {
+                    println("SoundOn Touched")
+                    self.soundOn?.removeFromParent()
+                    self.addChild(self.soundOff!)
+                    self.soundPlaying = false
+                }
+            }
+        } else {
+            for touch in touches {
+                var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.soundOff!.parent))
+                if nodeAtTouch.name == "SoundOff" {
+                    println("SoundOff Touched")
+                    self.soundOff?.removeFromParent()
+                    self.addChild(self.soundOn!)
+                    self.soundPlaying = true
                 }
             }
         }
