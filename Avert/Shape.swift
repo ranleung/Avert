@@ -59,9 +59,9 @@ class Shape {
         
         switch self.team {
         case .Friend:
-            sprite.color = UIColor.blueColor()
+            sprite.color = UIColor(red: 0, green: 144/255, blue: 1, alpha: 1)
         case .Enemy:
-            sprite.color = UIColor.orangeColor()
+            sprite.color = UIColor(red: 1, green: 150/255, blue: 0, alpha: 1)
         }
         
         var destination: CGPoint!
@@ -129,9 +129,14 @@ class Shape {
             max = 1.5
         }
         
-        
-        
         var duration = self.random(min: min, max: max)
+        
+        switch self.side {
+        case .Left, .Right:
+            duration = (scene.size.width / scene.size.height) * duration
+        case .Up, .Down:
+            break
+        }
         
         let moveAction = SKAction.moveTo(destination, duration: NSTimeInterval(duration))
         let moveActionDone = SKAction.removeFromParent()
