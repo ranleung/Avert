@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		15BA3A251A01715D00FA7AB7 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA3A241A01715D00FA7AB7 /* Timer.swift */; };
+		15BA3A271A019E6300FA7AB7 /* Powerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA3A261A019E6300FA7AB7 /* Powerup.swift */; };
 		15E8D8CB1A000E4E007BFE60 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8D8CA1A000E4E007BFE60 /* Shape.swift */; };
-		15E8D8CF1A005359007BFE60 /* Powerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8D8CE1A005359007BFE60 /* Powerup.swift */; };
 		2823649919FEFDF5005318DD /* GameOverNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2823649819FEFDF5005318DD /* GameOverNode.swift */; };
 		2890953E19FEDAFE000AD9CB /* MenuScreenNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */; };
 		701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2819FECCC0005D63BE /* AppDelegate.swift */; };
@@ -34,8 +34,8 @@
 
 /* Begin PBXFileReference section */
 		15BA3A241A01715D00FA7AB7 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		15BA3A261A019E6300FA7AB7 /* Powerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Powerup.swift; sourceTree = "<group>"; };
 		15E8D8CA1A000E4E007BFE60 /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
-		15E8D8CE1A005359007BFE60 /* Powerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Powerup.swift; path = ../Powerup.swift; sourceTree = "<group>"; };
 		2823649819FEFDF5005318DD /* GameOverNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverNode.swift; sourceTree = "<group>"; };
 		2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScreenNode.swift; sourceTree = "<group>"; };
 		701E6A2319FECCC0005D63BE /* Avert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Avert.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,8 +105,8 @@
 				701E6A2819FECCC0005D63BE /* AppDelegate.swift */,
 				701E6A2C19FECCC0005D63BE /* GameScene.swift */,
 				15BA3A241A01715D00FA7AB7 /* Timer.swift */,
+				15BA3A261A019E6300FA7AB7 /* Powerup.swift */,
 				15E8D8CA1A000E4E007BFE60 /* Shape.swift */,
-				15E8D8CE1A005359007BFE60 /* Powerup.swift */,
 				701E6A2E19FECCC0005D63BE /* GameViewController.swift */,
 				28EDBB9B1A000CD200A8FD4F /* Menus */,
 				701E6A3019FECCC0005D63BE /* Main.storyboard */,
@@ -243,10 +243,10 @@
 			files = (
 				701E6A2D19FECCC0005D63BE /* GameScene.swift in Sources */,
 				701E6A2F19FECCC0005D63BE /* GameViewController.swift in Sources */,
-				15E8D8CF1A005359007BFE60 /* Powerup.swift in Sources */,
 				2890953E19FEDAFE000AD9CB /* MenuScreenNode.swift in Sources */,
 				701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */,
 				D59D200019FEF1BD00CDB93F /* HelpScreen.swift in Sources */,
+				15BA3A271A019E6300FA7AB7 /* Powerup.swift in Sources */,
 				15BA3A251A01715D00FA7AB7 /* Timer.swift in Sources */,
 				2823649919FEFDF5005318DD /* GameOverNode.swift in Sources */,
 				15E8D8CB1A000E4E007BFE60 /* Shape.swift in Sources */,
