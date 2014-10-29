@@ -8,9 +8,12 @@
 
 import SpriteKit
 
+// this is a test comment
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
     // Menu properties
+    var menuController: MenuController!
     var menuNode: MenuScreenNode?
     var helpNode: HelpScreen?
     var gameOverNode: GameOverNode?
@@ -42,11 +45,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var points: UInt32 = 0
     var squaresAcquired: UInt16 = 0
     var shapesArray = [Shape]()
+    var pointsCounterLabel: SKLabelNode?
     
     // Contact properties
     let friendCategory : UInt32 = 0x1 << 0
     let enemyCategory : UInt32 = 0x1 << 1
     var heroCategory : UInt32?
+    
+    // Dimming layer
+    var dimmingLayer: SKSpriteNode?
+    var playerHasPaused = false
     
     // MARK: - Overwritten SKScene Methods
     
@@ -57,17 +65,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         appDelegate.gameScene = self
         
         //keep view for addHero()
-        self.gameOverNode = GameOverNode(scene: self)
-        self.helpNode = HelpScreen(scene: self)
-        self.menuNode = MenuScreenNode(scene: self)
+        self.menuController = MenuController(scene: self)
+        
+        self.helpNode = self.menuController.helpNode
+        self.menuNode = self.menuController.menuNode
+        self.pauseButton = self.menuController.pauseButton
+        self.resumeButton = self.menuController.resumeButton
+        self.pausedLabel = self.menuController.pausedLabel
+        self.dimmingLayer = self.menuController.dimmingLayer
+        self.pointsCounterLabel = self.menuController.scoreLabel
+        
         self.addChild(self.menuNode!)
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.paused = true
         
-        
-        // Initializing and setting pause and resume buttons
-        self.addPauseAndResumeButtons()
+        self.registerAppTransitionEvents()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -120,6 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             if self.timeSincePointGiven > timeIntervalForPoints {
                 self.points += 1
+                self.pointsCounterLabel?.text = "Points: \(self.points)"
                 self.timeSincePointGiven = 0
                 println("points: \(self.points)")
             }
@@ -197,7 +211,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.addGestureRecognizer(panGestureRecognizer)
         self.addChild(self.hero)
 
-
     }
     
     func startSpawn () {
@@ -215,6 +228,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             friendShape.sprite?.physicsBody?.collisionBitMask = 0
             friendShape.sprite?.physicsBody?.categoryBitMask = friendCategory
             self.shapesArray.append(friendShape)
+            //self.addChild(self.dimmingLayer!)
         }
     }
     
@@ -230,6 +244,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.heroView = view
                 addHero()
                 
+                self.addChild(self.pointsCounterLabel!)
+                
                 if !self.shapesArray.isEmpty {
                     for shape in self.shapesArray {
                         shape.sprite?.removeFromParent()
@@ -243,12 +259,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.showGameOver = false
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
+                self.dimmingLayer?.removeFromParent()
                 self.paused = false
+                self.dimmingLayer?.removeFromParent()
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("HelpButton Touched")
+                self.dimmingLayer?.removeFromParent()
                 self.menuNode?.removeFromParent()
-                self.addHelpScreen()
+                //self.addHelpScreen()
+                self.menuController.addHelpScreen(self)
             }
         }
     }
@@ -259,7 +279,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if nodeAtTouch?.name == "BackButton" {
                 print("BackButton Touched")
                 self.helpNode?.removeFromParent()
-                self.addMenuScreen()
+                self.dimmingLayer?.removeFromParent()
+                //self.addMenuScreen()
+                self.menuController.addMenuScreen(self)
             }
         }
     }
@@ -270,12 +292,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if nodeAtTouch?.name == "NewGameButton" {
                 println("New Game Touched")
                 self.gameOverNode?.removeFromParent()
-                self.addMenuScreen()
+                self.dimmingLayer?.removeFromParent()
+                //self.addMenuScreen()
+                self.menuController.addMenuScreen(self)
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("Help Button Pressed")
                 self.gameOverNode?.removeFromParent()
-                self.addHelpScreen()
+                self.dimmingLayer?.removeFromParent()
+                //self.addHelpScreen()
+                self.menuController.addHelpScreen(self)
             }
         }
     }
@@ -286,10 +312,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.pauseButton!.parent))
                 if nodeAtTouch.name == "PauseButton" {
                     println("Pause Touched")
-                    self.pauseButton?.removeFromParent()
-                    self.addChild(self.resumeButton!)
-                    self.panGestureRecognizer.enabled = false
-                    self.addChild(self.pausedLabel!)
+                    self.addChild(self.dimmingLayer!)
                     self.pauseGame()
                 }
             }
@@ -298,48 +321,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.resumeButton!.parent))
                 if nodeAtTouch.name == "PlayButton" {
                     println("Resume Touched")
-                    self.resumeButton?.removeFromParent()
-                    self.addChild(self.pauseButton!)
-                    self.panGestureRecognizer.enabled = true
-                    self.pausedLabel?.removeFromParent()
+                    self.dimmingLayer?.removeFromParent()
                     self.pauseGame()
                 }
             }
         }
     }
     
-    func addHelpScreen() {
-        self.addChild(self.helpNode!)
-        self.showHelpMenu = true
-        self.showMenu = false
-    }
-    
-    func addMenuScreen() {
-        self.addChild(self.menuNode!)
-        self.showHelpMenu = false
-        self.showMenu = true
-    }
-    func addGameOverScreen() {
-        self.addChild(self.gameOverNode!)
-        self.showGameOver = true
-        self.showMenu = false
-    }
-    
-    func addPauseAndResumeButtons() {
-        self.pauseButton = SKSpriteNode(imageNamed: "PauseButton")
-        self.resumeButton = SKSpriteNode(imageNamed: "PlayButton")
-        self.pauseButton?.position = CGPoint(x: self.frame.width - self.pauseButton!.frame.width, y: self.frame.height - self.pauseButton!.frame.height)
-        self.resumeButton?.position = CGPoint(x: self.frame.width - self.resumeButton!.frame.width, y: self.frame.height - self.resumeButton!.frame.height)
-        self.pauseButton?.name = "PauseButton"
-        self.resumeButton?.name = "PlayButton"
-        self.pausedLabel = SKLabelNode(text: "Paused")
-        self.pausedLabel?.fontName = "Optima-Bold"
-        self.pausedLabel?.fontSize = 50
-        self.pausedLabel?.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
-        
-        }
-
-        
         // Check to see which body in the contact is the hero and shape
         //MARK: - Contact Delegate Methods
         
@@ -401,8 +389,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         shape.sprite?.removeFromParent()
                     }
                     else {
-                        self.addGameOverScreen()
+                        self.pointsCounterLabel?.removeFromParent()
+                        self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points)
+                        self.paused = false
+                        self.pauseButton?.removeFromParent()
                         self.hero.removeFromParent()
+                        self.points = 0
                     }
                 }
             }
@@ -410,6 +402,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func pauseGame() {
-        self.paused = !self.paused
+        if self.gameOverNode?.parent == nil && self.menuNode?.parent == nil && self.helpNode?.parent == nil {
+            if self.paused == false {
+                self.pauseButton?.removeFromParent()
+                self.addChild(self.resumeButton!)
+                self.panGestureRecognizer.enabled = false
+                self.addChild(self.pausedLabel!)
+            } else {
+                self.resumeButton?.removeFromParent()
+                self.addChild(self.pauseButton!)
+                self.panGestureRecognizer.enabled = true
+                self.pausedLabel?.removeFromParent()
+            }
+            self.playerHasPaused = !self.playerHasPaused
+            self.paused = self.playerHasPaused
+        }
     }
+    
+    func registerAppTransitionEvents() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillResignActive:", name: UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillEnterForeground:", name: UIApplicationWillEnterForegroundNotification, object: nil)
+    }
+    
+    func applicationWillResignActive(application: UIApplication) {
+        if self.playerHasPaused == true {
+            self.paused = self.playerHasPaused
+        }
+    }
+    
+    func applicationDidBecomeActive(application: UIApplication) {
+        if self.playerHasPaused == true {
+            self.paused = self.playerHasPaused
+        }
+    }
+    
+    func applicationDidEnterBackground(application: UIApplication) {
+        if self.playerHasPaused == true {
+            self.paused = self.playerHasPaused
+        }
+    }
+    
+    func applicationWillEnterForeground(application: UIApplication) {
+        if self.playerHasPaused == true {
+            self.paused = self.playerHasPaused
+        }
+    }
+    
 }
