@@ -16,7 +16,7 @@ class GameOverNode: SKNode {
     var scoreLabel: SKLabelNode!
     var font = "Optima-Bold"
     
-    init(scene: SKScene, score: UInt32) {
+    init(scene: SKScene, score: Int) {
         super.init()
         
         self.titleLabel = SKLabelNode(text: "Game Over")

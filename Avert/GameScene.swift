@@ -8,8 +8,6 @@
 
 import SpriteKit
 
-// this is a test comment
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
     // Menu properties
@@ -42,14 +40,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timeSincePointGiven = 0.0
     
     // Points properties
-    var points: UInt32 = 0
+    var points: Int = 0
     var squaresAcquired: UInt16 = 0
     var shapesArray = [Shape]()
     var pointsCounterLabel: SKLabelNode?
+    var pointsShouldIncrease = false
+    
+    // Powerups properties
+    var powerupsDictionary: [String: Powerup?] = ["Friend": nil, "Enemy": nil]
+    var timeSinceLastGoodPowerup = 1.0
+    var timeSinceLastBadPowerup = 0.0
+    var timeIntervalForGoodPowerup : Double?
+    var timeIntervalForBadPowerup : Double?
     
     // Contact properties
     let friendCategory : UInt32 = 0x1 << 0
     let enemyCategory : UInt32 = 0x1 << 1
+    let powerupCategory : UInt32 = 0x1 << 2
     var heroCategory : UInt32?
     
     // Dimming layer
@@ -64,7 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Overwritten SKScene Methods
     
     override func didMoveToView(view: SKView) {
-        
+    
         // sending reference of self to AppDelegate
         var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         appDelegate.gameScene = self
@@ -88,6 +95,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.paused = true
         
+        // Initializing powerup spawns
+        self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+        self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
+        
         self.registerAppTransitionEvents()
     }
     
@@ -110,42 +121,73 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         // Timer updates, currently unused
         if self.paused == false {
-            self.currentTime = currentTime
-            self.deltaTime = self.currentTime - self.previousTime
-            self.previousTime = currentTime
-            self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
-            var timeIntervalForPoints = 1.0
+            self.pointsCounterLabel?.text = "Points: \(self.points)"
+
+            if self.pointsShouldIncrease != false {
+                self.currentTime = currentTime
+                self.deltaTime = self.currentTime - self.previousTime
+                if self.deltaTime > 1 {
+                    self.deltaTime = 0
+                }
+                self.previousTime = currentTime
+                self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
+                self.timeSinceLastGoodPowerup = self.timeSinceLastGoodPowerup + self.deltaTime
+                self.timeSinceLastBadPowerup = self.timeSinceLastBadPowerup + self.deltaTime
+                var timeIntervalForPoints = 1.0
+                
+                switch self.squaresAcquired {
+                case 0...5:
+                    timeIntervalForPoints = 1.0
+                case 6...10:
+                    timeIntervalForPoints = 0.9
+                case 11...15:
+                    timeIntervalForPoints = 0.8
+                case 16...20:
+                    timeIntervalForPoints = 0.7
+                case 21...25:
+                    timeIntervalForPoints = 0.6
+                case 26...30:
+                    timeIntervalForPoints = 0.5
+                case 31...35:
+                    timeIntervalForPoints = 0.4
+                case 36...40:
+                    timeIntervalForPoints = 0.3
+                case 41...45:
+                    timeIntervalForPoints = 0.2
+                case 46...50:
+                    timeIntervalForPoints = 0.1
+                default:
+                    timeIntervalForPoints = 0.1
+                }
+                if self.timeSincePointGiven > timeIntervalForPoints {
+                    self.points += 1
+                    self.timeSincePointGiven = 0
+                }
+            }
             
-            switch self.squaresAcquired {
-            case 0...5:
-                timeIntervalForPoints = 1.0
-            case 6...10:
-                timeIntervalForPoints = 0.9
-            case 11...15:
-                timeIntervalForPoints = 0.8
-            case 16...20:
-                timeIntervalForPoints = 0.7
-            case 21...25:
-                timeIntervalForPoints = 0.6
-            case 26...30:
-                timeIntervalForPoints = 0.5
-            case 31...35:
-                timeIntervalForPoints = 0.4
-            case 36...40:
-                timeIntervalForPoints = 0.3
-            case 41...45:
-                timeIntervalForPoints = 0.2
-            case 46...50:
-                timeIntervalForPoints = 0.1
-            default:
-                timeIntervalForPoints = 0.1
+            if self.timeSinceLastGoodPowerup > timeIntervalForGoodPowerup {
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeSinceLastGoodPowerup = 0
+                let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Friend, scene: self, shapesAcquired: self.squaresAcquired)
+                spawnedPowerup.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: spawnedPowerup.sprite!.size)
+                spawnedPowerup.sprite?.physicsBody?.collisionBitMask = 0
+                spawnedPowerup.sprite?.physicsBody?.categoryBitMask = powerupCategory
+                self.powerupsDictionary["Friend"] = spawnedPowerup
+
+                
             }
-            if self.timeSincePointGiven > timeIntervalForPoints {
-                self.points += 1
-                self.pointsCounterLabel?.text = "Points: \(self.points)"
-                self.timeSincePointGiven = 0
-                println("points: \(self.points)")
+            
+            if self.timeSinceLastBadPowerup > timeIntervalForGoodPowerup {
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeSinceLastBadPowerup = 0
+                let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Enemy, scene: self, shapesAcquired: self.squaresAcquired)
+                spawnedPowerup.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: spawnedPowerup.sprite!.size)
+                spawnedPowerup.sprite?.physicsBody?.collisionBitMask = 0
+                spawnedPowerup.sprite?.physicsBody?.categoryBitMask = powerupCategory
+                self.powerupsDictionary["Enemy"] = spawnedPowerup
+                
             }
+            
         }
         
         for shape in shapesArray {
@@ -157,6 +199,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 shape.alive = true
             }
         }
+        
     }
     
     // MARK: - Control Methods
@@ -207,7 +250,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let heroSize = CGSize(width: heroSideLength, height: heroSideLength)
         self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: heroSize)
         self.hero.position = CGPointMake(self.heroView!.frame.width/2, self.heroView!.frame.height/2)
-        self.heroCategory = (self.friendCategory | self.enemyCategory)
+        self.heroCategory = (self.friendCategory | self.enemyCategory | self.powerupCategory)
         
         self.hero.physicsBody = SKPhysicsBody(rectangleOfSize: heroSize)
         self.hero.physicsBody?.collisionBitMask = 0
@@ -273,6 +316,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.dimmingLayer?.removeFromParent()
                 self.paused = false
                 self.dimmingLayer?.removeFromParent()
+                self.pointsShouldIncrease = true
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("HelpButton Touched")
@@ -360,6 +404,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.soundOff?.removeFromParent()
                     self.addChild(self.soundOn!)
                     self.soundPlaying = true
+                    self.pointsShouldIncrease = true
                 }
             }
         }
@@ -432,6 +477,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.pauseButton?.removeFromParent()
                         self.hero.removeFromParent()
                         self.points = 0
+                        self.squaresAcquired = 0
+                        self.pointsShouldIncrease = false
+                    }
+                }
+            }
+            for (team, powerup) in powerupsDictionary {
+                if powerup != nil {
+                    if shapeTouched == powerup!.sprite {
+                        powerup?.givePowerup(self.hero, scene: self)
+                        switch powerup!.team {
+                        case .Friend:
+                            self.powerupsDictionary["Friend"] = nil
+                        case .Enemy:
+                            self.powerupsDictionary["Enemy"] = nil
+                        }
+                        powerup?.sprite?.removeFromParent()
                     }
                 }
             }
@@ -445,11 +506,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.addChild(self.resumeButton!)
                 self.panGestureRecognizer.enabled = false
                 self.addChild(self.pausedLabel!)
+                self.pointsShouldIncrease = true
             } else {
                 self.resumeButton?.removeFromParent()
                 self.addChild(self.pauseButton!)
                 self.panGestureRecognizer.enabled = true
                 self.pausedLabel?.removeFromParent()
+                self.pointsShouldIncrease = false
             }
             self.playerHasPaused = !self.playerHasPaused
             self.paused = self.playerHasPaused
