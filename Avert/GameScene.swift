@@ -53,6 +53,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Dimming layer
     var dimmingLayer: SKSpriteNode?
     
+    var playerHasPaused = false
+    
     // MARK: - Overwritten SKScene Methods
     
     override func didMoveToView(view: SKView) {
@@ -71,11 +73,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.dimmingLayer = SKSpriteNode(color: UIColor.blackColor(), size: self.frame.size)
         self.dimmingLayer?.alpha = 0.5
+        self.dimmingLayer?.zPosition = 1.0
         self.dimmingLayer?.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
         
         
         // Initializing and setting pause and resume buttons
         self.addPauseAndResumeButtons()
+        
+        self.registerAppTransitionEvents()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -348,6 +353,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.pausedLabel?.fontName = "Optima-Bold"
         self.pausedLabel?.fontSize = 50
         self.pausedLabel?.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+        self.pauseButton?.zPosition = 2.0
+        self.resumeButton?.zPosition = 2.0
+        self.pausedLabel?.zPosition = 2.0
         
         }
 
@@ -386,17 +394,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func pauseGame() {
-        self.paused = !self.paused
-        if self.paused == false {
-            self.pauseButton?.removeFromParent()
-            self.addChild(self.resumeButton!)
-            self.panGestureRecognizer.enabled = false
-            self.addChild(self.pausedLabel!)
-        } else {
-            self.resumeButton?.removeFromParent()
-            self.addChild(self.pauseButton!)
-            self.panGestureRecognizer.enabled = true
-            self.pausedLabel?.removeFromParent()
+        if self.gameOverNode?.parent == nil && self.menuNode?.parent == nil && self.helpNode?.parent == nil {
+            if self.paused == false {
+                self.pauseButton?.removeFromParent()
+                self.addChild(self.resumeButton!)
+                self.panGestureRecognizer.enabled = false
+                self.addChild(self.pausedLabel!)
+            } else {
+                self.resumeButton?.removeFromParent()
+                self.addChild(self.pauseButton!)
+                self.panGestureRecognizer.enabled = true
+                self.pausedLabel?.removeFromParent()
+            }
+            self.playerHasPaused = !self.playerHasPaused
+            self.paused = self.playerHasPaused
+        }
+    }
+    
+    func registerAppTransitionEvents() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: UIApplicationDidBecomeActiveNotification, object: nil)
+    }
+    
+    func applicationDidBecomeActive(application: UIApplication) {
+        if self.playerHasPaused == true {
+            self.paused = self.playerHasPaused
+            println("a;lsdfj")
         }
     }
 }

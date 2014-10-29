@@ -48,6 +48,8 @@ class GameOverNode: SKNode {
         
         self.helpScreenLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) + (self.scoreLabel.frame.width / 2), y: CGRectGetMidY(scene.frame) - self.titleLabel.frame.height)
         self.addChild(self.helpScreenLabel)
+        
+        self.zPosition = 2.0
     }
     
     required init?(coder aDecoder: NSCoder) {
