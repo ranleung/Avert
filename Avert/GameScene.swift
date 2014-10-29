@@ -65,6 +65,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var dimmingLayer: SKSpriteNode?
     var playerHasPaused = false
     
+    // Sounds Buttons
+    var soundOn: SKSpriteNode?
+    var soundOff: SKSpriteNode?
+    var soundPlaying = true
     // Particle Emitter
     var particleEmitter: SKEmitterNode?
     
@@ -129,6 +133,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.pointsCounterLabel?.text = "Points: \(self.points)"
 
             if self.pointsShouldIncrease != false {
+                self.currentTime = currentTime
+                self.deltaTime = self.currentTime - self.previousTime
+                if self.deltaTime > 1 {
+                    self.deltaTime = 0
+                }
+                self.previousTime = currentTime
                 self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
                 self.timeSinceLastGoodPowerup = self.timeSinceLastGoodPowerup + self.deltaTime
                 self.timeSinceLastBadPowerup = self.timeSinceLastBadPowerup + self.deltaTime
