@@ -12,10 +12,10 @@
 		2890953E19FEDAFE000AD9CB /* MenuScreenNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */; };
 		6B49FD4E1A015A8300AA100F /* avertmusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD4D1A015A8300AA100F /* avertmusic.mp3 */; };
 		6B49FD561A01604000AA100F /* avert_collect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD511A01604000AA100F /* avert_collect.mp3 */; };
-		6B49FD571A01604000AA100F /* avert_death.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD521A01604000AA100F /* avert_death.mp3 */; };
 		6B49FD581A01604000AA100F /* avert_powerdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD531A01604000AA100F /* avert_powerdown.mp3 */; };
 		6B49FD591A01604000AA100F /* avert_powerup.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD541A01604000AA100F /* avert_powerup.mp3 */; };
 		6B49FD5A1A01604000AA100F /* avert_select.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD551A01604000AA100F /* avert_select.mp3 */; };
+		6B49FD5C1A01653000AA100F /* avert_death.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD5B1A01653000AA100F /* avert_death.mp3 */; };
 		701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2819FECCC0005D63BE /* AppDelegate.swift */; };
 		701E6A2D19FECCC0005D63BE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2C19FECCC0005D63BE /* GameScene.swift */; };
 		701E6A2F19FECCC0005D63BE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2E19FECCC0005D63BE /* GameViewController.swift */; };
@@ -43,10 +43,10 @@
 		6B49FD4C1A01593E00AA100F /* avertmusic.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = avertmusic.aif; sourceTree = "<group>"; };
 		6B49FD4D1A015A8300AA100F /* avertmusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avertmusic.mp3; sourceTree = "<group>"; };
 		6B49FD511A01604000AA100F /* avert_collect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_collect.mp3; sourceTree = "<group>"; };
-		6B49FD521A01604000AA100F /* avert_death.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_death.mp3; sourceTree = "<group>"; };
 		6B49FD531A01604000AA100F /* avert_powerdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_powerdown.mp3; sourceTree = "<group>"; };
 		6B49FD541A01604000AA100F /* avert_powerup.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_powerup.mp3; sourceTree = "<group>"; };
 		6B49FD551A01604000AA100F /* avert_select.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_select.mp3; sourceTree = "<group>"; };
+		6B49FD5B1A01653000AA100F /* avert_death.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_death.mp3; sourceTree = "<group>"; };
 		701E6A2319FECCC0005D63BE /* Avert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Avert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		701E6A2719FECCC0005D63BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		701E6A2819FECCC0005D63BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -129,8 +129,8 @@
 				701E6A2719FECCC0005D63BE /* Info.plist */,
 				6B49FD4C1A01593E00AA100F /* avertmusic.aif */,
 				6B49FD4D1A015A8300AA100F /* avertmusic.mp3 */,
+				6B49FD5B1A01653000AA100F /* avert_death.mp3 */,
 				6B49FD511A01604000AA100F /* avert_collect.mp3 */,
-				6B49FD521A01604000AA100F /* avert_death.mp3 */,
 				6B49FD531A01604000AA100F /* avert_powerdown.mp3 */,
 				6B49FD541A01604000AA100F /* avert_powerup.mp3 */,
 				6B49FD551A01604000AA100F /* avert_select.mp3 */,
@@ -237,8 +237,8 @@
 			files = (
 				6B49FD591A01604000AA100F /* avert_powerup.mp3 in Resources */,
 				701E6A3719FECCC0005D63BE /* LaunchScreen.xib in Resources */,
+				6B49FD5C1A01653000AA100F /* avert_death.mp3 in Resources */,
 				701E6A3419FECCC0005D63BE /* Images.xcassets in Resources */,
-				6B49FD571A01604000AA100F /* avert_death.mp3 in Resources */,
 				701E6A3219FECCC0005D63BE /* Main.storyboard in Resources */,
 				6B49FD561A01604000AA100F /* avert_collect.mp3 in Resources */,
 				6B49FD4E1A015A8300AA100F /* avertmusic.mp3 in Resources */,

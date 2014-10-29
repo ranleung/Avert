@@ -434,7 +434,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             self.audioPlayer?.prepareToPlay()
             self.audioPlayer?.numberOfLoops = -1
-            self.audioPlayer?.volume = 1.0
+            self.audioPlayer?.volume = 0.6
             self.audioPlayer?.play()
         }
     }
