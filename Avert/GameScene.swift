@@ -8,8 +8,6 @@
 
 import SpriteKit
 
-// this is a test comment
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
     // Menu properties
@@ -101,6 +99,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         // Timer updates, currently unused
         if self.paused == false {
+            self.pointsCounterLabel?.text = "Points: \(self.points)"
+
             self.currentTime = currentTime
             self.deltaTime = self.currentTime - self.previousTime
             self.previousTime = currentTime
@@ -133,7 +133,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             if self.timeSincePointGiven > timeIntervalForPoints {
                 self.points += 1
-                self.pointsCounterLabel?.text = "Points: \(self.points)"
                 self.timeSincePointGiven = 0
                 println("points: \(self.points)")
             }
@@ -391,10 +390,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     else {
                         self.pointsCounterLabel?.removeFromParent()
                         self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points)
-                        self.paused = false
+                        self.paused = true
                         self.pauseButton?.removeFromParent()
                         self.hero.removeFromParent()
                         self.points = 0
+                        self.squaresAcquired = 0
                     }
                 }
             }
