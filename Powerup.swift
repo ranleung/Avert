@@ -22,4 +22,7 @@ class Powerup: Shape {
         return Powerup.OriginSide.allValues[Int(randomIndex)]
     }
     
+    func givePowerup(hero: SKSpriteNode) {
+        
+    }
 }

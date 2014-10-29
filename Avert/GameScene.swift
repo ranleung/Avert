@@ -44,13 +44,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var shapesArray = [Shape]()
     
     // Powerups properties
-    var powerupsArray = [Powerup]()
+    var powerupsDictionary: [String: Powerup?] = ["Friend": nil, "Enemy": nil]
     var timeSinceLastPowerup = 0.0
     var timeIntervalForPowerups : Double?
     
     // Contact properties
     let friendCategory : UInt32 = 0x1 << 0
     let enemyCategory : UInt32 = 0x1 << 1
+    let powerupCategory : UInt32 = 0x1 << 2
     var heroCategory : UInt32?
     
     // MARK: - Overwritten SKScene Methods
@@ -98,6 +99,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.paused == false {
             self.currentTime = currentTime
             self.deltaTime = self.currentTime - self.previousTime
+            if self.deltaTime > 1 {
+                self.deltaTime = 0
+            }
             self.previousTime = currentTime
             self.timeSinceLastPowerup = self.timeSinceLastPowerup + self.deltaTime
             self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
@@ -136,10 +140,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             if self.timeSinceLastPowerup > timeIntervalForPowerups {
-                self.timeIntervalForPowerups = Double(Float(arc4random() % 5) + 5)
+                self.timeIntervalForPowerups = Double(Float(arc4random() % 5) + 4)
                 self.timeSinceLastPowerup = 0
                 let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Friend, scene: self)
-                self.powerupsArray.append(spawnedPowerup)
+                spawnedPowerup.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: spawnedPowerup.sprite!.size)
+                spawnedPowerup.sprite?.physicsBody?.collisionBitMask = 0
+                spawnedPowerup.sprite?.physicsBody?.categoryBitMask = powerupCategory
+                switch spawnedPowerup.team {
+                case .Friend:
+                    self.powerupsDictionary["Friend"] = spawnedPowerup
+                case .Enemy:
+                    self.powerupsDictionary["Enemy"] = spawnedPowerup
+                }
+                
             }
             
         }
@@ -204,7 +217,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let heroSize = CGSize(width: heroSideLength, height: heroSideLength)
         self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: heroSize)
         self.hero.position = CGPointMake(self.heroView!.frame.width/2, self.heroView!.frame.height/2)
-        self.heroCategory = (self.friendCategory | self.enemyCategory)
+        self.heroCategory = (self.friendCategory | self.enemyCategory | self.powerupCategory)
         
         self.hero.physicsBody = SKPhysicsBody(rectangleOfSize: heroSize)
         self.hero.physicsBody?.collisionBitMask = 0
@@ -384,6 +397,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     else {
                         self.addGameOverScreen()
                         self.hero.removeFromParent()
+                    }
+                }
+            }
+            for (team, powerup) in powerupsDictionary {
+                if powerup != nil {
+                    if shapeTouched == powerup!.sprite {
+                        powerup?.givePowerup()
+                        switch powerup!.team {
+                        case .Friend:
+                            self.powerupsDictionary["Friend"] = nil
+                        case .Enemy:
+                            self.powerupsDictionary["Enemy"] = nil
+                        }
+                        powerup?.sprite?.removeFromParent()
                     }
                 }
             }
