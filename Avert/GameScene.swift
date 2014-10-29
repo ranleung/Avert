@@ -42,15 +42,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerIsDead = false
     
     // Points properties
-    var points: UInt32 = 0
+    var points: Int = 0
     var squaresAcquired: UInt16 = 0
     var shapesArray = [Shape]()
     var pointsCounterLabel: SKLabelNode?
     var pointsShouldIncrease = false
     
+    // Powerups properties
+    var powerupsDictionary: [String: Powerup?] = ["Friend": nil, "Enemy": nil]
+    var timeSinceLastGoodPowerup = 1.0
+    var timeSinceLastBadPowerup = 0.0
+    var timeIntervalForGoodPowerup : Double?
+    var timeIntervalForBadPowerup : Double?
+    
     // Contact properties
     let friendCategory : UInt32 = 0x1 << 0
     let enemyCategory : UInt32 = 0x1 << 1
+    let powerupCategory : UInt32 = 0x1 << 2
     var heroCategory : UInt32?
     
     // Dimming layer
@@ -64,7 +72,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Overwritten SKScene Methods
     
     override func didMoveToView(view: SKView) {
-        
+    
         // sending reference of self to AppDelegate
         var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         appDelegate.gameScene = self
@@ -79,12 +87,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.pausedLabel = self.menuController.pausedLabel
         self.dimmingLayer = self.menuController.dimmingLayer
         self.pointsCounterLabel = self.menuController.scoreLabel
+        self.soundOn = self.menuController.soundOn
+        self.soundOff = self.menuController.soundOff
         
         self.addChild(self.menuNode!)
+        self.addChild(self.soundOn!)
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.paused = true
         println(self.deathTimer)
+        
+        // Initializing powerup spawns
+        self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+        self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
         
         self.registerAppTransitionEvents()
     }
@@ -101,6 +116,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.gameOverMenuHelper(touches)
         }
         self.pauseHelper(touches)
+        self.soundHelper(touches)
     }
 
     override func update(currentTime: CFTimeInterval) {
@@ -114,6 +130,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             if self.pointsShouldIncrease != false {
                 self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
+                self.timeSinceLastGoodPowerup = self.timeSinceLastGoodPowerup + self.deltaTime
+                self.timeSinceLastBadPowerup = self.timeSinceLastBadPowerup + self.deltaTime
                 var timeIntervalForPoints = 1.0
                 
                 switch self.squaresAcquired {
@@ -143,9 +161,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if self.timeSincePointGiven > timeIntervalForPoints {
                     self.points += 1
                     self.timeSincePointGiven = 0
-                    println("points: \(self.points)")
                 }
             }
+            
+            if self.timeSinceLastGoodPowerup > timeIntervalForGoodPowerup {
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeSinceLastGoodPowerup = 0
+                let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Friend, scene: self, shapesAcquired: self.squaresAcquired)
+                spawnedPowerup.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: spawnedPowerup.sprite!.size)
+                spawnedPowerup.sprite?.physicsBody?.collisionBitMask = 0
+                spawnedPowerup.sprite?.physicsBody?.categoryBitMask = powerupCategory
+                self.powerupsDictionary["Friend"] = spawnedPowerup
+
+                
+            }
+            
+            if self.timeSinceLastBadPowerup > timeIntervalForGoodPowerup {
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeSinceLastBadPowerup = 0
+                let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Enemy, scene: self, shapesAcquired: self.squaresAcquired)
+                spawnedPowerup.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: spawnedPowerup.sprite!.size)
+                spawnedPowerup.sprite?.physicsBody?.collisionBitMask = 0
+                spawnedPowerup.sprite?.physicsBody?.categoryBitMask = powerupCategory
+                self.powerupsDictionary["Enemy"] = spawnedPowerup
+                
+            }
+            
         }
         
         
@@ -160,6 +201,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 shape.alive = true
             }
         }
+        
     }
     
     // MARK: - Control Methods
@@ -210,7 +252,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let heroSize = CGSize(width: heroSideLength, height: heroSideLength)
         self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: heroSize)
         self.hero.position = CGPointMake(self.heroView!.frame.width/2, self.heroView!.frame.height/2)
-        self.heroCategory = (self.friendCategory | self.enemyCategory)
+        self.heroCategory = (self.friendCategory | self.enemyCategory | self.powerupCategory)
         
         self.hero.physicsBody = SKPhysicsBody(rectangleOfSize: heroSize)
         self.hero.physicsBody?.collisionBitMask = 0
@@ -251,6 +293,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var nodeAtTouch = self.menuNode?.nodeAtPoint(touch.locationInNode(self.menuNode))
             if nodeAtTouch?.name == "PlayButton" {
                 println("PlayButton Touched")
+                
+                self.menuController.removeSoundButtons(self)
                 
                 // Instantiate game
                 self.heroView = view
@@ -322,6 +366,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     println("Pause Touched")
                     self.addChild(self.dimmingLayer!)
                     self.pauseGame()
+                    self.menuController.addSoundButtons(self, sound: self.soundPlaying)
                 }
             }
         } else {
@@ -331,6 +376,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     println("Resume Touched")
                     self.dimmingLayer?.removeFromParent()
                     self.pauseGame()
+                    self.menuController.removeSoundButtons(self)
+                }
+            }
+        }
+    }
+    
+    func soundHelper(touches: NSSet) {
+        if soundPlaying == true {
+            for touch in touches {
+                var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.soundOn!.parent))
+                if nodeAtTouch.name == "SoundOn" {
+                    println("SoundOn Touched")
+                    self.soundOn?.removeFromParent()
+                    self.addChild(self.soundOff!)
+                    self.soundPlaying = false
+                }
+            }
+        } else {
+            for touch in touches {
+                var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.soundOff!.parent))
+                if nodeAtTouch.name == "SoundOff" {
+                    println("SoundOff Touched")
+                    self.soundOff?.removeFromParent()
+                    self.addChild(self.soundOn!)
+                    self.soundPlaying = true
                     self.pointsShouldIncrease = true
                 }
             }
@@ -412,6 +482,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.squaresAcquired = 0
                         self.pointsShouldIncrease = false
                         self.playerIsDead = false
+                    }
+                }
+            }
+            for (team, powerup) in powerupsDictionary {
+                if powerup != nil {
+                    if shapeTouched == powerup!.sprite {
+                        powerup?.givePowerup(self.hero, scene: self)
+                        switch powerup!.team {
+                        case .Friend:
+                            self.powerupsDictionary["Friend"] = nil
+                        case .Enemy:
+                            self.powerupsDictionary["Enemy"] = nil
+                        }
+                        powerup?.sprite?.removeFromParent()
                     }
                 }
             }
