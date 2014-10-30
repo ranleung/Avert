@@ -70,6 +70,13 @@ class MenuController {
         self.pauseButton?.yScale = 0.3
         self.resumeButton?.xScale = 0.3
         self.resumeButton?.yScale = 0.3
+        
+        self.gameCenterButton = SKSpriteNode(imageNamed: "GameCenter")
+        self.gameCenterButton.name = "GameCenterButton"
+        self.gameCenterButton.position = CGPoint(x: scene.frame.origin.x + self.gameCenterButton.frame.width/4, y: scene.frame.origin.y + self.gameCenterButton.frame.height/4)
+        self.gameCenterButton.xScale = 0.35
+        self.gameCenterButton.yScale = 0.35
+        self.gameCenterButton.zPosition = 2.0
     }
     
     func addHelpScreen(scene: GameScene) {
