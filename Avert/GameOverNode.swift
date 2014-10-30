@@ -14,6 +14,8 @@ class GameOverNode: SKNode {
     var newGameLabel: SKLabelNode!
     var helpScreenLabel: SKLabelNode!
     var scoreLabel: SKLabelNode!
+    var highScoreLabel: SKLabelNode!
+    var highSquaresLabel: SKLabelNode!
     var font = "Optima-Bold"
     
     init(scene: SKScene, score: Int) {
@@ -48,6 +50,21 @@ class GameOverNode: SKNode {
         
         self.helpScreenLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) + (self.scoreLabel.frame.width / 2), y: CGRectGetMidY(scene.frame) - self.titleLabel.frame.height)
         self.addChild(self.helpScreenLabel)
+        
+        
+        self.highScoreLabel = SKLabelNode(text: "High Score: \(UserDefaultsController.returnHighScore())")
+        self.highScoreLabel.fontName = self.font
+        self.highScoreLabel.fontSize = 20
+        
+        self.highScoreLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame) + self.highScoreLabel.frame.height * 3)
+        self.addChild(self.highScoreLabel)
+        
+        self.highSquaresLabel = SKLabelNode(text: "High Score: \(UserDefaultsController.returnHighSquares())")
+        self.highSquaresLabel.fontName = self.font
+        self.highSquaresLabel.fontSize = 20
+        
+        self.highSquaresLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame) + self.highSquaresLabel.frame.height * 4)
+        self.addChild(self.highSquaresLabel)
         
         self.zPosition = 2.0
     }

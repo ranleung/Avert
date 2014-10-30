@@ -12,15 +12,16 @@
 		15BA3A271A019E6300FA7AB7 /* Powerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA3A261A019E6300FA7AB7 /* Powerup.swift */; };
 		15E8D8CB1A000E4E007BFE60 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8D8CA1A000E4E007BFE60 /* Shape.swift */; };
 		2823649919FEFDF5005318DD /* GameOverNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2823649819FEFDF5005318DD /* GameOverNode.swift */; };
+		284F2FDF1A02AD9B00F3F246 /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F2FDE1A02AD9B00F3F246 /* UserDefaultsController.swift */; };
 		286F95DF1A017E7B0085C1E6 /* DeathParticleEmitter.sks in Resources */ = {isa = PBXBuildFile; fileRef = 286F95DD1A017E7B0085C1E6 /* DeathParticleEmitter.sks */; };
 		286F95E01A017E7B0085C1E6 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 286F95DE1A017E7B0085C1E6 /* spark.png */; };
 		2890953E19FEDAFE000AD9CB /* MenuScreenNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */; };
+		28A5B10D1A016343005911B8 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5B10C1A016343005911B8 /* MenuController.swift */; };
 		6B49FD4E1A015A8300AA100F /* avertmusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD4D1A015A8300AA100F /* avertmusic.mp3 */; };
 		6B49FD561A01604000AA100F /* avert_collect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD511A01604000AA100F /* avert_collect.mp3 */; };
 		6B49FD581A01604000AA100F /* avert_powerdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD531A01604000AA100F /* avert_powerdown.mp3 */; };
 		6B49FD591A01604000AA100F /* avert_powerup.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD541A01604000AA100F /* avert_powerup.mp3 */; };
 		6B49FD5C1A01653000AA100F /* avert_death.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD5B1A01653000AA100F /* avert_death.mp3 */; };
-		28A5B10D1A016343005911B8 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A5B10C1A016343005911B8 /* MenuController.swift */; };
 		701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2819FECCC0005D63BE /* AppDelegate.swift */; };
 		701E6A2D19FECCC0005D63BE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2C19FECCC0005D63BE /* GameScene.swift */; };
 		701E6A2F19FECCC0005D63BE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2E19FECCC0005D63BE /* GameViewController.swift */; };
@@ -47,16 +48,17 @@
 		15BA3A261A019E6300FA7AB7 /* Powerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Powerup.swift; sourceTree = "<group>"; };
 		15E8D8CA1A000E4E007BFE60 /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		2823649819FEFDF5005318DD /* GameOverNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverNode.swift; sourceTree = "<group>"; };
+		284F2FDE1A02AD9B00F3F246 /* UserDefaultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsController.swift; sourceTree = "<group>"; };
 		286F95DD1A017E7B0085C1E6 /* DeathParticleEmitter.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DeathParticleEmitter.sks; sourceTree = "<group>"; };
 		286F95DE1A017E7B0085C1E6 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScreenNode.swift; sourceTree = "<group>"; };
+		28A5B10C1A016343005911B8 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		6B49FD4C1A01593E00AA100F /* avertmusic.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = avertmusic.aif; sourceTree = "<group>"; };
 		6B49FD4D1A015A8300AA100F /* avertmusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avertmusic.mp3; sourceTree = "<group>"; };
 		6B49FD511A01604000AA100F /* avert_collect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_collect.mp3; sourceTree = "<group>"; };
 		6B49FD531A01604000AA100F /* avert_powerdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_powerdown.mp3; sourceTree = "<group>"; };
 		6B49FD541A01604000AA100F /* avert_powerup.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_powerup.mp3; sourceTree = "<group>"; };
 		6B49FD5B1A01653000AA100F /* avert_death.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_death.mp3; sourceTree = "<group>"; };
-		28A5B10C1A016343005911B8 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		701E6A2319FECCC0005D63BE /* Avert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Avert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		701E6A2719FECCC0005D63BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		701E6A2819FECCC0005D63BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				28A5B10C1A016343005911B8 /* MenuController.swift */,
 				15E8D8CA1A000E4E007BFE60 /* Shape.swift */,
 				701E6A2E19FECCC0005D63BE /* GameViewController.swift */,
+				284F2FDE1A02AD9B00F3F246 /* UserDefaultsController.swift */,
 				28EDBB9B1A000CD200A8FD4F /* Menus */,
 				701E6A3019FECCC0005D63BE /* Main.storyboard */,
 				701E6A3319FECCC0005D63BE /* Images.xcassets */,
@@ -279,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28A5B10D1A016343005911B8 /* MenuController.swift in Sources */,
+				284F2FDF1A02AD9B00F3F246 /* UserDefaultsController.swift in Sources */,
 				701E6A2D19FECCC0005D63BE /* GameScene.swift in Sources */,
 				701E6A2F19FECCC0005D63BE /* GameViewController.swift in Sources */,
 				2890953E19FEDAFE000AD9CB /* MenuScreenNode.swift in Sources */,
