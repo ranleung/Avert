@@ -59,7 +59,7 @@ class GameOverNode: SKNode {
         self.highScoreLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame) + self.highScoreLabel.frame.height * 3)
         self.addChild(self.highScoreLabel)
         
-        self.highSquaresLabel = SKLabelNode(text: "High Score: \(UserDefaultsController.returnHighSquares())")
+        self.highSquaresLabel = SKLabelNode(text: "High Squares: \(UserDefaultsController.returnHighSquares())")
         self.highSquaresLabel.fontName = self.font
         self.highSquaresLabel.fontSize = 20
         

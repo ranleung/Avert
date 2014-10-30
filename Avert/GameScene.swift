@@ -522,7 +522,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.paused = false
                         self.pauseButton?.removeFromParent()
                         self.hero.removeFromParent()
-                        
                         self.points = 0
                         self.squaresAcquired = 0
                         self.pointsShouldIncrease = false
