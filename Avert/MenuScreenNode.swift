@@ -42,9 +42,12 @@ class MenuScreenNode: SKNode {
         
         self.helpButton.position = CGPoint(x: CGRectGetMidX(scene.frame) + (self.titleLabel.frame.width / 3) , y: CGRectGetMidY(scene.frame) - self.titleLabel.frame.height)
         self.addChild(self.helpButton)
+        
+        self.zPosition = 2.0
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         fatalError("init(coder:) has not been implemented")
     }
+
 }

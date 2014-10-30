@@ -16,6 +16,7 @@ class Shape {
     var alive = true
     var scene : SKScene
     var contactCategory : UInt32?
+    var originalTeam : ShapeTeam
     
     enum OriginSide {
         case Up, Down, Left, Right
@@ -24,12 +25,14 @@ class Shape {
     
     enum ShapeTeam {
         case Friend, Enemy
+        static let allValues = [Friend, Enemy]
     }
     
     init(side: OriginSide, team: ShapeTeam, scene: SKScene) {
         self.side = side
         self.team = team
         self.scene = scene
+        self.originalTeam = team
     }
     
     
@@ -46,7 +49,7 @@ class Shape {
     // MARK: - Spawning Methods
     
     class func spawnShape (squaresAcquired: UInt16, originSide: OriginSide, team: ShapeTeam, scene: SKScene) -> Shape {
-        let shape = Shape(side: originSide, team: team, scene: scene)
+        var shape = Shape(side: originSide, team: team, scene: scene)
         shape.spawnSprite(squaresAcquired)
         return shape
     }
@@ -59,9 +62,9 @@ class Shape {
         
         switch self.team {
         case .Friend:
-            sprite.color = UIColor.blueColor()
+            sprite.color = UIColor(red: 0, green: 144/255, blue: 1, alpha: 1)
         case .Enemy:
-            sprite.color = UIColor.orangeColor()
+            sprite.color = UIColor(red: 1, green: 150/255, blue: 0, alpha: 1)
         }
         
         var destination: CGPoint!
@@ -129,9 +132,14 @@ class Shape {
             max = 1.5
         }
         
-        
-        
         var duration = self.random(min: min, max: max)
+        
+        switch self.side {
+        case .Left, .Right:
+            duration = (scene.size.width / scene.size.height) * duration
+        case .Up, .Down:
+            break
+        }
         
         let moveAction = SKAction.moveTo(destination, duration: NSTimeInterval(duration))
         let moveActionDone = SKAction.removeFromParent()
@@ -142,6 +150,21 @@ class Shape {
         sprite.runAction(SKAction.sequence([moveAction, respawnAction, moveActionDone]))
 
         self.sprite = sprite
+    }
+    
+    func switchTeam (scene: GameScene) {
+        switch self.team {
+            
+        case .Friend:
+            self.team = Shape.ShapeTeam.Enemy
+            self.sprite?.color = UIColor(red: 1, green: 150/255, blue: 0, alpha: 1)
+            self.sprite?.physicsBody?.categoryBitMask = scene.enemyCategory
+            
+        case .Enemy:
+            self.team = Shape.ShapeTeam.Friend
+            self.sprite?.color = UIColor(red: 0, green: 144/255, blue: 1, alpha: 1)
+            self.sprite?.physicsBody?.categoryBitMask = scene.friendCategory
+        }
     }
     
 }

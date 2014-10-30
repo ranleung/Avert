@@ -94,6 +94,8 @@ class HelpScreen: SKNode {
         self.fourthRuleLabel.fontSize = 15
         self.fourthRuleLabel.position = CGPoint(x: self.rulesTitleLabel.position.x, y: self.thirdRuleLabelLine2.frame.origin.y - self.fourthRuleLabel.frame.height * 1.5)
         self.addChild(self.fourthRuleLabel)
+        
+        self.zPosition = 2.0
     }
 
     required init?(coder aDecoder: NSCoder) {

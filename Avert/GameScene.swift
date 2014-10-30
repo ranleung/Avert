@@ -13,6 +13,7 @@ import AudioToolbox
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
     // Menu properties
+    var menuController: MenuController!
     var menuNode: MenuScreenNode?
     var helpNode: HelpScreen?
     var gameOverNode: GameOverNode?
@@ -39,47 +40,82 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var deltaTime = 0.0
     var timeSinceLastSpawn = 0.0
     var timeSincePointGiven = 0.0
+    var deathTimer = 0.0
+    var playerIsDead = false
     
     // Points properties
-    var points: UInt32 = 0
+    var points: Int = 0
     var squaresAcquired: UInt16 = 0
     var shapesArray = [Shape]()
+    var pointsCounterLabel: SKLabelNode?
+    var pointsShouldIncrease = false
+    
+    // Powerups properties
+    var powerupsDictionary: [String: Powerup?] = ["Friend": nil, "Enemy": nil]
+    var timeSinceLastGoodPowerup = 1.0
+    var timeSinceLastBadPowerup = 0.0
+    var timeIntervalForGoodPowerup : Double?
+    var timeIntervalForBadPowerup : Double?
     
     // Contact properties
     let friendCategory : UInt32 = 0x1 << 0
     let enemyCategory : UInt32 = 0x1 << 1
+    let powerupCategory : UInt32 = 0x1 << 2
     var heroCategory : UInt32?
     
     // Sound properties
     var audioPlayer : AVAudioPlayer?
     var optionSelectedSound : SystemSoundID?
+
+    // Dimming layer
+    var dimmingLayer: SKSpriteNode?
+    var playerHasPaused = false
+    
+    // Sounds Buttons
+    var soundOn: SKSpriteNode?
+    var soundOff: SKSpriteNode?
+    var soundPlaying = true
+    
+    // Particle Emitter
+    var particleEmitter: SKEmitterNode?
     
     // MARK: - Overwritten SKScene Methods
     
     override func didMoveToView(view: SKView) {
-        
-        // Sending reference of self to AppDelegate
+
+        // sending reference of self to AppDelegate
         var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         appDelegate.gameScene = self
         
-        // Keep view for addHero()
-        self.gameOverNode = GameOverNode(scene: self)
-        self.helpNode = HelpScreen(scene: self)
-        self.menuNode = MenuScreenNode(scene: self)
+        //keep view for addHero()
+        self.menuController = MenuController(scene: self)
+        
+        self.helpNode = self.menuController.helpNode
+        self.menuNode = self.menuController.menuNode
+        self.pauseButton = self.menuController.pauseButton
+        self.resumeButton = self.menuController.resumeButton
+        self.pausedLabel = self.menuController.pausedLabel
+        self.dimmingLayer = self.menuController.dimmingLayer
+        self.pointsCounterLabel = self.menuController.scoreLabel
+        self.soundOn = self.menuController.soundOn
+        self.soundOff = self.menuController.soundOff
         self.addChild(self.menuNode!)
+        self.addChild(self.soundOn!)
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.paused = true
+        println(self.deathTimer)
         
-        
-        // Initializing and setting pause and resume buttons
-        self.addPauseAndResumeButtons()
-        
+        // Initializing powerup spawns
+        self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+        self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
+
         // Play music
         self.playMusic()
         
         // Initialize menu sound effect
         self.initializeOptionSelectedSound()
+        self.registerAppTransitionEvents()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -94,48 +130,87 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.gameOverMenuHelper(touches)
         }
         self.pauseHelper(touches)
+        self.soundHelper(touches)
     }
 
     override func update(currentTime: CFTimeInterval) {
-
-        // Timer updates, currently unused
+        
+        self.currentTime = currentTime
+        self.deltaTime = self.currentTime - self.previousTime
+        self.previousTime = currentTime
+        
         if self.paused == false {
-            self.currentTime = currentTime
-            self.deltaTime = self.currentTime - self.previousTime
-            self.previousTime = currentTime
-            self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
-            var timeIntervalForPoints = 1.0
+            self.pointsCounterLabel?.text = "Points: \(self.points)"
+
+            if self.pointsShouldIncrease != false {
+                self.currentTime = currentTime
+                self.deltaTime = self.currentTime - self.previousTime
+                if self.deltaTime > 1 {
+                    self.deltaTime = 0
+                }
+                self.previousTime = currentTime
+                self.timeSincePointGiven = self.timeSincePointGiven + self.deltaTime
+                self.timeSinceLastGoodPowerup = self.timeSinceLastGoodPowerup + self.deltaTime
+                self.timeSinceLastBadPowerup = self.timeSinceLastBadPowerup + self.deltaTime
+                var timeIntervalForPoints = 1.0
+                
+                switch self.squaresAcquired {
+                case 0...5:
+                    timeIntervalForPoints = 1.0
+                case 6...10:
+                    timeIntervalForPoints = 0.9
+                case 11...15:
+                    timeIntervalForPoints = 0.8
+                case 16...20:
+                    timeIntervalForPoints = 0.7
+                case 21...25:
+                    timeIntervalForPoints = 0.6
+                case 26...30:
+                    timeIntervalForPoints = 0.5
+                case 31...35:
+                    timeIntervalForPoints = 0.4
+                case 36...40:
+                    timeIntervalForPoints = 0.3
+                case 41...45:
+                    timeIntervalForPoints = 0.2
+                case 46...50:
+                    timeIntervalForPoints = 0.1
+                default:
+                    timeIntervalForPoints = 0.1
+                }
+                if self.timeSincePointGiven > timeIntervalForPoints {
+                    self.points += 1
+                    self.timeSincePointGiven = 0
+                }
+            }
             
-            switch self.squaresAcquired {
-            case 0...5:
-                timeIntervalForPoints = 1.0
-            case 6...10:
-                timeIntervalForPoints = 0.9
-            case 11...15:
-                timeIntervalForPoints = 0.8
-            case 16...20:
-                timeIntervalForPoints = 0.7
-            case 21...25:
-                timeIntervalForPoints = 0.6
-            case 26...30:
-                timeIntervalForPoints = 0.5
-            case 31...35:
-                timeIntervalForPoints = 0.4
-            case 36...40:
-                timeIntervalForPoints = 0.3
-            case 41...45:
-                timeIntervalForPoints = 0.2
-            case 46...50:
-                timeIntervalForPoints = 0.1
-            default:
-                timeIntervalForPoints = 0.1
+            if self.timeSinceLastGoodPowerup > timeIntervalForGoodPowerup {
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeSinceLastGoodPowerup = 0
+                let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Friend, scene: self, shapesAcquired: self.squaresAcquired)
+                spawnedPowerup.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: spawnedPowerup.sprite!.size)
+                spawnedPowerup.sprite?.physicsBody?.collisionBitMask = 0
+                spawnedPowerup.sprite?.physicsBody?.categoryBitMask = powerupCategory
+                self.powerupsDictionary["Friend"] = spawnedPowerup
+
+                
             }
-            if self.timeSincePointGiven > timeIntervalForPoints {
-                self.points += 1
-                self.timeSincePointGiven = 0
-                println("points: \(self.points)")
+            
+            if self.timeSinceLastBadPowerup > timeIntervalForGoodPowerup {
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeSinceLastBadPowerup = 0
+                let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Enemy, scene: self, shapesAcquired: self.squaresAcquired)
+                spawnedPowerup.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: spawnedPowerup.sprite!.size)
+                spawnedPowerup.sprite?.physicsBody?.collisionBitMask = 0
+                spawnedPowerup.sprite?.physicsBody?.categoryBitMask = powerupCategory
+                self.powerupsDictionary["Enemy"] = spawnedPowerup
+                
             }
+            
         }
+        
+        
+        self.deathTimer += self.deltaTime
         
         for shape in shapesArray {
             if !shape.alive {
@@ -146,6 +221,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 shape.alive = true
             }
         }
+        
     }
     
     // MARK: - Control Methods
@@ -196,7 +272,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let heroSize = CGSize(width: heroSideLength, height: heroSideLength)
         self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: heroSize)
         self.hero.position = CGPointMake(self.heroView!.frame.width/2, self.heroView!.frame.height/2)
-        self.heroCategory = (self.friendCategory | self.enemyCategory)
+        self.heroCategory = (self.friendCategory | self.enemyCategory | self.powerupCategory)
         
         self.hero.physicsBody = SKPhysicsBody(rectangleOfSize: heroSize)
         self.hero.physicsBody?.collisionBitMask = 0
@@ -208,7 +284,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
         self.view?.addGestureRecognizer(panGestureRecognizer)
         self.addChild(self.hero)
-
 
     }
     
@@ -227,6 +302,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             friendShape.sprite?.physicsBody?.collisionBitMask = 0
             friendShape.sprite?.physicsBody?.categoryBitMask = friendCategory
             self.shapesArray.append(friendShape)
+            //self.addChild(self.dimmingLayer!)
         }
     }
     
@@ -238,10 +314,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if nodeAtTouch?.name == "PlayButton" {
                 println("PlayButton Touched")
                 
+                self.menuController.removeSoundButtons(self)
+                
                 // Instantiate game
                 self.heroView = view
                 addHero()
-                
+                self.addChild(self.pointsCounterLabel!)
+                self.particleEmitter?.removeFromParent()
                 if !self.shapesArray.isEmpty {
                     for shape in self.shapesArray {
                         shape.sprite?.removeFromParent()
@@ -255,13 +334,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.showGameOver = false
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
+                self.dimmingLayer?.removeFromParent()
                 self.paused = false
+                self.pointsShouldIncrease = true
                 AudioServicesPlaySystemSound(self.optionSelectedSound!)
+
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("HelpButton Touched")
+                self.dimmingLayer?.removeFromParent()
                 self.menuNode?.removeFromParent()
-                self.addHelpScreen()
+                self.menuController.addHelpScreen(self)
                 AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
         }
@@ -273,7 +356,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if nodeAtTouch?.name == "BackButton" {
                 print("BackButton Touched")
                 self.helpNode?.removeFromParent()
-                self.addMenuScreen()
+                self.dimmingLayer?.removeFromParent()
+                self.menuController.addMenuScreen(self)
                 AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
         }
@@ -285,13 +369,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if nodeAtTouch?.name == "NewGameButton" {
                 println("New Game Touched")
                 self.gameOverNode?.removeFromParent()
-                self.addMenuScreen()
+                self.dimmingLayer?.removeFromParent()
+                self.menuController.addMenuScreen(self)
                 AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("Help Button Pressed")
                 self.gameOverNode?.removeFromParent()
-                self.addHelpScreen()
+                self.dimmingLayer?.removeFromParent()
+                self.menuController.addHelpScreen(self)
                 AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
         }
@@ -303,11 +389,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.pauseButton!.parent))
                 if nodeAtTouch.name == "PauseButton" {
                     println("Pause Touched")
-                    self.pauseButton?.removeFromParent()
-                    self.addChild(self.resumeButton!)
-                    self.panGestureRecognizer.enabled = false
-                    self.addChild(self.pausedLabel!)
+                    self.addChild(self.dimmingLayer!)
                     self.pauseGame()
+                    self.menuController.addSoundButtons(self, sound: self.soundPlaying)
                     AudioServicesPlaySystemSound(self.optionSelectedSound!)
                 }
             }
@@ -316,49 +400,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.resumeButton!.parent))
                 if nodeAtTouch.name == "PlayButton" {
                     println("Resume Touched")
-                    self.resumeButton?.removeFromParent()
-                    self.addChild(self.pauseButton!)
-                    self.panGestureRecognizer.enabled = true
-                    self.pausedLabel?.removeFromParent()
+                    self.dimmingLayer?.removeFromParent()
                     self.pauseGame()
+                    self.menuController.removeSoundButtons(self)
                     AudioServicesPlaySystemSound(self.optionSelectedSound!)
                 }
             }
         }
     }
     
-    func addHelpScreen() {
-        self.addChild(self.helpNode!)
-        self.showHelpMenu = true
-        self.showMenu = false
-    }
-    
-    func addMenuScreen() {
-        self.addChild(self.menuNode!)
-        self.showHelpMenu = false
-        self.showMenu = true
-    }
-    func addGameOverScreen() {
-        self.addChild(self.gameOverNode!)
-        self.showGameOver = true
-        self.showMenu = false
-    }
-    
-    func addPauseAndResumeButtons() {
-        self.pauseButton = SKSpriteNode(imageNamed: "PauseButton")
-        self.resumeButton = SKSpriteNode(imageNamed: "PlayButton")
-        self.pauseButton?.position = CGPoint(x: self.frame.width - self.pauseButton!.frame.width, y: self.frame.height - self.pauseButton!.frame.height)
-        self.resumeButton?.position = CGPoint(x: self.frame.width - self.resumeButton!.frame.width, y: self.frame.height - self.resumeButton!.frame.height)
-        self.pauseButton?.name = "PauseButton"
-        self.resumeButton?.name = "PlayButton"
-        self.pausedLabel = SKLabelNode(text: "Paused")
-        self.pausedLabel?.fontName = "Optima-Bold"
-        self.pausedLabel?.fontSize = 50
-        self.pausedLabel?.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
-        
+    func soundHelper(touches: NSSet) {
+        if soundPlaying == true {
+            for touch in touches {
+                var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.soundOn!.parent))
+                if nodeAtTouch.name == "SoundOn" {
+                    println("SoundOn Touched")
+                    self.soundOn?.removeFromParent()
+                    self.addChild(self.soundOff!)
+                    self.soundPlaying = false
+                }
+            }
+        } else {
+            for touch in touches {
+                var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.soundOff!.parent))
+                if nodeAtTouch.name == "SoundOff" {
+                    println("SoundOff Touched")
+                    self.soundOff?.removeFromParent()
+                    self.addChild(self.soundOn!)
+                    self.soundPlaying = true
+                    self.pointsShouldIncrease = true
+                }
+            }
         }
-
-        
+    }
+    
         // Check to see which body in the contact is the hero and shape
         //MARK: - Contact Delegate Methods
         
@@ -422,11 +497,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         shape.sprite?.removeFromParent()
                     }
                     else {
-                        self.addGameOverScreen()
+                        
+                        // Death Sound Effect Activated
                         let deathSFX = SKAction.playSoundFileNamed("avert_death.mp3", waitForCompletion: false)
                         println("sfx action fired")
                         shape.sprite?.runAction(deathSFX)
+                        
+                        // Particle Emitter Method Calls
+                        self.deathTimer = 0.0
+                        self.createParticleEmitter()
+                        self.particleEmitter?.position = CGPoint(x: CGRectGetMidX(self.hero.frame), y: CGRectGetMidY(self.hero.frame))
+                        self.addChild(self.particleEmitter!)
+                        self.pointsCounterLabel?.removeFromParent()
+                        self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points)
+                        self.paused = false
+                        self.pauseButton?.removeFromParent()
                         self.hero.removeFromParent()
+                        self.points = 0
+                        self.squaresAcquired = 0
+                        self.pointsShouldIncrease = false
+                    }
+                }
+            }
+            for (team, powerup) in powerupsDictionary {
+                if powerup != nil {
+                    if shapeTouched == powerup!.sprite {
+                        powerup?.givePowerup(self.hero, scene: self)
+                        switch powerup!.team {
+                        case .Friend:
+                            self.powerupsDictionary["Friend"] = nil
+                        case .Enemy:
+                            self.powerupsDictionary["Enemy"] = nil
+                        }
+                        powerup?.sprite?.removeFromParent()
                     }
                 }
             }
@@ -434,10 +537,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func pauseGame() {
-        self.paused = !self.paused
+        if self.gameOverNode?.parent == nil && self.menuNode?.parent == nil && self.helpNode?.parent == nil {
+            if self.paused == false {
+                self.pauseButton?.removeFromParent()
+                self.addChild(self.resumeButton!)
+                self.panGestureRecognizer.enabled = false
+                self.addChild(self.pausedLabel!)
+                self.pointsShouldIncrease = true
+            } else {
+                self.resumeButton?.removeFromParent()
+                self.addChild(self.pauseButton!)
+                self.panGestureRecognizer.enabled = true
+                self.pausedLabel?.removeFromParent()
+                self.pointsShouldIncrease = false
+            }
+            self.playerHasPaused = !self.playerHasPaused
+            self.paused = self.playerHasPaused
+        }
     }
     
     //MARK: - AVAudio Methods
+    
     func playMusic() {
         var error : NSError?
         var localURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("avertmusic.mp3", ofType: nil)!)
@@ -459,4 +579,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         println(soundID)
         self.optionSelectedSound = soundID
     }
+
+    func registerAppTransitionEvents() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillResignActive:", name: UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillEnterForeground:", name: UIApplicationWillEnterForegroundNotification, object: nil)
+    }
+    
+    func applicationWillResignActive(application: UIApplication) {
+        if self.playerHasPaused == true {
+            self.paused = self.playerHasPaused
+        }
+    }
+    
+    func applicationDidBecomeActive(application: UIApplication) {
+        if self.playerHasPaused == true {
+            self.paused = self.playerHasPaused
+        }
+    }
+    
+    func applicationDidEnterBackground(application: UIApplication) {
+        if self.playerHasPaused == true {
+            self.paused = self.playerHasPaused
+        }
+    }
+    
+    func applicationWillEnterForeground(application: UIApplication) {
+        if self.playerHasPaused == true {
+            self.paused = self.playerHasPaused
+        }
+    }
+    
+    func createParticleEmitter() {
+        var uncastedEmitter: AnyObject = NSKeyedUnarchiver.unarchiveObjectWithFile(NSBundle.mainBundle().pathForResource("DeathParticleEmitter", ofType: "sks")!)!
+        self.particleEmitter = uncastedEmitter as? SKEmitterNode
+    }
+
 }

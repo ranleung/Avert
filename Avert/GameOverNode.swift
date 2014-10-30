@@ -16,7 +16,7 @@ class GameOverNode: SKNode {
     var scoreLabel: SKLabelNode!
     var font = "Optima-Bold"
     
-    init(scene: SKScene) {
+    init(scene: SKScene, score: Int) {
         super.init()
         
         self.titleLabel = SKLabelNode(text: "Game Over")
@@ -26,7 +26,7 @@ class GameOverNode: SKNode {
         self.titleLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame))
         self.addChild(self.titleLabel)
         
-        self.scoreLabel = SKLabelNode(text: "Score: 0000")
+        self.scoreLabel = SKLabelNode(text: "Score: \(score)")
         self.scoreLabel.fontName = self.font
         self.scoreLabel.fontSize = 50
         
@@ -48,6 +48,8 @@ class GameOverNode: SKNode {
         
         self.helpScreenLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) + (self.scoreLabel.frame.width / 2), y: CGRectGetMidY(scene.frame) - self.titleLabel.frame.height)
         self.addChild(self.helpScreenLabel)
+        
+        self.zPosition = 2.0
     }
     
     required init?(coder aDecoder: NSCoder) {
