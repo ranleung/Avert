@@ -49,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Points properties
     var points: Int = 0
-    var squaresAcquired: UInt16 = 0
+    var squaresAcquired: Int = 0
     var shapesArray = [Shape]()
     var pointsCounterLabel: SKLabelNode?
     var pointsShouldIncrease = false
@@ -83,13 +83,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Particle Emitter properties
     var particleEmitter: SKEmitterNode?
     
+    // UserDefaults Properties
+    var userDefaultsController: UserDefaultsController?
+    var highScore = 0
+    var highSquares = 0
+    
+    // App Delegate Property
+    var appDelegate: AppDelegate?
+    
     // MARK: - Overwritten SKScene Methods
     
     override func didMoveToView(view: SKView) {
-
+        
+        // Checking sound preference
+        self.userDefaultsController = UserDefaultsController()
+        self.userDefaultsController!.userSoundPreference(self)
+        
         // sending reference of self to AppDelegate
-        var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        appDelegate.gameScene = self
+        self.appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+        self.appDelegate?.gameScene = self
         
         //keep view for addHero()
         self.menuController = MenuController(scene: self)
@@ -498,6 +510,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         shape.sprite?.removeFromParent()
                     }
                     else {
+                        self.userDefaultsController?.checkForHighScores(self)
                         
                         // Death Sound Effect Activated
                         let deathSFX = SKAction.playSoundFileNamed("avert_death.mp3", waitForCompletion: false)
@@ -590,6 +603,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillResignActive:", name: UIApplicationWillResignActiveNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillEnterForeground:", name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillTerminate:", name: UIApplicationWillTerminateNotification, object: nil)
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -614,6 +628,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.playerHasPaused == true {
             self.paused = self.playerHasPaused
         }
+    }
+    
+    func applicationWillTerminate(application: UIApplication) {
+        self.userDefaultsController?.userSoundPreferenceSave(self)
     }
     
     func createParticleEmitter() {

@@ -48,13 +48,13 @@ class Shape {
     
     // MARK: - Spawning Methods
     
-    class func spawnShape (squaresAcquired: UInt16, originSide: OriginSide, team: ShapeTeam, scene: SKScene) -> Shape {
+    class func spawnShape (squaresAcquired: Int, originSide: OriginSide, team: ShapeTeam, scene: SKScene) -> Shape {
         var shape = Shape(side: originSide, team: team, scene: scene)
         shape.spawnSprite(squaresAcquired)
         return shape
     }
     
-    func spawnSprite(squaresAquired: UInt16) {
+    func spawnSprite(squaresAquired: Int) {
         
         let shapeSideSize = self.scene.size.width * self.random(min: 0.03, max: 0.055)
         
