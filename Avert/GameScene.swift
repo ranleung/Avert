@@ -7,6 +7,8 @@
 //
 
 import SpriteKit
+import AVFoundation
+import AudioToolbox
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
@@ -61,6 +63,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let powerupCategory : UInt32 = 0x1 << 2
     var heroCategory : UInt32?
     
+    // Sound properties
+    var audioPlayer : AVAudioPlayer?
+    var optionSelectedSound : SystemSoundID?
+
     // Dimming layer
     var dimmingLayer: SKSpriteNode?
     var playerHasPaused = false
@@ -69,14 +75,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var soundOn: SKSpriteNode?
     var soundOff: SKSpriteNode?
     var soundPlaying = true
-    // Particle Emitter
-    var particleEmitter: SKEmitterNode?
     
+    // Particle Emitter properties
+    var particleEmitter: SKEmitterNode?
     
     // MARK: - Overwritten SKScene Methods
     
     override func didMoveToView(view: SKView) {
-    
+
         // sending reference of self to AppDelegate
         var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         appDelegate.gameScene = self
@@ -93,7 +99,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.pointsCounterLabel = self.menuController.scoreLabel
         self.soundOn = self.menuController.soundOn
         self.soundOff = self.menuController.soundOff
-        
         self.addChild(self.menuNode!)
         self.addChild(self.soundOn!)
         self.physicsWorld.contactDelegate = self
@@ -104,7 +109,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Initializing powerup spawns
         self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
         self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
+
+        // Play music
+        self.playMusic()
         
+        // Initialize menu sound effect
+        self.initializeOptionSelectedSound()
         self.registerAppTransitionEvents()
     }
     
@@ -124,10 +134,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     override func update(currentTime: CFTimeInterval) {
-        
-        self.currentTime = currentTime
-        self.deltaTime = self.currentTime - self.previousTime
-        self.previousTime = currentTime
         
         if self.paused == false {
             self.pointsCounterLabel?.text = "Points: \(self.points)"
@@ -326,14 +332,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.menuNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.paused = false
-                self.dimmingLayer?.removeFromParent()
                 self.pointsShouldIncrease = true
+                AudioServicesPlaySystemSound(self.optionSelectedSound!)
+
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("HelpButton Touched")
                 self.dimmingLayer?.removeFromParent()
                 self.menuNode?.removeFromParent()
                 self.menuController.addHelpScreen(self)
+                AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
         }
     }
@@ -346,6 +354,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.helpNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.menuController.addMenuScreen(self)
+                AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
         }
     }
@@ -358,12 +367,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.menuController.addMenuScreen(self)
+                AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
             if nodeAtTouch?.name == "HelpButton" {
                 println("Help Button Pressed")
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.menuController.addHelpScreen(self)
+                AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
         }
     }
@@ -377,6 +388,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.addChild(self.dimmingLayer!)
                     self.pauseGame()
                     self.menuController.addSoundButtons(self, sound: self.soundPlaying)
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
                 }
             }
         } else {
@@ -387,6 +399,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.dimmingLayer?.removeFromParent()
                     self.pauseGame()
                     self.menuController.removeSoundButtons(self)
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
                 }
             }
         }
@@ -475,14 +488,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.hero.yScale = self.hero.yScale + 0.03
                         }
                         
+                        let collectSFX = SKAction.playSoundFileNamed("avert_collect.mp3", waitForCompletion: false)
+                        self.hero.runAction(collectSFX)
                         shape.sprite?.removeFromParent()
                     }
                     else {
+                        
+                        // Death Sound Effect Activated
+                        let deathSFX = SKAction.playSoundFileNamed("avert_death.mp3", waitForCompletion: false)
+                        println("sfx action fired")
+                        shape.sprite?.runAction(deathSFX)
+                        
+                        // Particle Emitter Method Calls
                         self.deathTimer = 0.0
                         self.createParticleEmitter()
                         self.particleEmitter?.position = CGPoint(x: CGRectGetMidX(self.hero.frame), y: CGRectGetMidY(self.hero.frame))
                         self.addChild(self.particleEmitter!)
-                        self.playerIsDead = true
                         self.pointsCounterLabel?.removeFromParent()
                         self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points)
                         self.paused = false
@@ -491,7 +512,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.points = 0
                         self.squaresAcquired = 0
                         self.pointsShouldIncrease = false
-                        self.playerIsDead = false
                     }
                 }
             }
@@ -532,6 +552,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    //MARK: - AVAudio Methods
+    
+    func playMusic() {
+        var error : NSError?
+        var localURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("avertmusic.mp3", ofType: nil)!)
+        self.audioPlayer = AVAudioPlayer(contentsOfURL: localURL, error: &error)
+        if error != nil {
+            println("something bad happened")
+        } else {
+            self.audioPlayer?.prepareToPlay()
+            self.audioPlayer?.numberOfLoops = -1
+            self.audioPlayer?.volume = 0.25
+            self.audioPlayer?.play()
+        }
+    }
+    
+    func initializeOptionSelectedSound() {
+        var soundID: SystemSoundID = 0
+        let soundURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(), "avert_select", "caf", nil)
+        AudioServicesCreateSystemSoundID(soundURL, &soundID)
+        println(soundID)
+        self.optionSelectedSound = soundID
+    }
+
     func registerAppTransitionEvents() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: UIApplicationDidBecomeActiveNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillResignActive:", name: UIApplicationWillResignActiveNotification, object: nil)
@@ -567,5 +611,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var uncastedEmitter: AnyObject = NSKeyedUnarchiver.unarchiveObjectWithFile(NSBundle.mainBundle().pathForResource("DeathParticleEmitter", ofType: "sks")!)!
         self.particleEmitter = uncastedEmitter as? SKEmitterNode
     }
-    
+
 }
