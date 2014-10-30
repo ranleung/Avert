@@ -415,6 +415,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.dimmingLayer?.removeFromParent()
                     self.pauseGame()
                     self.menuController.removeSoundButtons(self)
+                    self.pointsShouldIncrease = true
                     AudioServicesPlaySystemSound(self.optionSelectedSound!)
                     
                 }
@@ -518,8 +519,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         shape.sprite?.runAction(deathSFX)
                         
                         // Report score to Game Center
-                        let pointTotal = Int64(self.points)
-                        self.gameViewController!.reportPointScore(pointTotal)
+                        if self.gameViewController!.gameCenterEnabled == true {
+                            let pointTotal = Int64(self.points)
+                            self.gameViewController!.reportPointScore(pointTotal)
+                        }
+                        
                         
                         // Particle Emitter Method Calls
                         self.deathTimer = 0.0
