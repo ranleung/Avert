@@ -16,6 +16,7 @@ class HelpScreen: SKNode {
     var playerLabel: SKLabelNode!
     var enemyLabel: SKLabelNode!
     var friendLabel: SKLabelNode!
+    var powerUpsLabel: SKLabelNode!
     var rulesTitleLabel: SKLabelNode!
     var firstRuleLabel: SKLabelNode!
     var secondRuleLabel: SKLabelNode!
@@ -43,21 +44,27 @@ class HelpScreen: SKNode {
         self.friendLabel = SKLabelNode(text: " - Friendlies")
         self.friendLabel.fontName = self.font
         self.friendLabel.fontSize = 20
-        self.friendLabel.position = CGPoint(x: scene.frame.width * 0.2, y: scene.frame.height * 0.25 - self.friendLabel.frame.height / 2)
+        self.friendLabel.position = CGPoint(x: scene.frame.width * 0.2, y: scene.frame.height * 0.6 - self.friendLabel.frame.height / 2)
         self.addChild(self.friendLabel)
         
         self.playerLabel = SKLabelNode(text: " - Player")
         self.playerLabel.fontName = self.font
         self.playerLabel.fontSize = 20
-        self.playerLabel.position = CGPoint(x: scene.frame.width * 0.2 - ((self.friendLabel.frame.width / 2) - (self.playerLabel.frame.width / 2)), y: scene.frame.height * 0.75 - self.playerLabel.frame.height / 2)
+        self.playerLabel.position = CGPoint(x: scene.frame.width * 0.2 - ((self.friendLabel.frame.width / 2) - (self.playerLabel.frame.width / 2)), y: scene.frame.height * 0.8 - self.playerLabel.frame.height / 2)
         self.addChild(self.playerLabel)
         
         
         self.enemyLabel = SKLabelNode(text: " - Enemies")
         self.enemyLabel.fontName = self.font
         self.enemyLabel.fontSize = 20
-        self.enemyLabel.position = CGPoint(x: scene.frame.width * 0.2 - ((self.friendLabel.frame.width / 2) - (self.enemyLabel.frame.width / 2)), y: scene.frame.height * 0.5 - self.enemyLabel.frame.height / 2)
+        self.enemyLabel.position = CGPoint(x: scene.frame.width * 0.2 - ((self.friendLabel.frame.width / 2) - (self.enemyLabel.frame.width / 2)), y: scene.frame.height * 0.4 - self.enemyLabel.frame.height / 2)
         self.addChild(self.enemyLabel)
+        
+        self.powerUpsLabel = SKLabelNode(text: " - PowerUps")
+        self.powerUpsLabel.fontName = self.font
+        self.powerUpsLabel.fontSize = 20
+        self.powerUpsLabel.position = CGPoint(x: scene.frame.width * 0.2 - ((self.friendLabel.frame.width / 2) - (self.powerUpsLabel.frame.width / 2)), y: scene.frame.height * 0.2 - self.powerUpsLabel.frame.height / 2)
+        self.addChild(self.powerUpsLabel)
         
         self.rulesTitleLabel = SKLabelNode(text: "Rules:")
         self.rulesTitleLabel.fontName = self.font
@@ -101,6 +108,4 @@ class HelpScreen: SKNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
 }
