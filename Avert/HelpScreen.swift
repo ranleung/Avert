@@ -23,6 +23,8 @@ class HelpScreen: SKNode {
     var thirdRuleLabel: SKLabelNode!
     var thirdRuleLabelLine2: SKLabelNode!
     var fourthRuleLabel: SKLabelNode!
+    var fourthRuleLabelLine2: SKLabelNode!
+    var fifthRuleLabel: SKLabelNode!
     var font = "Optima-Bold"
     var playerAsset: SKSpriteNode!
     var friendlyAsset: SKSpriteNode!
@@ -74,7 +76,7 @@ class HelpScreen: SKNode {
         self.rulesTitleLabel = SKLabelNode(text: "Rules:")
         self.rulesTitleLabel.fontName = self.font
         self.rulesTitleLabel.fontSize = 20
-        self.rulesTitleLabel.position = CGPoint(x: scene.frame.width * 0.2 + self.friendLabel.frame.width * 2, y: scene.frame.height - self.titleLabel.frame.height)
+        self.rulesTitleLabel.position = CGPoint(x: scene.frame.width * 0.2 + self.friendLabel.frame.width * 3, y: scene.frame.height - self.titleLabel.frame.height)
         self.addChild(rulesTitleLabel)
         
         self.firstRuleLabel = SKLabelNode(text: "1. Move the player with your finger")
@@ -95,17 +97,29 @@ class HelpScreen: SKNode {
         self.thirdRuleLabel.position = CGPoint(x: self.rulesTitleLabel.position.x, y: self.secondRuleLabel.frame.origin.y - self.thirdRuleLabel.frame.height * 1.5)
         self.addChild(thirdRuleLabel)
         
-        self.thirdRuleLabelLine2 = SKLabelNode(text: "Friendlies to accumulate points")
+        self.thirdRuleLabelLine2 = SKLabelNode(text: "friendlies to accumulate points")
         self.thirdRuleLabelLine2.fontName = self.font
         self.thirdRuleLabelLine2.fontSize = 15
         self.thirdRuleLabelLine2.position = CGPoint(x: self.rulesTitleLabel.position.x, y: self.secondRuleLabel.frame.origin.y - self.thirdRuleLabel.frame.height * 2.5)
         self.addChild(thirdRuleLabelLine2)
         
-        self.fourthRuleLabel = SKLabelNode(text: "4. Profit!")
+        self.fourthRuleLabel = SKLabelNode(text: "4. Quickly grab the good powerups,")
         self.fourthRuleLabel.fontName = self.font
         self.fourthRuleLabel.fontSize = 15
         self.fourthRuleLabel.position = CGPoint(x: self.rulesTitleLabel.position.x, y: self.thirdRuleLabelLine2.frame.origin.y - self.fourthRuleLabel.frame.height * 1.5)
         self.addChild(self.fourthRuleLabel)
+        
+        self.fourthRuleLabelLine2 = SKLabelNode(text: "but try to avoid the bad ones")
+        self.fourthRuleLabelLine2.fontName = self.font
+        self.fourthRuleLabelLine2.fontSize = 15
+        self.fourthRuleLabelLine2.position = CGPoint(x: self.rulesTitleLabel.position.x, y: self.fourthRuleLabel.frame.origin.y - self.fourthRuleLabelLine2.frame.height * 0.9)
+        self.addChild(self.fourthRuleLabelLine2)
+        
+        self.fifthRuleLabel = SKLabelNode(text: "5. Profit!")
+        self.fifthRuleLabel.fontName = self.font
+        self.fifthRuleLabel.fontSize = 15
+        self.fifthRuleLabel.position = CGPoint(x: self.rulesTitleLabel.position.x, y: self.fourthRuleLabelLine2.frame.origin.y - self.fifthRuleLabel.frame.height * 1.5)
+        self.addChild(self.fifthRuleLabel)
         
         self.zPosition = 2.0
         
