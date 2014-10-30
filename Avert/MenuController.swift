@@ -27,7 +27,6 @@ class MenuController {
     init(scene: GameScene) {
         self.menuNode = MenuScreenNode(scene: scene)
         self.helpNode = HelpScreen(scene: scene)
-        
         self.pauseButton = SKSpriteNode(imageNamed: "PauseButton")
         self.resumeButton = SKSpriteNode(imageNamed: "PlayButton")
         self.pauseButton?.position = CGPoint(x: scene.frame.width - self.pauseButton!.frame.width/2, y: scene.frame.height - self.pauseButton!.frame.height/3)
@@ -35,7 +34,7 @@ class MenuController {
         self.pauseButton?.name = "PauseButton"
         self.resumeButton?.name = "PlayButton"
         self.pausedLabel = SKLabelNode(text: "Paused")
-        self.pausedLabel?.fontName = "Optima-Bold"
+        self.pausedLabel?.fontName = "Audiowide-Regular"
         self.pausedLabel?.fontSize = 50
         self.pausedLabel?.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame))
         self.pauseButton?.zPosition = 2.0
@@ -48,9 +47,9 @@ class MenuController {
         self.dimmingLayer?.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame))
         
         self.scoreLabel = SKLabelNode(text: "Points: 0")
-        self.scoreLabel?.position = CGPoint(x: scene.frame.origin.x + self.scoreLabel!.frame.width * 0.5, y: scene.frame.height - self.scoreLabel!.frame.height * 1.5)
+        self.scoreLabel?.position = CGPoint(x: scene.frame.origin.x + scene.frame.width * 0.03, y: scene.frame.height - scene.frame.height * 0.07)
         self.scoreLabel?.zPosition = 2.0
-        self.scoreLabel?.fontName = "Optima-Bold"
+        self.scoreLabel?.fontName = "Audiowide-Regular"
         self.scoreLabel?.fontSize = 20
         
         self.soundOn = SKSpriteNode(imageNamed: "SoundOn")
@@ -128,9 +127,7 @@ class MenuController {
     }
     
     func removeSoundButtons(scene: GameScene) {
-        
         scene.soundOn?.removeFromParent()
         scene.soundOff?.removeFromParent()
-        
     }
 }

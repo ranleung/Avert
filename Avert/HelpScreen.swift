@@ -25,12 +25,12 @@ class HelpScreen: SKNode {
     var fourthRuleLabel: SKLabelNode!
     var fourthRuleLabelLine2: SKLabelNode!
     var fifthRuleLabel: SKLabelNode!
-    var font = "Optima-Bold"
     var playerAsset: SKSpriteNode!
     var friendlyAsset: SKSpriteNode!
     var enemyAsset: SKSpriteNode!
     var powerUpsGoodAsset: SKSpriteNode!
     var powerUpsBadAsset: SKSpriteNode!
+    var font = "Audiowide-Regular"
     
     init(scene: SKScene) {
         super.init()

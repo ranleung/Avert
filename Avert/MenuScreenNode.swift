@@ -13,16 +13,15 @@ class MenuScreenNode: SKNode {
     var playButton: SKLabelNode!
     var helpButton: SKLabelNode!
     var titleLabel: SKLabelNode!
-    var font = "Optima-Bold"
+    var font = "Audiowide-Regular"
     //var gameCenterButton: SKSpriteNode?
     
     init(scene: SKScene) {
         super.init()
 
-        self.titleLabel = SKLabelNode(text: "Avert")
+        self.titleLabel = SKLabelNode(text: "[ A V E R T ]")
         self.titleLabel.fontName = self.font
         self.titleLabel.fontSize = 50
-        
         self.titleLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame))
         self.addChild(self.titleLabel)
         
