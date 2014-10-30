@@ -19,10 +19,9 @@ class MenuScreenNode: SKNode {
     init(scene: SKScene) {
         super.init()
 
-        self.titleLabel = SKLabelNode(text: "[AVERT]")
+        self.titleLabel = SKLabelNode(text: "[ A V E R T ]")
         self.titleLabel.fontName = self.font
         self.titleLabel.fontSize = 50
-        
         self.titleLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame))
         self.addChild(self.titleLabel)
         

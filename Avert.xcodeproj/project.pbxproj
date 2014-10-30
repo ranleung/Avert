@@ -21,8 +21,8 @@
 		6B49FD581A01604000AA100F /* avert_powerdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD531A01604000AA100F /* avert_powerdown.mp3 */; };
 		6B49FD591A01604000AA100F /* avert_powerup.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD541A01604000AA100F /* avert_powerup.mp3 */; };
 		6B49FD5C1A01653000AA100F /* avert_death.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD5B1A01653000AA100F /* avert_death.mp3 */; };
-		6B49FD9E1A02AC5500AA100F /* PowerupNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B49FD9D1A02AC5500AA100F /* PowerupNode.swift */; };
 		6B49FDA01A02ADFB00AA100F /* Audiowide-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B49FD9F1A02AD9500AA100F /* Audiowide-Regular.ttf */; };
+		70121F1D1A02D9C9000A1A9D /* PowerUpLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70121F1C1A02D9C9000A1A9D /* PowerUpLabelNode.swift */; };
 		701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2819FECCC0005D63BE /* AppDelegate.swift */; };
 		701E6A2D19FECCC0005D63BE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2C19FECCC0005D63BE /* GameScene.swift */; };
 		701E6A2F19FECCC0005D63BE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2E19FECCC0005D63BE /* GameViewController.swift */; };
@@ -59,8 +59,8 @@
 		6B49FD531A01604000AA100F /* avert_powerdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_powerdown.mp3; sourceTree = "<group>"; };
 		6B49FD541A01604000AA100F /* avert_powerup.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_powerup.mp3; sourceTree = "<group>"; };
 		6B49FD5B1A01653000AA100F /* avert_death.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = avert_death.mp3; sourceTree = "<group>"; };
-		6B49FD9D1A02AC5500AA100F /* PowerupNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupNode.swift; sourceTree = "<group>"; };
 		6B49FD9F1A02AD9500AA100F /* Audiowide-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Audiowide-Regular.ttf"; sourceTree = "<group>"; };
+		70121F1C1A02D9C9000A1A9D /* PowerUpLabelNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpLabelNode.swift; sourceTree = "<group>"; };
 		701E6A2319FECCC0005D63BE /* Avert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Avert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		701E6A2719FECCC0005D63BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		701E6A2819FECCC0005D63BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -106,7 +106,7 @@
 		6B49FD9A1A02ABB000AA100F /* Animations */ = {
 			isa = PBXGroup;
 			children = (
-				6B49FD9D1A02AC5500AA100F /* PowerupNode.swift */,
+				70121F1C1A02D9C9000A1A9D /* PowerUpLabelNode.swift */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -138,9 +138,9 @@
 				15BA3A241A01715D00FA7AB7 /* Timer.swift */,
 				15BA3A261A019E6300FA7AB7 /* Powerup.swift */,
 				28A5B10C1A016343005911B8 /* MenuController.swift */,
-				6B49FD9A1A02ABB000AA100F /* Animations */,
 				15E8D8CA1A000E4E007BFE60 /* Shape.swift */,
 				701E6A2E19FECCC0005D63BE /* GameViewController.swift */,
+				6B49FD9A1A02ABB000AA100F /* Animations */,
 				28EDBB9B1A000CD200A8FD4F /* Menus */,
 				701E6A3019FECCC0005D63BE /* Main.storyboard */,
 				701E6A3319FECCC0005D63BE /* Images.xcassets */,
@@ -294,10 +294,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				28A5B10D1A016343005911B8 /* MenuController.swift in Sources */,
+				70121F1D1A02D9C9000A1A9D /* PowerUpLabelNode.swift in Sources */,
 				701E6A2D19FECCC0005D63BE /* GameScene.swift in Sources */,
 				701E6A2F19FECCC0005D63BE /* GameViewController.swift in Sources */,
 				2890953E19FEDAFE000AD9CB /* MenuScreenNode.swift in Sources */,
-				6B49FD9E1A02AC5500AA100F /* PowerupNode.swift in Sources */,
 				701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */,
 				D59D200019FEF1BD00CDB93F /* HelpScreen.swift in Sources */,
 				15BA3A271A019E6300FA7AB7 /* Powerup.swift in Sources */,

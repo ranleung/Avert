@@ -46,7 +46,7 @@ class MenuController {
         self.dimmingLayer?.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame))
         
         self.scoreLabel = SKLabelNode(text: "Points: 0")
-        self.scoreLabel?.position = CGPoint(x: scene.frame.origin.x + self.scoreLabel!.frame.width * 0.5, y: scene.frame.height - self.scoreLabel!.frame.height * 1.5)
+        self.scoreLabel?.position = CGPoint(x: scene.frame.origin.x + scene.frame.width * 0.03, y: scene.frame.height - scene.frame.height * 0.07)
         self.scoreLabel?.zPosition = 2.0
         self.scoreLabel?.fontName = "Audiowide-Regular"
         self.scoreLabel?.fontSize = 20

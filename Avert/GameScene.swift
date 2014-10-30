@@ -79,6 +79,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Particle Emitter properties
     var particleEmitter: SKEmitterNode?
     
+    //PowerUpLabel Properties
+    var powerUpLabelIsActive = false
+    var currentPowerUpLabelNode : PowerUpLabelNode?
+    
     // MARK: - Overwritten SKScene Methods
     
     override func didMoveToView(view: SKView) {
@@ -137,6 +141,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if self.paused == false {
             self.pointsCounterLabel?.text = "Points: \(self.points)"
+            var alignment = SKLabelHorizontalAlignmentMode(rawValue: 1)
+            self.pointsCounterLabel?.horizontalAlignmentMode = alignment!
 
             if self.pointsShouldIncrease != false {
                 self.currentTime = currentTime
@@ -200,11 +206,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 spawnedPowerup.sprite?.physicsBody?.collisionBitMask = 0
                 spawnedPowerup.sprite?.physicsBody?.categoryBitMask = powerupCategory
                 self.powerupsDictionary["Enemy"] = spawnedPowerup
-                
             }
-            
         }
-        
         
         self.deathTimer += self.deltaTime
         
