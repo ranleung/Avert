@@ -24,6 +24,10 @@ class HelpScreen: SKNode {
     var thirdRuleLabelLine2: SKLabelNode!
     var fourthRuleLabel: SKLabelNode!
     var font = "Optima-Bold"
+    var playerAsset: SKSpriteNode!
+    var friendlyAsset: SKSpriteNode!
+    var enemyAsset: SKSpriteNode!
+    var powerUpsAsset: SKSpriteNode!
     
     init(scene: SKScene) {
         super.init()
@@ -103,6 +107,31 @@ class HelpScreen: SKNode {
         self.addChild(self.fourthRuleLabel)
         
         self.zPosition = 2.0
+        
+        self.playerAsset = SKSpriteNode(imageNamed: "PlayButton")
+        self.playerAsset.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width / 1.5, y: scene.frame.height * 0.79)
+        self.playerAsset.xScale = 0.4
+        self.playerAsset.yScale = 0.4
+        self.addChild(self.playerAsset)
+        
+        self.friendlyAsset = SKSpriteNode(imageNamed: "PauseButton")
+        self.friendlyAsset.position = CGPoint(x: scene.frame.origin.x + self.friendlyAsset.frame.width, y: scene.frame.height * 0.59)
+        self.friendlyAsset.xScale = 0.4
+        self.friendlyAsset.yScale = 0.4
+        self.addChild(self.friendlyAsset)
+        
+        self.enemyAsset = SKSpriteNode(imageNamed: "SoundOn")
+        self.enemyAsset.position = CGPoint(x: scene.frame.origin.x + self.enemyAsset.frame.width / 1.6, y: scene.frame.height * 0.39)
+        self.enemyAsset.xScale = 0.4
+        self.enemyAsset.yScale = 0.4
+        self.addChild(self.enemyAsset)
+        
+        self.powerUpsAsset = SKSpriteNode(imageNamed: "SoundOff")
+        self.powerUpsAsset.position = CGPoint(x: scene.frame.origin.x + self.powerUpsAsset.frame.width / 1.1, y: scene.frame.height * 0.19)
+        self.powerUpsAsset.xScale = 0.4
+        self.powerUpsAsset.yScale = 0.4
+        self.addChild(self.powerUpsAsset)
+
     }
 
     required init?(coder aDecoder: NSCoder) {
