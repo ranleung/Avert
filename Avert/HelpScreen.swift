@@ -27,7 +27,8 @@ class HelpScreen: SKNode {
     var playerAsset: SKSpriteNode!
     var friendlyAsset: SKSpriteNode!
     var enemyAsset: SKSpriteNode!
-    var powerUpsAsset: SKSpriteNode!
+    var powerUpsGoodAsset: SKSpriteNode!
+    var powerUpsBadAsset: SKSpriteNode!
     
     init(scene: SKScene) {
         super.init()
@@ -67,7 +68,7 @@ class HelpScreen: SKNode {
         self.powerUpsLabel = SKLabelNode(text: " - PowerUps")
         self.powerUpsLabel.fontName = self.font
         self.powerUpsLabel.fontSize = 20
-        self.powerUpsLabel.position = CGPoint(x: scene.frame.width * 0.2 - ((self.friendLabel.frame.width / 2) - (self.powerUpsLabel.frame.width / 2)), y: scene.frame.height * 0.2 - self.powerUpsLabel.frame.height / 2)
+        self.powerUpsLabel.position = CGPoint(x: scene.frame.origin.x + self.powerUpsLabel.frame.width * 1.8, y: scene.frame.height * 0.2 - self.powerUpsLabel.frame.height / 2)
         self.addChild(self.powerUpsLabel)
         
         self.rulesTitleLabel = SKLabelNode(text: "Rules:")
@@ -126,11 +127,17 @@ class HelpScreen: SKNode {
         self.enemyAsset.yScale = 0.4
         self.addChild(self.enemyAsset)
         
-        self.powerUpsAsset = SKSpriteNode(imageNamed: "SoundOff")
-        self.powerUpsAsset.position = CGPoint(x: scene.frame.origin.x + self.powerUpsAsset.frame.width / 1.1, y: scene.frame.height * 0.19)
-        self.powerUpsAsset.xScale = 0.4
-        self.powerUpsAsset.yScale = 0.4
-        self.addChild(self.powerUpsAsset)
+        self.powerUpsGoodAsset = SKSpriteNode(imageNamed: "SoundOff")
+        self.powerUpsGoodAsset.position = CGPoint(x: scene.frame.origin.x + self.powerUpsGoodAsset.frame.width / 1.1, y: scene.frame.height * 0.19)
+        self.powerUpsGoodAsset.xScale = 0.4
+        self.powerUpsGoodAsset.yScale = 0.4
+        self.addChild(self.powerUpsGoodAsset)
+        
+        self.powerUpsBadAsset = SKSpriteNode(imageNamed: "SoundOn")
+        self.powerUpsBadAsset.position = CGPoint(x: scene.frame.origin.x + self.powerUpsGoodAsset.frame.width + self.powerUpsBadAsset.frame.width, y: scene.frame.height * 0.19)
+        self.powerUpsBadAsset.xScale = 0.4
+        self.powerUpsBadAsset.yScale = 0.4
+        self.addChild(self.powerUpsBadAsset)
 
     }
 
