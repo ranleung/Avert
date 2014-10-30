@@ -13,6 +13,7 @@ class MenuScreenNode: SKNode {
     var playButton: SKLabelNode!
     var helpButton: SKLabelNode!
     var titleLabel: SKLabelNode!
+    var gameCenterLabel: SKSpriteNode!
     var font = "Optima-Bold"
     //var gameCenterButton: SKSpriteNode?
     
