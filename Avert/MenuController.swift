@@ -30,8 +30,8 @@ class MenuController {
         
         self.pauseButton = SKSpriteNode(imageNamed: "PauseButton")
         self.resumeButton = SKSpriteNode(imageNamed: "PlayButton")
-        self.pauseButton?.position = CGPoint(x: scene.frame.width - self.pauseButton!.frame.width/2, y: scene.frame.height - self.pauseButton!.frame.height/2.5)
-        self.resumeButton?.position = CGPoint(x: scene.frame.width - self.pauseButton!.frame.width/2, y: scene.frame.height - self.pauseButton!.frame.height/2.5)
+        self.pauseButton?.position = CGPoint(x: scene.frame.width - self.pauseButton!.frame.width/2, y: scene.frame.height - self.pauseButton!.frame.height/3)
+        self.resumeButton?.position = CGPoint(x: scene.frame.width - self.pauseButton!.frame.width/2, y: scene.frame.height - self.pauseButton!.frame.height/3)
         self.pauseButton?.name = "PauseButton"
         self.resumeButton?.name = "PlayButton"
         self.pausedLabel = SKLabelNode(text: "Paused")
@@ -66,10 +66,10 @@ class MenuController {
         self.soundOn.zPosition = 2.0
         self.soundOff.zPosition = 2.0
         
-        self.pauseButton?.xScale = 0.4
-        self.pauseButton?.yScale = 0.4
-        self.resumeButton?.xScale = 0.4
-        self.resumeButton?.yScale = 0.4
+        self.pauseButton?.xScale = 0.3
+        self.pauseButton?.yScale = 0.3
+        self.resumeButton?.xScale = 0.3
+        self.resumeButton?.yScale = 0.3
         
         self.gameCenterButton = SKSpriteNode(imageNamed: "GameCenter")
         self.gameCenterButton.name = "GameCenterButton"

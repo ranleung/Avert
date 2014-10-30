@@ -432,6 +432,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.soundOn?.removeFromParent()
                     self.addChild(self.soundOff!)
                     self.soundPlaying = false
+                    self.stopMusic()
                 }
             }
         } else {
@@ -439,10 +440,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.soundOff!.parent))
                 if nodeAtTouch.name == "SoundOff" {
                     println("SoundOff Touched")
+                    
+                    var error : NSError?
+                    
                     self.soundOff?.removeFromParent()
                     self.addChild(self.soundOn!)
                     self.soundPlaying = true
                     self.pointsShouldIncrease = true
+                    self.audioPlayer?.volume = 0.25
+                    self.audioPlayer?.play()
                 }
             }
         }
@@ -516,7 +522,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         
                         let collectSFX = SKAction.playSoundFileNamed("avert_collect.mp3", waitForCompletion: false)
-                        self.hero.runAction(collectSFX)
+                        if self.soundPlaying == true {
+                            self.hero.runAction(collectSFX)
+                        }
                         shape.sprite?.removeFromParent()
                     }
                     else {
@@ -525,7 +533,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         // Death Sound Effect Activated
                         let deathSFX = SKAction.playSoundFileNamed("avert_death.mp3", waitForCompletion: false)
                         println("sfx action fired")
-                        shape.sprite?.runAction(deathSFX)
+                        if self.soundPlaying == true {
+                            shape.sprite?.runAction(deathSFX)
+                        }
                         
                         // Particle Emitter Method Calls
                         self.deathTimer = 0.0
@@ -593,6 +603,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.audioPlayer?.numberOfLoops = -1
             self.audioPlayer?.volume = 0.25
             self.audioPlayer?.play()
+        }
+    }
+    
+    func stopMusic() {
+        if self.audioPlayer?.playing == true || self.paused == true {
+            self.audioPlayer?.stop()
         }
     }
     
