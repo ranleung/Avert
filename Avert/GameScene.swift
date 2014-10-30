@@ -9,9 +9,13 @@
 import SpriteKit
 import AVFoundation
 import AudioToolbox
+import GameKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
+    // Parent View Controller properties
+    var gameViewController: GameViewController?
+    
     // Menu properties
     var menuController: MenuController!
     var menuNode: MenuScreenNode?
@@ -420,8 +424,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.dimmingLayer?.removeFromParent()
                     self.pauseGame()
                     self.menuController.removeSoundButtons(self)
+                    self.pointsShouldIncrease = true
                     self.gameCenterButton?.removeFromParent()
                     AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                    
                 }
             }
         }
@@ -540,6 +546,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if self.soundPlaying == true {
                             shape.sprite?.runAction(deathSFX)
                         }
+                        
+                        // Report score to Game Center
+                        if self.gameViewController!.gameCenterEnabled == true {
+                            let pointTotal = Int64(self.points)
+                            self.gameViewController!.reportPointScore(pointTotal)
+                        }
+                        
                         
                         // Particle Emitter Method Calls
                         self.deathTimer = 0.0
@@ -664,4 +677,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var uncastedEmitter: AnyObject = NSKeyedUnarchiver.unarchiveObjectWithFile(NSBundle.mainBundle().pathForResource("DeathParticleEmitter", ofType: "sks")!)!
         self.particleEmitter = uncastedEmitter as? SKEmitterNode
     }
+    
+
 }

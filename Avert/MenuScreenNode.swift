@@ -13,6 +13,7 @@ class MenuScreenNode: SKNode {
     var playButton: SKLabelNode!
     var helpButton: SKLabelNode!
     var titleLabel: SKLabelNode!
+
     var font = "Audiowide-Regular"
     //var gameCenterButton: SKSpriteNode?
     

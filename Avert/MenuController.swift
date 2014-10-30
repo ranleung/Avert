@@ -24,6 +24,7 @@ class MenuController {
     var soundOff: SKSpriteNode!
     var gameCenterButton: SKSpriteNode!
     
+    
     init(scene: GameScene) {
         self.menuNode = MenuScreenNode(scene: scene)
         self.helpNode = HelpScreen(scene: scene)
@@ -121,6 +122,7 @@ class MenuController {
         
         if sound == true {
             scene.addChild(scene.soundOn!)
+
         } else {
             scene.addChild(scene.soundOff!)
         }
