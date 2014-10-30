@@ -64,7 +64,7 @@ class Powerup: Shape {
                     hero.yScale = 2.5
                 }
             case 2:
-                scene.points -= 5000
+                scene.points -= 500
                 println("New points: \(scene.points)")
             case 3:
                 self.swapPowerup(scene, team: ShapeTeam.Enemy)
