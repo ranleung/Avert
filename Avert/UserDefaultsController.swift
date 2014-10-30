@@ -48,7 +48,7 @@ class UserDefaultsController {
                 scene.highScore = scene.points
             }
         } else {
-            NSUserDefaults.standardUserDefaults().setValue(scene.highScore, forKey: pointsKey)
+            NSUserDefaults.standardUserDefaults().setValue(scene.points, forKey: pointsKey)
             NSUserDefaults.standardUserDefaults().synchronize()
         }
         
@@ -59,7 +59,7 @@ class UserDefaultsController {
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         } else {
-            NSUserDefaults.standardUserDefaults().setValue(scene.highSquares, forKey: squaresKey)
+            NSUserDefaults.standardUserDefaults().setValue(scene.squaresAcquired, forKey: squaresKey)
             NSUserDefaults.standardUserDefaults().synchronize()
         }
     }
