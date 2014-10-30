@@ -14,7 +14,7 @@ class GameOverNode: SKNode {
     var newGameLabel: SKLabelNode!
     var helpScreenLabel: SKLabelNode!
     var scoreLabel: SKLabelNode!
-    var font = "Optima-Bold"
+    var font = "Audiowide-Regular"
     
     init(scene: SKScene, score: Int) {
         super.init()

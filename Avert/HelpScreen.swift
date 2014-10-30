@@ -22,7 +22,7 @@ class HelpScreen: SKNode {
     var thirdRuleLabel: SKLabelNode!
     var thirdRuleLabelLine2: SKLabelNode!
     var fourthRuleLabel: SKLabelNode!
-    var font = "Optima-Bold"
+    var font = "Audiowide-Regular"
     
     init(scene: SKScene) {
         super.init()

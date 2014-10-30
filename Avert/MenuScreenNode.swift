@@ -13,13 +13,13 @@ class MenuScreenNode: SKNode {
     var playButton: SKLabelNode!
     var helpButton: SKLabelNode!
     var titleLabel: SKLabelNode!
-    var font = "Optima-Bold"
+    var font = "Audiowide-Regular"
     //var gameCenterButton: SKSpriteNode?
     
     init(scene: SKScene) {
         super.init()
 
-        self.titleLabel = SKLabelNode(text: "Avert")
+        self.titleLabel = SKLabelNode(text: "[AVERT]")
         self.titleLabel.fontName = self.font
         self.titleLabel.fontSize = 50
         

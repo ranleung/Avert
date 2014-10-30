@@ -28,7 +28,7 @@ class Powerup: Shape {
     }
     
     func givePowerup(hero: SKSpriteNode, scene: GameScene) {
-        let randomPowerup = arc4random() % 1 + 2
+        let randomPowerup = arc4random() % 3 + 1
         switch self.team {
         case .Friend:
             switch randomPowerup {
@@ -72,7 +72,6 @@ class Powerup: Shape {
                 break
             }
         }
-        
     }
     
     func swapPowerup(scene: GameScene, team: ShapeTeam) {
