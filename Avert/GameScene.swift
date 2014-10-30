@@ -76,7 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var soundOff: SKSpriteNode?
     var soundPlaying = true
     
-    // Particle Emitter
+    // Particle Emitter properties
     var particleEmitter: SKEmitterNode?
     
     // MARK: - Overwritten SKScene Methods
@@ -134,10 +134,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     override func update(currentTime: CFTimeInterval) {
-        
-        self.currentTime = currentTime
-        self.deltaTime = self.currentTime - self.previousTime
-        self.previousTime = currentTime
         
         if self.paused == false {
             self.pointsCounterLabel?.text = "Points: \(self.points)"
