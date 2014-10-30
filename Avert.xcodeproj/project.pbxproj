@@ -12,6 +12,7 @@
 		15BA3A271A019E6300FA7AB7 /* Powerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA3A261A019E6300FA7AB7 /* Powerup.swift */; };
 		15E8D8CB1A000E4E007BFE60 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8D8CA1A000E4E007BFE60 /* Shape.swift */; };
 		2823649919FEFDF5005318DD /* GameOverNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2823649819FEFDF5005318DD /* GameOverNode.swift */; };
+		284F2FDF1A02AD9B00F3F246 /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F2FDE1A02AD9B00F3F246 /* UserDefaultsController.swift */; };
 		286F95DF1A017E7B0085C1E6 /* DeathParticleEmitter.sks in Resources */ = {isa = PBXBuildFile; fileRef = 286F95DD1A017E7B0085C1E6 /* DeathParticleEmitter.sks */; };
 		286F95E01A017E7B0085C1E6 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 286F95DE1A017E7B0085C1E6 /* spark.png */; };
 		2890953E19FEDAFE000AD9CB /* MenuScreenNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */; };
@@ -47,6 +48,7 @@
 		15BA3A261A019E6300FA7AB7 /* Powerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Powerup.swift; sourceTree = "<group>"; };
 		15E8D8CA1A000E4E007BFE60 /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		2823649819FEFDF5005318DD /* GameOverNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverNode.swift; sourceTree = "<group>"; };
+		284F2FDE1A02AD9B00F3F246 /* UserDefaultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsController.swift; sourceTree = "<group>"; };
 		286F95DD1A017E7B0085C1E6 /* DeathParticleEmitter.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DeathParticleEmitter.sks; sourceTree = "<group>"; };
 		286F95DE1A017E7B0085C1E6 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		2890953D19FEDAFE000AD9CB /* MenuScreenNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScreenNode.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				28A5B10C1A016343005911B8 /* MenuController.swift */,
 				15E8D8CA1A000E4E007BFE60 /* Shape.swift */,
 				701E6A2E19FECCC0005D63BE /* GameViewController.swift */,
+				284F2FDE1A02AD9B00F3F246 /* UserDefaultsController.swift */,
 				28EDBB9B1A000CD200A8FD4F /* Menus */,
 				701E6A3019FECCC0005D63BE /* Main.storyboard */,
 				701E6A3319FECCC0005D63BE /* Images.xcassets */,
@@ -279,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28A5B10D1A016343005911B8 /* MenuController.swift in Sources */,
+				284F2FDF1A02AD9B00F3F246 /* UserDefaultsController.swift in Sources */,
 				701E6A2D19FECCC0005D63BE /* GameScene.swift in Sources */,
 				701E6A2F19FECCC0005D63BE /* GameViewController.swift in Sources */,
 				2890953E19FEDAFE000AD9CB /* MenuScreenNode.swift in Sources */,

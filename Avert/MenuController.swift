@@ -22,6 +22,7 @@ class MenuController {
     var scoreLabel: SKLabelNode?
     var soundOn: SKSpriteNode!
     var soundOff: SKSpriteNode!
+    var gameCenterButton: SKSpriteNode!
     
     init(scene: GameScene) {
         self.menuNode = MenuScreenNode(scene: scene)
@@ -77,6 +78,9 @@ class MenuController {
         scene.showMenu = false
         scene.addChild(self.dimmingLayer!)
         self.removeSoundButtons(scene)
+        if scene.gameCenterButton?.parent != nil {
+            scene.gameCenterButton?.removeFromParent()
+        }
     }
     
     func addMenuScreen(scene: GameScene) {
@@ -86,6 +90,9 @@ class MenuController {
         scene.addChild(self.dimmingLayer!)
         if scene.soundOn?.parent == nil && scene.soundOff?.parent == nil {
             self.addSoundButtons(scene, sound: scene.soundPlaying)
+        }
+        if scene.gameCenterButton?.parent == nil {
+            scene.addChild(self.gameCenterButton)
         }
     }
     
@@ -97,6 +104,9 @@ class MenuController {
         scene.addChild(self.dimmingLayer!)
         if scene.soundOn?.parent == nil && scene.soundOff?.parent == nil {
             self.addSoundButtons(scene, sound: scene.soundPlaying)
+        }
+        if scene.gameCenterButton?.parent == nil {
+            scene.addChild(self.gameCenterButton)
         }
         return self.gameOverNode!
     }
