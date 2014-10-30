@@ -10,7 +10,7 @@ import SpriteKit
 
 class Powerup: Shape {
    
-    class func spawnPowerup (team: ShapeTeam, scene: SKScene, shapesAcquired: UInt16) -> Powerup {
+    class func spawnPowerup (team: ShapeTeam, scene: SKScene, shapesAcquired: Int) -> Powerup {
         let powerup = Powerup(side: randomSide(), team: team, scene: scene)
         powerup.spawnSprite(shapesAcquired)
         switch team {
