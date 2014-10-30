@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var menuNode: MenuScreenNode?
     var helpNode: HelpScreen?
     var gameOverNode: GameOverNode?
+    var gameCenterButton: SKSpriteNode?
     var showMenu = true
     var showHelpMenu = false
     var showGameOver = false
@@ -83,6 +84,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Particle Emitter properties
     var particleEmitter: SKEmitterNode?
     
+    //PowerUpLabel Properties
+    var powerUpLabelIsActive = false
+    var currentPowerUpLabelNode : PowerUpLabelNode?
+
     // UserDefaults Properties
     var userDefaultsController: UserDefaultsController?
     var highScore = 0
@@ -90,6 +95,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // App Delegate Property
     var appDelegate: AppDelegate?
+
     
     // MARK: - Overwritten SKScene Methods
     
@@ -111,11 +117,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.pauseButton = self.menuController.pauseButton
         self.resumeButton = self.menuController.resumeButton
         self.pausedLabel = self.menuController.pausedLabel
+        self.gameCenterButton = self.menuController.gameCenterButton
         self.dimmingLayer = self.menuController.dimmingLayer
         self.pointsCounterLabel = self.menuController.scoreLabel
         self.soundOn = self.menuController.soundOn
         self.soundOff = self.menuController.soundOff
         self.addChild(self.menuNode!)
+        self.addChild(self.gameCenterButton!)
         self.addChild(self.soundOn!)
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
@@ -147,12 +155,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         self.pauseHelper(touches)
         self.soundHelper(touches)
+        self.gameCenterHelper(touches)
     }
 
     override func update(currentTime: CFTimeInterval) {
         
         if self.paused == false {
             self.pointsCounterLabel?.text = "Points: \(self.points)"
+            var alignment = SKLabelHorizontalAlignmentMode(rawValue: 1)
+            self.pointsCounterLabel?.horizontalAlignmentMode = alignment!
 
             if self.pointsShouldIncrease != false {
                 self.currentTime = currentTime
@@ -216,11 +227,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 spawnedPowerup.sprite?.physicsBody?.collisionBitMask = 0
                 spawnedPowerup.sprite?.physicsBody?.categoryBitMask = powerupCategory
                 self.powerupsDictionary["Enemy"] = spawnedPowerup
-                
             }
-            
         }
-        
         
         self.deathTimer += self.deltaTime
         
@@ -327,6 +335,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 println("PlayButton Touched")
                 
                 self.menuController.removeSoundButtons(self)
+                self.gameCenterButton?.removeFromParent()
                 
                 // Instantiate game
                 self.heroView = view
@@ -338,7 +347,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         shape.sprite?.removeFromParent()
                     }
                 }
-                
                 self.shapesArray = [Shape]()
                 startSpawn()
                 self.addChild(self.pauseButton!)
@@ -404,6 +412,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.addChild(self.dimmingLayer!)
                     self.pauseGame()
                     self.menuController.addSoundButtons(self, sound: self.soundPlaying)
+                    self.addChild(self.gameCenterButton!)
                     AudioServicesPlaySystemSound(self.optionSelectedSound!)
                 }
             }
@@ -416,6 +425,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.pauseGame()
                     self.menuController.removeSoundButtons(self)
                     self.pointsShouldIncrease = true
+                    self.gameCenterButton?.removeFromParent()
                     AudioServicesPlaySystemSound(self.optionSelectedSound!)
                     
                 }
@@ -432,6 +442,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.soundOn?.removeFromParent()
                     self.addChild(self.soundOff!)
                     self.soundPlaying = false
+                    self.stopMusic()
                 }
             }
         } else {
@@ -439,15 +450,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.soundOff!.parent))
                 if nodeAtTouch.name == "SoundOff" {
                     println("SoundOff Touched")
+                    
+                    var error : NSError?
+                    
                     self.soundOff?.removeFromParent()
                     self.addChild(self.soundOn!)
                     self.soundPlaying = true
                     self.pointsShouldIncrease = true
+                    self.audioPlayer?.volume = 0.25
+                    self.audioPlayer?.play()
                 }
             }
         }
     }
     
+    func gameCenterHelper(touches: NSSet) {
+        for touch in touches {
+            var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.gameCenterButton!.parent))
+            if nodeAtTouch.name == "GameCenterButton" {
+                println("GameCenter Touched")
+            }
+        }
+    }
+
         // Check to see which body in the contact is the hero and shape
         //MARK: - Contact Delegate Methods
         
@@ -507,7 +532,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         
                         let collectSFX = SKAction.playSoundFileNamed("avert_collect.mp3", waitForCompletion: false)
-                        self.hero.runAction(collectSFX)
+                        if self.soundPlaying == true {
+                            self.hero.runAction(collectSFX)
+                        }
                         shape.sprite?.removeFromParent()
                     }
                     else {
@@ -516,7 +543,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         // Death Sound Effect Activated
                         let deathSFX = SKAction.playSoundFileNamed("avert_death.mp3", waitForCompletion: false)
                         println("sfx action fired")
-                        shape.sprite?.runAction(deathSFX)
+                        if self.soundPlaying == true {
+                            shape.sprite?.runAction(deathSFX)
+                        }
                         
                         // Report score to Game Center
                         if self.gameViewController!.gameCenterEnabled == true {
@@ -591,6 +620,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.audioPlayer?.numberOfLoops = -1
             self.audioPlayer?.volume = 0.25
             self.audioPlayer?.play()
+        }
+    }
+    
+    func stopMusic() {
+        if self.audioPlayer?.playing == true || self.paused == true {
+            self.audioPlayer?.stop()
         }
     }
     

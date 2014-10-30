@@ -28,7 +28,7 @@ class Powerup: Shape {
     }
     
     func givePowerup(hero: SKSpriteNode, scene: GameScene) {
-        let randomPowerup = arc4random() % 1 + 2
+        let randomPowerup = arc4random() % 3 + 1
         switch self.team {
         case .Friend:
             switch randomPowerup {
@@ -37,17 +37,25 @@ class Powerup: Shape {
                 if newscale >= 0.9 {
                     hero.xScale = newscale
                     hero.yScale = newscale
+                    var powerUpLabel = PowerUpLabelNode(powerUpName: "Mini Square!", scene: scene)
+                    self.scene.addChild(powerUpLabel)
                 }
                 else {
                     hero.xScale = 0.9
                     hero.yScale = 0.9
+                    var powerUpLabel = PowerUpLabelNode(powerUpName: "Mini Square!", scene: scene)
+                    self.scene.addChild(powerUpLabel)
                 }
                 println(hero.xScale)
             case 2:
                 scene.points += 500
                 println("New points: \(scene.points)")
+                var powerUpLabel = PowerUpLabelNode(powerUpName: "+500 Points!", scene: scene)
+                self.scene.addChild(powerUpLabel)
             case 3:
                 self.swapPowerup(scene, team: ShapeTeam.Friend)
+                var powerUpLabel = PowerUpLabelNode(powerUpName: "All Squares Friendlies!", scene: scene)
+                self.scene.addChild(powerUpLabel)
             default:
                 break
             }
@@ -58,21 +66,28 @@ class Powerup: Shape {
                 if newscale <= 2.5 {
                     hero.xScale = newscale
                     hero.yScale = newscale
+                    var powerUpLabel = PowerUpLabelNode(powerUpName: "Big Square!", scene: scene)
+                    self.scene.addChild(powerUpLabel)
                 }
                 else {
                     hero.xScale = 2.5
                     hero.yScale = 2.5
+                    var powerUpLabel = PowerUpLabelNode(powerUpName: "Big Square!", scene: scene)
+                    self.scene.addChild(powerUpLabel)
                 }
             case 2:
                 scene.points -= 500
                 println("New points: \(scene.points)")
+                var powerUpLabel = PowerUpLabelNode(powerUpName: "-500 Points", scene: scene)
+                self.scene.addChild(powerUpLabel)
             case 3:
                 self.swapPowerup(scene, team: ShapeTeam.Enemy)
+                var powerUpLabel = PowerUpLabelNode(powerUpName: "All Squares Enemies!", scene: scene)
+                self.scene.addChild(powerUpLabel)
             default:
                 break
             }
         }
-        
     }
     
     func swapPowerup(scene: GameScene, team: ShapeTeam) {
