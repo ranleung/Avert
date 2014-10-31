@@ -18,8 +18,8 @@ class Timer : SKSpriteNode {
         while newTimer.timerArray.count < 6 {
             let pixelSide = newTimerHeight
             let pixelSize = CGSize(width: pixelSide, height: pixelSide)
-            let pixel = SKSpriteNode(color: UIColor.purpleColor(), size: pixelSize)
-            pixel.alpha = 0.5
+            let pixel = SKSpriteNode(color: UIColor(red: 1, green: 214/255, blue: 0, alpha: 1), size: pixelSize)
+            pixel.alpha = 1
             pixel.position = CGPoint(x: (pixel.size.width / 2) + (pixel.size.width * CGFloat(newTimer.timerArray.count)), y: pixel.size.width / 2)
             newTimer.timerArray.append(pixel)
             newTimer.addChild(pixel)
