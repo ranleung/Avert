@@ -29,7 +29,7 @@ class MenuScreenNode: SKNode {
         self.playButton.fontSize = 20
         self.playButton.name = "PlayButton"
         
-        self.playButton.position = CGPoint(x: CGRectGetMidX(scene.frame) - self.playButton.frame.width, y: CGRectGetMidY(scene.frame) - self.titleLabel.frame.height)
+        self.playButton.position = CGPoint(x: CGRectGetMidX(scene.frame) - self.playButton.frame.width * 2.0, y: CGRectGetMidY(scene.frame) - self.titleLabel.frame.height)
         self.addChild(self.playButton)
         
         self.helpButton = SKLabelNode(text: "Help")
