@@ -1,10 +1,8 @@
-//
-//  Timer.swift
-//  Avert
-//
-//  Created by William Richman on 10/29/14.
-//  Copyright (c) 2014 Randall. All rights reserved.
-//
+/*
+
+Timer for measuring all enemies and all friends powerups
+
+*/
 
 import SpriteKit
 

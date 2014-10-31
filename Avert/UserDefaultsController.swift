@@ -1,10 +1,8 @@
-//
-//  UserDefaultsController.swift
-//  Avert
-//
-//  Created by Reid Weber on 10/30/14.
-//  Copyright (c) 2014 Randall. All rights reserved.
-//
+/*
+
+Setting user defaults for sound preferences and high score
+
+*/
 
 import Foundation
 
