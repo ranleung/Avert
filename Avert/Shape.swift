@@ -60,7 +60,7 @@ class Shape {
         switch self.team {
         case .Friend:
             sprite.color = UIColor(red: 0, green: 144/255, blue: 1, alpha: 1)
-            sprite.texture = SKTexture(image: UIImage(named: "friendlies")!)
+            sprite.texture = SKTexture(image: UIImage(named: "friendlies2")!)
         case .Enemy:
             sprite.color = UIColor(red: 1, green: 150/255, blue: 0, alpha: 1)
             sprite.texture = SKTexture(image: UIImage(named: "enemies")!)

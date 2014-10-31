@@ -294,7 +294,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Create starting hero and position center
         let heroSideLength = self.heroView!.frame.width * 0.035
         let heroSize = CGSize(width: heroSideLength, height: heroSideLength)
-        var texture = SKTexture(image: UIImage(named: "hero")!)
+        var texture = SKTexture(image: UIImage(named: "hero2")!)
         self.hero = SKSpriteNode(texture: texture, size: heroSize)
         self.hero.position = CGPointMake(self.heroView!.frame.width/2, self.heroView!.frame.height/2)
         self.heroCategory = (self.friendCategory | self.enemyCategory | self.powerupCategory)
