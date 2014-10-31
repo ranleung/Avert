@@ -1,6 +1,6 @@
 /*
 
-
+Sprite creation methods, randomization methods
 
 */
 
