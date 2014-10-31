@@ -1,10 +1,8 @@
-//
-//  GameViewController.swift
-//  Avert
-//
-//  Created by Randall Leung on 10/27/14.
-//  Copyright (c) 2014 Randall. All rights reserved.
-//
+/*
+
+Game initialization and Game Center methods
+
+*/
 
 import UIKit
 import SpriteKit
@@ -32,7 +30,6 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate {
         scene.scaleMode = .AspectFill
         
         scene.gameViewController = self
-        
         skView.presentScene(scene)
         
         self.authenticateLocalPlayer()
@@ -71,9 +68,9 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate {
         }
     }
     
-    func reportPointScore(points: Int64) {
-        var score = GKScore(leaderboardIdentifier: self.leaderboardIdentifier)
-        score.value = points
+    func reportScore(intForScore: Int64, forLeaderboard: String) {
+        var score = GKScore(leaderboardIdentifier: forLeaderboard)
+        score.value = intForScore
 
         GKScore.reportScores([score], withCompletionHandler: { (error) -> Void in
             if error != nil {
@@ -97,4 +94,5 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate {
     func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
         gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
+    
 }

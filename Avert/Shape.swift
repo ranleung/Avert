@@ -1,10 +1,8 @@
-//
-//  Shape.swift
-//  Avert
-//
-//  Created by William Richman on 10/28/14.
-//  Copyright (c) 2014 Randall. All rights reserved.
-//
+/*
+
+Sprite creation methods, randomization methods
+
+*/
 
 import Spritekit
 
@@ -18,6 +16,7 @@ class Shape {
     var contactCategory : UInt32?
     var originalTeam : ShapeTeam
     
+    // Enums for spawning side and shape team
     enum OriginSide {
         case Up, Down, Left, Right
         static let allValues = [Up, Down, Left, Right]
@@ -55,9 +54,7 @@ class Shape {
     }
     
     func spawnSprite(squaresAquired: Int) {
-        
         let shapeSideSize = self.scene.size.width * self.random(min: 0.03, max: 0.055)
-        
         let sprite = SKSpriteNode(texture: nil, size: CGSize(width: shapeSideSize, height: shapeSideSize))
         
         switch self.team {
@@ -90,7 +87,6 @@ class Shape {
             sprite.position = CGPoint(x: scene.size.width + sprite.frame.width / 2, y: randomY)
             destination = CGPoint(x: -sprite.frame.width, y: randomY)
         }
-        
         scene.addChild(sprite)
         
         var min: CGFloat = 4.0
@@ -146,9 +142,7 @@ class Shape {
         let respawnAction = SKAction.runBlock { () -> Void in
             self.alive = false
         }
-        
         sprite.runAction(SKAction.sequence([moveAction, respawnAction, moveActionDone]))
-
         self.sprite = sprite
     }
     

@@ -13,10 +13,10 @@ import GameKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
-    // Parent View Controller properties
+    // Parent View Controller Properties
     var gameViewController: GameViewController?
     
-    // Menu properties
+    // Menu Properties
     var menuController: MenuController!
     var menuNode: MenuScreenNode?
     var helpNode: HelpScreen?
@@ -39,7 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var startPosition : CGPoint!
     var heroView: SKView?
     
-    // Timer properties
+    // Timer Properties
     var currentTime = 0.0
     var previousTime = 0.0
     var deltaTime = 0.0
@@ -48,40 +48,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var deathTimer = 0.0
     var playerIsDead = false
     
-    // Points properties
+    // Points Properties
     var points: Int = 0
     var squaresAcquired: Int = 0
     var shapesArray = [Shape]()
     var pointsCounterLabel: SKLabelNode?
     var pointsShouldIncrease = false
     
-    // Powerups properties
+    // Powerups Properties
     var powerupsDictionary: [String: Powerup?] = ["Friend": nil, "Enemy": nil]
     var timeSinceLastGoodPowerup = 1.0
     var timeSinceLastBadPowerup = 0.0
     var timeIntervalForGoodPowerup : Double?
     var timeIntervalForBadPowerup : Double?
     
-    // Contact properties
+    // Contact Properties
     let friendCategory : UInt32 = 0x1 << 0
     let enemyCategory : UInt32 = 0x1 << 1
     let powerupCategory : UInt32 = 0x1 << 2
     var heroCategory : UInt32?
     
-    // Sound properties
+    // Sound Properties
     var audioPlayer : AVAudioPlayer?
     var optionSelectedSound : SystemSoundID?
 
-    // Dimming layer
+    // Dimming Layer Properties
     var dimmingLayer: SKSpriteNode?
     var playerHasPaused = false
     
-    // Sounds Buttons
+    // Sounds Button Properties
     var soundOn: SKSpriteNode?
     var soundOff: SKSpriteNode?
     var soundPlaying = true
     
-    // Particle Emitter properties
+    // Particle Emitter Properties
     var particleEmitter: SKEmitterNode?
     
     //PowerUpLabel Properties
@@ -177,6 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.timeSinceLastBadPowerup = self.timeSinceLastBadPowerup + self.deltaTime
                 var timeIntervalForPoints = 1.0
                 
+                // Rate for accumulating points
                 switch self.squaresAcquired {
                 case 0...5:
                     timeIntervalForPoints = 1.0
@@ -241,7 +242,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 shape.alive = true
             }
         }
-        
     }
     
     // MARK: - Control Methods
@@ -279,9 +279,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.hero.position = CGPoint(x: self.hero.position.x, y: self.view!.frame.height - 20)
             }
         }
-        if panGestureRecognizer.state == UIGestureRecognizerState.Ended {
-            println("Ended \(self.hero.position)")
-        }
     }
     
     // MARK: - Character Creation Methods
@@ -294,17 +291,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.hero.position = CGPointMake(self.heroView!.frame.width/2, self.heroView!.frame.height/2)
         self.heroCategory = (self.friendCategory | self.enemyCategory | self.powerupCategory)
         
+        // Setting hero physics body
         self.hero.physicsBody = SKPhysicsBody(rectangleOfSize: heroSize)
         self.hero.physicsBody?.collisionBitMask = 0
         self.hero.physicsBody?.contactTestBitMask = self.heroCategory!
         
+        // Setting hero rotation
         let action = SKAction.rotateByAngle(CGFloat(M_PI), duration: 1)
         self.hero.runAction(SKAction.repeatActionForever(action))
         
+        // Adding gesture and hero to scene
         self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
         self.view?.addGestureRecognizer(panGestureRecognizer)
         self.addChild(self.hero)
-
     }
     
     func startSpawn () {
@@ -322,18 +321,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             friendShape.sprite?.physicsBody?.collisionBitMask = 0
             friendShape.sprite?.physicsBody?.categoryBitMask = friendCategory
             self.shapesArray.append(friendShape)
-            //self.addChild(self.dimmingLayer!)
         }
     }
     
-    // MARK: - Various Menu Helper Methods
+    // MARK: - Touch Helper Methods
         
     func menuHelper(touches: NSSet) {
         for touch in touches {
             var nodeAtTouch = self.menuNode?.nodeAtPoint(touch.locationInNode(self.menuNode))
             if nodeAtTouch?.name == "PlayButton" {
-                println("PlayButton Touched")
-                
                 self.menuController.removeSoundButtons(self)
                 self.gameCenterButton?.removeFromParent()
                 
@@ -350,7 +346,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.shapesArray = [Shape]()
                 startSpawn()
                 self.addChild(self.pauseButton!)
-                
                 self.showGameOver = false
                 self.showMenu = false
                 self.menuNode?.removeFromParent()
@@ -361,7 +356,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             }
             if nodeAtTouch?.name == "HelpButton" {
-                println("HelpButton Touched")
                 self.dimmingLayer?.removeFromParent()
                 self.menuNode?.removeFromParent()
                 self.menuController.addHelpScreen(self)
@@ -374,7 +368,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for touch in touches {
             var nodeAtTouch = self.helpNode?.nodeAtPoint(touch.locationInNode(self.helpNode))
             if nodeAtTouch?.name == "BackButton" {
-                print("BackButton Touched")
                 self.helpNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.menuController.addMenuScreen(self)
@@ -387,14 +380,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for touch in touches {
             var nodeAtTouch = self.gameOverNode?.nodeAtPoint(touch.locationInNode(self.gameOverNode))
             if nodeAtTouch?.name == "NewGameButton" {
-                println("New Game Touched")
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.menuController.addMenuScreen(self)
                 AudioServicesPlaySystemSound(self.optionSelectedSound!)
             }
             if nodeAtTouch?.name == "HelpButton" {
-                println("Help Button Pressed")
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.menuController.addHelpScreen(self)
@@ -420,14 +411,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for touch in touches {
                 var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.resumeButton!.parent))
                 if nodeAtTouch.name == "PlayButton" {
-                    println("Resume Touched")
                     self.dimmingLayer?.removeFromParent()
                     self.pauseGame()
                     self.menuController.removeSoundButtons(self)
                     self.pointsShouldIncrease = true
                     self.gameCenterButton?.removeFromParent()
                     AudioServicesPlaySystemSound(self.optionSelectedSound!)
-                    
                 }
             }
         }
@@ -438,7 +427,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for touch in touches {
                 var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.soundOn!.parent))
                 if nodeAtTouch.name == "SoundOn" {
-                    println("SoundOn Touched")
                     self.soundOn?.removeFromParent()
                     self.addChild(self.soundOff!)
                     self.soundPlaying = false
@@ -449,10 +437,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for touch in touches {
                 var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.soundOff!.parent))
                 if nodeAtTouch.name == "SoundOff" {
-                    println("SoundOff Touched")
-                    
                     var error : NSError?
-                    
                     self.soundOff?.removeFromParent()
                     self.addChild(self.soundOn!)
                     self.soundPlaying = true
@@ -468,13 +453,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for touch in touches {
             var nodeAtTouch = self.nodeAtPoint(touch.locationInNode(self.gameCenterButton!.parent))
             if nodeAtTouch.name == "GameCenterButton" {
-                println("GameCenter Touched")
+                self.gameViewController!.showLeaderBoardAndAchievements(true)
             }
         }
     }
 
-        // Check to see which body in the contact is the hero and shape
-        //MARK: - Contact Delegate Methods
+    // MARK: - Contact Delegate Methods
         
     func didBeginContact(contact: SKPhysicsContact) {
         var shapeTouched : SKNode
@@ -523,26 +507,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             pointsConstant = 70
                         }
                         self.points += pointsConstant
-                        println("scale: \(self.hero.xScale)")
                        
                         // Increase size of hero square
                         if self.hero.xScale <= 2.5 {
                             self.hero.xScale = self.hero.xScale + 0.03
                             self.hero.yScale = self.hero.yScale + 0.03
                         }
-                        
                         let collectSFX = SKAction.playSoundFileNamed("avert_collect.mp3", waitForCompletion: false)
                         if self.soundPlaying == true {
                             self.hero.runAction(collectSFX)
                         }
                         shape.sprite?.removeFromParent()
-                    }
-                    else {
+                    } else {
                         self.userDefaultsController?.checkForHighScores(self)
                         
                         // Death Sound Effect Activated
                         let deathSFX = SKAction.playSoundFileNamed("avert_death.mp3", waitForCompletion: false)
-                        println("sfx action fired")
                         if self.soundPlaying == true {
                             shape.sprite?.runAction(deathSFX)
                         }
@@ -550,9 +530,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         // Report score to Game Center
                         if self.gameViewController!.gameCenterEnabled == true {
                             let pointTotal = Int64(self.points)
-                            self.gameViewController!.reportPointScore(pointTotal)
+                            let squaresTotal = Int64(self.squaresAcquired)
+                            self.gameViewController!.reportScore(pointTotal, forLeaderboard: "Avert_Points_Leaderboard")
+                            self.gameViewController!.reportScore(squaresTotal, forLeaderboard: "Avert_Squares_Leaderboard")
                         }
-                        
                         
                         // Particle Emitter Method Calls
                         self.deathTimer = 0.0
@@ -607,6 +588,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func createParticleEmitter() {
+        var uncastedEmitter: AnyObject = NSKeyedUnarchiver.unarchiveObjectWithFile(NSBundle.mainBundle().pathForResource("DeathParticleEmitter", ofType: "sks")!)!
+        self.particleEmitter = uncastedEmitter as? SKEmitterNode
+    }
+    
     //MARK: - AVAudio Methods
     
     func playMusic() {
@@ -636,6 +622,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         println(soundID)
         self.optionSelectedSound = soundID
     }
+    
+    // MARK: - GameScene Observer Methods
 
     func registerAppTransitionEvents() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidBecomeActive:", name: UIApplicationDidBecomeActiveNotification, object: nil)
@@ -673,10 +661,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.userDefaultsController?.userSoundPreferenceSave(self)
     }
     
-    func createParticleEmitter() {
-        var uncastedEmitter: AnyObject = NSKeyedUnarchiver.unarchiveObjectWithFile(NSBundle.mainBundle().pathForResource("DeathParticleEmitter", ofType: "sks")!)!
-        self.particleEmitter = uncastedEmitter as? SKEmitterNode
-    }
-    
-
 }
