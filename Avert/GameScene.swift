@@ -61,6 +61,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timeSinceLastBadPowerup = 0.0
     var timeIntervalForGoodPowerup : Double?
     var timeIntervalForBadPowerup : Double?
+    var timer : Timer?
     
     // Contact Properties
     let friendCategory : UInt32 = 0x1 << 0

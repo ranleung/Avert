@@ -89,7 +89,12 @@ class Powerup: Shape {
     }
     
     func swapPowerup(scene: GameScene, team: ShapeTeam) {
+        if scene.timer != nil {
+            scene.timer?.removeFromParent()
+            scene.timer = nil
+        }
         var timer = Timer.addTimer(scene)
+        scene.timer = timer
         timer.zPosition = -1
         timer.position = CGPoint(x: (scene.size.width / 2) - (timer.size.width / 2), y: scene.size.height - (2 * timer.size.height))
         scene.addChild(timer)
@@ -100,11 +105,15 @@ class Powerup: Shape {
                     shape.switchTeam(scene)
                 }
             }
+            scene.timer = nil
+            
         }
         for shape in scene.shapesArray {
             if shape.team != team {
                 shape.switchTeam(scene)
             }
         }
+        
+        
     }
 }
