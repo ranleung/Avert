@@ -33,8 +33,8 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate {
         skView.presentScene(scene)
         
         self.authenticateLocalPlayer()
-        
     }
+    
 
     override func prefersStatusBarHidden() -> Bool {
         return true

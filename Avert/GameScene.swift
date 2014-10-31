@@ -71,6 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Sound Properties
     var audioPlayer : AVAudioPlayer?
     var optionSelectedSound : SystemSoundID?
+    var audioSession = AVAudioSession.sharedInstance()
 
     // Dimming Layer Properties
     var dimmingLayer: SKSpriteNode?
@@ -135,12 +136,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
 
         // Play music
-        self.playMusic()
+      //  self.playMusic()
         
         // Initialize menu sound effect
         self.initializeOptionSelectedSound()
         self.registerAppTransitionEvents()
-    }
+        
+        }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
@@ -352,14 +354,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.dimmingLayer?.removeFromParent()
                 self.paused = false
                 self.pointsShouldIncrease = true
-                AudioServicesPlaySystemSound(self.optionSelectedSound!)
-
+                if self.soundPlaying == true {
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                }
             }
             if nodeAtTouch?.name == "HelpButton" {
                 self.dimmingLayer?.removeFromParent()
                 self.menuNode?.removeFromParent()
                 self.menuController.addHelpScreen(self)
-                AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                if self.soundPlaying == true {
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                }
             }
         }
     }
@@ -371,7 +376,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.helpNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.menuController.addMenuScreen(self)
-                AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                if self.soundPlaying == true {
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                }
             }
         }
     }
@@ -383,13 +390,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.menuController.addMenuScreen(self)
-                AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                if self.soundPlaying == true {
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                }
             }
             if nodeAtTouch?.name == "HelpButton" {
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.menuController.addHelpScreen(self)
-                AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                if self.soundPlaying == true {
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                }
             }
         }
     }
@@ -404,7 +415,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.pauseGame()
                     self.menuController.addSoundButtons(self, sound: self.soundPlaying)
                     self.addChild(self.gameCenterButton!)
-                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                    if self.soundPlaying == true {
+                        AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                    }
                 }
             }
         } else {
@@ -416,7 +429,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.menuController.removeSoundButtons(self)
                     self.pointsShouldIncrease = true
                     self.gameCenterButton?.removeFromParent()
-                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                    if self.soundPlaying == true {
+                        AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                    }
                 }
             }
         }
