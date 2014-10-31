@@ -62,6 +62,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timeSinceLastBadPowerup = 0.0
     var timeIntervalForGoodPowerup : Double?
     var timeIntervalForBadPowerup : Double?
+    var timer : Timer?
     
     // Contact Properties
     let friendCategory : UInt32 = 0x1 << 0
@@ -87,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //PowerUpLabel Properties
     var powerUpLabelIsActive = false
-    var currentPowerUpLabelNode : PowerUpLabelNode?
+    var currentPowerUpLabelNode : SKLabelNode?
 
     // UserDefaults Properties
     var userDefaultsController: UserDefaultsController?
@@ -343,11 +344,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.addChild(self.pointsCounterLabel!)
                 self.addChild(self.squaresCounterLabel!)
                 self.particleEmitter?.removeFromParent()
+                
                 if !self.shapesArray.isEmpty {
                     for shape in self.shapesArray {
                         shape.sprite?.removeFromParent()
                     }
                 }
+                
+                for (team, powerup) in powerupsDictionary {
+                    if powerup != nil {
+                        powerup?.sprite?.removeFromParent()
+                        powerupsDictionary[team] = nil
+                    }
+                }
+                
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeSinceLastGoodPowerup = 1.0
+                self.timeSinceLastBadPowerup = 0.0
+                
                 self.shapesArray = [Shape]()
                 startSpawn()
                 self.addChild(self.pauseButton!)

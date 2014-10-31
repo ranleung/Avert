@@ -36,24 +36,20 @@ class Powerup: Shape {
                     hero.xScale = newscale
                     hero.yScale = newscale
                     var powerUpLabel = PowerUpLabelNode(powerUpName: "Mini Square!", scene: scene)
-                    self.scene.addChild(powerUpLabel)
                 }
                 else {
                     hero.xScale = 0.9
                     hero.yScale = 0.9
                     var powerUpLabel = PowerUpLabelNode(powerUpName: "Mini Square!", scene: scene)
-                    self.scene.addChild(powerUpLabel)
                 }
                 println(hero.xScale)
             case 2:
                 scene.points += 500
                 println("New points: \(scene.points)")
                 var powerUpLabel = PowerUpLabelNode(powerUpName: "+500 Points!", scene: scene)
-                self.scene.addChild(powerUpLabel)
             case 3:
                 self.swapPowerup(scene, team: ShapeTeam.Friend)
                 var powerUpLabel = PowerUpLabelNode(powerUpName: "All Squares Friendlies!", scene: scene)
-                self.scene.addChild(powerUpLabel)
             default:
                 break
             }
@@ -65,23 +61,19 @@ class Powerup: Shape {
                     hero.xScale = newscale
                     hero.yScale = newscale
                     var powerUpLabel = PowerUpLabelNode(powerUpName: "Big Square!", scene: scene)
-                    self.scene.addChild(powerUpLabel)
                 }
                 else {
                     hero.xScale = 2.5
                     hero.yScale = 2.5
                     var powerUpLabel = PowerUpLabelNode(powerUpName: "Big Square!", scene: scene)
-                    self.scene.addChild(powerUpLabel)
                 }
             case 2:
                 scene.points -= 500
                 println("New points: \(scene.points)")
                 var powerUpLabel = PowerUpLabelNode(powerUpName: "-500 Points", scene: scene)
-                self.scene.addChild(powerUpLabel)
             case 3:
                 self.swapPowerup(scene, team: ShapeTeam.Enemy)
                 var powerUpLabel = PowerUpLabelNode(powerUpName: "All Squares Enemies!", scene: scene)
-                self.scene.addChild(powerUpLabel)
             default:
                 break
             }
@@ -89,7 +81,12 @@ class Powerup: Shape {
     }
     
     func swapPowerup(scene: GameScene, team: ShapeTeam) {
+        if scene.timer != nil {
+            scene.timer?.removeFromParent()
+            scene.timer = nil
+        }
         var timer = Timer.addTimer(scene)
+        scene.timer = timer
         timer.zPosition = -1
         timer.position = CGPoint(x: (scene.size.width / 2) - (timer.size.width / 2), y: scene.size.height - (2 * timer.size.height))
         scene.addChild(timer)
@@ -100,11 +97,15 @@ class Powerup: Shape {
                     shape.switchTeam(scene)
                 }
             }
+            scene.timer = nil
+            
         }
         for shape in scene.shapesArray {
             if shape.team != team {
                 shape.switchTeam(scene)
             }
         }
+        
+        
     }
 }
