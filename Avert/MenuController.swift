@@ -63,17 +63,17 @@ class MenuController {
         self.soundOff.position = CGPoint(x: scene.frame.width - self.soundOn.frame.width/2, y: scene.frame.origin.y + self.soundOn.frame.height/2)
         self.soundOn?.name = "SoundOn"
         self.soundOff?.name = "SoundOff"
-        self.soundOn.xScale = 0.35
-        self.soundOn.yScale = 0.35
-        self.soundOff.xScale = 0.35
-        self.soundOff.yScale = 0.35
+        self.soundOn.xScale = 0.5
+        self.soundOn.yScale = 0.5
+        self.soundOff.xScale = 0.5
+        self.soundOff.yScale = 0.5
         self.soundOn.zPosition = 2.0
         self.soundOff.zPosition = 2.0
         
-        self.pauseButton?.xScale = 0.3
-        self.pauseButton?.yScale = 0.3
-        self.resumeButton?.xScale = 0.3
-        self.resumeButton?.yScale = 0.3
+        self.pauseButton?.xScale = 0.4
+        self.pauseButton?.yScale = 0.4
+        self.resumeButton?.xScale = 0.4
+        self.resumeButton?.yScale = 0.4
         
         self.gameCenterButton = SKSpriteNode(imageNamed: "GameCenter")
         self.gameCenterButton.name = "GameCenterButton"
