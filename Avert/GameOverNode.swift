@@ -30,7 +30,7 @@ class GameOverNode: SKNode {
         self.scoreLabel.fontName = self.font
         self.scoreLabel.fontSize = 50
         
-        self.scoreLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame) + self.titleLabel.frame.height)
+        self.scoreLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame) + self.titleLabel.frame.height * 1.1)
         self.addChild(self.scoreLabel)
         
         self.newGameLabel = SKLabelNode(text: "New Game")
@@ -38,7 +38,7 @@ class GameOverNode: SKNode {
         self.newGameLabel.fontSize = 20
         self.newGameLabel.name = "NewGameButton"
         
-        self.newGameLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) - (self.scoreLabel.frame.width / 2), y: CGRectGetMidY(scene.frame) - self.titleLabel.frame.height)
+        self.newGameLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) - (self.scoreLabel.frame.width / 2), y: CGRectGetMidY(scene.frame) - self.titleLabel.frame.height * 1.1)
         self.addChild(self.newGameLabel)
         
         self.helpScreenLabel = SKLabelNode(text: "Help")

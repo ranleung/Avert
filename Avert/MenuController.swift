@@ -18,6 +18,7 @@ class MenuController {
     var pausedLabel: SKLabelNode?
     var dimmingLayer: SKSpriteNode?
     var scoreLabel: SKLabelNode?
+    var squaresLabel: SKLabelNode?
     var soundOn: SKSpriteNode!
     var soundOff: SKSpriteNode!
     var gameCenterButton: SKSpriteNode!
@@ -49,6 +50,12 @@ class MenuController {
         self.scoreLabel?.zPosition = 2.0
         self.scoreLabel?.fontName = "Audiowide-Regular"
         self.scoreLabel?.fontSize = 20
+        
+        self.squaresLabel = SKLabelNode(text: "Squares: 0")
+        self.squaresLabel?.position = CGPoint(x: scene.frame.origin.x + scene.frame.width * 0.03, y: scene.frame.height - scene.frame.height * 0.07 - self.scoreLabel!.frame.height)
+        self.squaresLabel?.zPosition = 2.0
+        self.squaresLabel?.fontName = "Audiowide-Regular"
+        self.squaresLabel?.fontSize = 15
         
         self.soundOn = SKSpriteNode(imageNamed: "SoundOn")
         self.soundOff = SKSpriteNode(imageNamed: "SoundOff")

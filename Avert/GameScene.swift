@@ -53,6 +53,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var squaresAcquired: Int = 0
     var shapesArray = [Shape]()
     var pointsCounterLabel: SKLabelNode?
+    var squaresCounterLabel: SKLabelNode?
     var pointsShouldIncrease = false
     
     // Powerups Properties
@@ -61,6 +62,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timeSinceLastBadPowerup = 0.0
     var timeIntervalForGoodPowerup : Double?
     var timeIntervalForBadPowerup : Double?
+    var timer : Timer?
     
     // Contact Properties
     let friendCategory : UInt32 = 0x1 << 0
@@ -87,7 +89,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //PowerUpLabel Properties
     var powerUpLabelIsActive = false
-    var currentPowerUpLabelNode : PowerUpLabelNode?
+    var currentPowerUpLabelNode : SKLabelNode?
 
     // UserDefaults Properties
     var userDefaultsController: UserDefaultsController?
@@ -121,6 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.gameCenterButton = self.menuController.gameCenterButton
         self.dimmingLayer = self.menuController.dimmingLayer
         self.pointsCounterLabel = self.menuController.scoreLabel
+        self.squaresCounterLabel = self.menuController.squaresLabel
         self.soundOn = self.menuController.soundOn
         self.soundOff = self.menuController.soundOff
         self.addChild(self.menuNode!)
@@ -164,8 +167,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if self.paused == false {
             self.pointsCounterLabel?.text = "Points: \(self.points)"
+            self.squaresCounterLabel?.text = "Squares: \(self.squaresAcquired)"
             var alignment = SKLabelHorizontalAlignmentMode(rawValue: 1)
             self.pointsCounterLabel?.horizontalAlignmentMode = alignment!
+            self.squaresCounterLabel?.horizontalAlignmentMode = alignment!
 
             if self.pointsShouldIncrease != false {
                 self.currentTime = currentTime
@@ -339,12 +344,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.heroView = view
                 addHero()
                 self.addChild(self.pointsCounterLabel!)
+                self.addChild(self.squaresCounterLabel!)
                 self.particleEmitter?.removeFromParent()
+                
                 if !self.shapesArray.isEmpty {
                     for shape in self.shapesArray {
                         shape.sprite?.removeFromParent()
                     }
                 }
+                
+                for (team, powerup) in powerupsDictionary {
+                    if powerup != nil {
+                        powerup?.sprite?.removeFromParent()
+                        powerupsDictionary[team] = nil
+                    }
+                }
+                
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeSinceLastGoodPowerup = 1.0
+                self.timeSinceLastBadPowerup = 0.0
+                
                 self.shapesArray = [Shape]()
                 startSpawn()
                 self.addChild(self.pauseButton!)
@@ -556,6 +576,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.particleEmitter?.position = CGPoint(x: CGRectGetMidX(self.hero.frame), y: CGRectGetMidY(self.hero.frame))
                         self.addChild(self.particleEmitter!)
                         self.pointsCounterLabel?.removeFromParent()
+                        self.squaresCounterLabel?.removeFromParent()
                         self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points)
                         self.paused = false
                         self.pauseButton?.removeFromParent()
