@@ -513,7 +513,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.hero.xScale = self.hero.xScale + 0.03
                             self.hero.yScale = self.hero.yScale + 0.03
                         }
-                        let collectSFX = SKAction.playSoundFileNamed("avert_collect.mp3", waitForCompletion: false)
+                        let collectSFX = SKAction.playSoundFileNamed("avert_collect.caf", waitForCompletion: false)
                         if self.soundPlaying == true {
                             self.hero.runAction(collectSFX)
                         }
@@ -522,7 +522,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.userDefaultsController?.checkForHighScores(self)
                         
                         // Death Sound Effect Activated
-                        let deathSFX = SKAction.playSoundFileNamed("avert_death.mp3", waitForCompletion: false)
+                        let deathSFX = SKAction.playSoundFileNamed("avert_death.caf", waitForCompletion: false)
                         if self.soundPlaying == true {
                             shape.sprite?.runAction(deathSFX)
                         }
@@ -558,8 +558,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         switch powerup!.team {
                         case .Friend:
                             self.powerupsDictionary["Friend"] = nil
+                            let powerupSFX = SKAction.playSoundFileNamed("avert_powerup.caf", waitForCompletion: false)
+                            if self.soundPlaying == true {
+                                self.hero.runAction(powerupSFX)
+                            }
+
                         case .Enemy:
                             self.powerupsDictionary["Enemy"] = nil
+                            let powerdownSFX = SKAction.playSoundFileNamed("avert_powerdown.caf", waitForCompletion: false)
+                            if self.soundPlaying == true {
+                                self.hero.runAction(powerdownSFX)
+                            }
+
                         }
                         powerup?.sprite?.removeFromParent()
                     }
