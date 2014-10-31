@@ -29,7 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 println(error!.description)
             }
         } else {
-            gameScene?.playMusic()
+            if gameScene?.soundPlaying == true {
+                gameScene?.playMusic()
+            }
         }
 
         
@@ -60,7 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 println(error!.description)
             }
         } else {
-            gameScene?.playMusic()
+            if gameScene?.soundPlaying == true {
+                gameScene?.playMusic()
+            }
         }
     }
 

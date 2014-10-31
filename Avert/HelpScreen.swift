@@ -131,34 +131,34 @@ class HelpScreen: SKNode {
         
         self.zPosition = 2.0
         
-        self.playerAsset = SKSpriteNode(imageNamed: "PlayButton")
+        self.playerAsset = SKSpriteNode(imageNamed: "hero")
+        self.playerAsset.xScale = 0.2
+        self.playerAsset.yScale = 0.2
         self.playerAsset.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width / 1.5, y: scene.frame.height * 0.79)
-        self.playerAsset.xScale = 0.4
-        self.playerAsset.yScale = 0.4
         self.addChild(self.playerAsset)
         
-        self.friendlyAsset = SKSpriteNode(imageNamed: "PauseButton")
+        self.friendlyAsset = SKSpriteNode(imageNamed: "friendlies")
+        self.friendlyAsset.xScale = 0.2
+        self.friendlyAsset.yScale = 0.2
         self.friendlyAsset.position = CGPoint(x: scene.frame.origin.x + self.friendlyAsset.frame.width, y: scene.frame.height * 0.59)
-        self.friendlyAsset.xScale = 0.4
-        self.friendlyAsset.yScale = 0.4
         self.addChild(self.friendlyAsset)
         
-        self.enemyAsset = SKSpriteNode(imageNamed: "SoundOn")
+        self.enemyAsset = SKSpriteNode(imageNamed: "enemies")
+        self.enemyAsset.xScale = 0.2
+        self.enemyAsset.yScale = 0.2
         self.enemyAsset.position = CGPoint(x: scene.frame.origin.x + self.enemyAsset.frame.width / 1.6, y: scene.frame.height * 0.39)
-        self.enemyAsset.xScale = 0.4
-        self.enemyAsset.yScale = 0.4
         self.addChild(self.enemyAsset)
         
-        self.powerUpsGoodAsset = SKSpriteNode(imageNamed: "SoundOff")
+        self.powerUpsGoodAsset = SKSpriteNode(imageNamed: "goodpowerup")
+        self.powerUpsGoodAsset.xScale = 0.2
+        self.powerUpsGoodAsset.yScale = 0.2
         self.powerUpsGoodAsset.position = CGPoint(x: scene.frame.origin.x + self.powerUpsGoodAsset.frame.width / 1.1, y: scene.frame.height * 0.19)
-        self.powerUpsGoodAsset.xScale = 0.4
-        self.powerUpsGoodAsset.yScale = 0.4
         self.addChild(self.powerUpsGoodAsset)
         
-        self.powerUpsBadAsset = SKSpriteNode(imageNamed: "SoundOn")
-        self.powerUpsBadAsset.position = CGPoint(x: scene.frame.origin.x + self.powerUpsGoodAsset.frame.width + self.powerUpsBadAsset.frame.width, y: scene.frame.height * 0.19)
-        self.powerUpsBadAsset.xScale = 0.4
-        self.powerUpsBadAsset.yScale = 0.4
+        self.powerUpsBadAsset = SKSpriteNode(imageNamed: "badpowerup")
+        self.powerUpsBadAsset.xScale = 0.2
+        self.powerUpsBadAsset.yScale = 0.2
+        self.powerUpsBadAsset.position = CGPoint(x: scene.frame.origin.x + self.powerUpsGoodAsset.frame.width + self.powerUpsBadAsset.frame.width * 2, y: scene.frame.height * 0.19)
         self.addChild(self.powerUpsBadAsset)
     }
 

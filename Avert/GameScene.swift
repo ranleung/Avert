@@ -135,8 +135,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         println(self.deathTimer)
         
         // Initializing powerup spawns
-        self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
-        self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
+        self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 6)
+        self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 6)
 
         // Play music
       //  self.playMusic()
@@ -216,7 +216,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             if self.timeSinceLastGoodPowerup > timeIntervalForGoodPowerup {
-                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 6)
                 self.timeSinceLastGoodPowerup = 0
                 let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Friend, scene: self, shapesAcquired: self.squaresAcquired)
                 spawnedPowerup.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: spawnedPowerup.sprite!.size)
@@ -228,7 +228,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             if self.timeSinceLastBadPowerup > timeIntervalForGoodPowerup {
-                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 6)
                 self.timeSinceLastBadPowerup = 0
                 let spawnedPowerup = Powerup.spawnPowerup(Powerup.ShapeTeam.Enemy, scene: self, shapesAcquired: self.squaresAcquired)
                 spawnedPowerup.sprite?.physicsBody = SKPhysicsBody(rectangleOfSize: spawnedPowerup.sprite!.size)
@@ -361,8 +361,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 
-                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
-                self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 6)
+                self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 6)
                 self.timeSinceLastGoodPowerup = 1.0
                 self.timeSinceLastBadPowerup = 0.0
                 
@@ -477,7 +477,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.soundOff?.removeFromParent()
                     self.addChild(self.soundOn!)
                     self.soundPlaying = true
-                    self.pointsShouldIncrease = true
                     self.audioPlayer?.volume = 0.25
                     self.audioPlayer?.play()
                 }
