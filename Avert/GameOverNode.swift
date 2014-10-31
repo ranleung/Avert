@@ -1,10 +1,8 @@
-//
-//  GameOverNode.swift
-//  Avert
-//
-//  Created by Reid Weber on 10/27/14.
-//  Copyright (c) 2014 Randall. All rights reserved.
-//
+/*
+
+Game Over settings, initialization, and properties
+
+*/
 
 import UIKit
 import SpriteKit
@@ -51,7 +49,6 @@ class GameOverNode: SKNode {
         self.helpScreenLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) + (self.scoreLabel.frame.width / 2), y: CGRectGetMidY(scene.frame) - self.titleLabel.frame.height)
         self.addChild(self.helpScreenLabel)
         
-        
         self.highScoreLabel = SKLabelNode(text: "High Score: \(UserDefaultsController.returnHighScore())")
         self.highScoreLabel.fontName = self.font
         self.highScoreLabel.fontSize = 20
@@ -72,6 +69,5 @@ class GameOverNode: SKNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
     
 }

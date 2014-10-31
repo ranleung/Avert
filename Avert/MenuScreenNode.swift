@@ -1,10 +1,8 @@
-//
-//  MenuScreenNode.swift
-//  Avert
-//
-//  Created by Reid Weber on 10/27/14.
-//  Copyright (c) 2014 Randall. All rights reserved.
-//
+/*
+
+Main menu settings, initialization, and properties
+
+*/
 
 import UIKit
 import SpriteKit

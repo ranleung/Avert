@@ -1,10 +1,8 @@
-//
-//  MenuController.swift
-//  Avert
-//
-//  Created by Reid Weber on 10/29/14.
-//  Copyright (c) 2014 Randall. All rights reserved.
-//
+/*
+
+Layout and initialization of all menu nodes
+
+*/
 
 import Foundation
 import SpriteKit
@@ -23,7 +21,6 @@ class MenuController {
     var soundOn: SKSpriteNode!
     var soundOff: SKSpriteNode!
     var gameCenterButton: SKSpriteNode!
-    
     
     init(scene: GameScene) {
         self.menuNode = MenuScreenNode(scene: scene)
@@ -119,10 +116,8 @@ class MenuController {
     }
     
     func addSoundButtons(scene: GameScene, sound: Bool) {
-        
         if sound == true {
             scene.addChild(scene.soundOn!)
-
         } else {
             scene.addChild(scene.soundOff!)
         }
@@ -132,4 +127,5 @@ class MenuController {
         scene.soundOn?.removeFromParent()
         scene.soundOff?.removeFromParent()
     }
+    
 }

@@ -1,10 +1,8 @@
-//
-//  HelpScreen.swift
-//  Avert
-//
-//  Created by Matthew Brightbill on 10/27/14.
-//  Copyright (c) 2014 Randall. All rights reserved.
-//
+/*
+
+Help Screen settings, intialization, and properties
+
+*/
 
 import UIKit
 import SpriteKit
@@ -152,10 +150,10 @@ class HelpScreen: SKNode {
         self.powerUpsBadAsset.xScale = 0.4
         self.powerUpsBadAsset.yScale = 0.4
         self.addChild(self.powerUpsBadAsset)
-
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
