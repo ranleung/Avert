@@ -53,6 +53,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var squaresAcquired: Int = 0
     var shapesArray = [Shape]()
     var pointsCounterLabel: SKLabelNode?
+    var squaresCounterLabel: SKLabelNode?
     var pointsShouldIncrease = false
     
     // Powerups Properties
@@ -121,6 +122,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.gameCenterButton = self.menuController.gameCenterButton
         self.dimmingLayer = self.menuController.dimmingLayer
         self.pointsCounterLabel = self.menuController.scoreLabel
+        self.squaresCounterLabel = self.menuController.squaresLabel
         self.soundOn = self.menuController.soundOn
         self.soundOff = self.menuController.soundOff
         self.addChild(self.menuNode!)
@@ -163,8 +165,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if self.paused == false {
             self.pointsCounterLabel?.text = "Points: \(self.points)"
+            self.squaresCounterLabel?.text = "Squares: \(self.squaresAcquired)"
             var alignment = SKLabelHorizontalAlignmentMode(rawValue: 1)
             self.pointsCounterLabel?.horizontalAlignmentMode = alignment!
+            self.squaresCounterLabel?.horizontalAlignmentMode = alignment!
 
             if self.pointsShouldIncrease != false {
                 self.currentTime = currentTime
@@ -338,6 +342,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.heroView = view
                 addHero()
                 self.addChild(self.pointsCounterLabel!)
+                self.addChild(self.squaresCounterLabel!)
                 self.particleEmitter?.removeFromParent()
                 
                 if !self.shapesArray.isEmpty {
@@ -545,7 +550,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         // Report score to Game Center
                         if self.gameViewController!.gameCenterEnabled == true {
                             let pointTotal = Int64(self.points)
-                            self.gameViewController!.reportPointScore(pointTotal)
+                            let squaresTotal = Int64(self.squaresAcquired)
+                            self.gameViewController!.reportScore(pointTotal, forLeaderboard: "Avert_Points_Leaderboard")
+                            self.gameViewController!.reportScore(squaresTotal, forLeaderboard: "Avert_Squares_Leaderboard")
                         }
                         
                         // Particle Emitter Method Calls
@@ -554,6 +561,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.particleEmitter?.position = CGPoint(x: CGRectGetMidX(self.hero.frame), y: CGRectGetMidY(self.hero.frame))
                         self.addChild(self.particleEmitter!)
                         self.pointsCounterLabel?.removeFromParent()
+                        self.squaresCounterLabel?.removeFromParent()
                         self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points)
                         self.paused = false
                         self.pauseButton?.removeFromParent()
