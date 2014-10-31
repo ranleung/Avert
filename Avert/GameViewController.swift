@@ -68,9 +68,9 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate {
         }
     }
     
-    func reportPointScore(points: Int64) {
-        var score = GKScore(leaderboardIdentifier: self.leaderboardIdentifier)
-        score.value = points
+    func reportScore(intForScore: Int64, forLeaderboard: String) {
+        var score = GKScore(leaderboardIdentifier: forLeaderboard)
+        score.value = intForScore
 
         GKScore.reportScores([score], withCompletionHandler: { (error) -> Void in
             if error != nil {

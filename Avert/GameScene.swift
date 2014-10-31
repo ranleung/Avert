@@ -530,7 +530,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         // Report score to Game Center
                         if self.gameViewController!.gameCenterEnabled == true {
                             let pointTotal = Int64(self.points)
-                            self.gameViewController!.reportPointScore(pointTotal)
+                            let squaresTotal = Int64(self.squaresAcquired)
+                            self.gameViewController!.reportScore(pointTotal, forLeaderboard: "Avert_Points_Leaderboard")
+                            self.gameViewController!.reportScore(squaresTotal, forLeaderboard: "Avert_Squares_Leaderboard")
                         }
                         
                         // Particle Emitter Method Calls
