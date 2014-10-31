@@ -476,7 +476,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.soundOff?.removeFromParent()
                     self.addChild(self.soundOn!)
                     self.soundPlaying = true
-                    self.pointsShouldIncrease = true
                     self.audioPlayer?.volume = 0.25
                     self.audioPlayer?.play()
                 }
