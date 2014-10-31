@@ -87,7 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //PowerUpLabel Properties
     var powerUpLabelIsActive = false
-    var currentPowerUpLabelNode : PowerUpLabelNode?
+    var currentPowerUpLabelNode : SKLabelNode?
 
     // UserDefaults Properties
     var userDefaultsController: UserDefaultsController?

@@ -6,14 +6,13 @@ Power Up label properties, methods, and animations
 
 import SpriteKit
 
-class PowerUpLabelNode : SKNode {
+class PowerUpLabelNode {
     var powerUpLabel : SKLabelNode!
     var powerUpName: String!
     var mainScene : SKScene!
     var font = "Audiowide-Regular"
     
     init (powerUpName: String, scene : GameScene) {
-        super.init()
         self.powerUpName = powerUpName
         self.mainScene = scene
         self.powerUpLabel = SKLabelNode(text: powerUpName)
@@ -30,15 +29,14 @@ class PowerUpLabelNode : SKNode {
         }
         let moveActionDone = SKAction.removeFromParent()
         if scene.powerUpLabelIsActive == false {
-            self.powerUpLabel.runAction(SKAction.sequence([moveUpAction, waitAction, removePowerUpLabelFromScreen, moveDownAction, moveActionDone]))
-            self.addChild(self.powerUpLabel)
             scene.powerUpLabelIsActive = true
-            scene.currentPowerUpLabelNode = self
+            self.powerUpLabel.runAction(SKAction.sequence([moveUpAction, waitAction, removePowerUpLabelFromScreen, moveDownAction, moveActionDone]))
+            scene.addChild(self.powerUpLabel)
+            scene.currentPowerUpLabelNode = self.powerUpLabel
         } else {
             self.powerUpLabel.runAction(SKAction.sequence([moveUpAction, waitAction, removePowerUpLabelFromScreen, moveDownAction, moveActionDone]))
-            self.addChild(self.powerUpLabel)
+            scene.addChild(self.powerUpLabel)
             self.cancelCurrentPowerUpLabelActions(scene)
-            scene.currentPowerUpLabelNode = self
         }
     }
     
@@ -52,5 +50,6 @@ class PowerUpLabelNode : SKNode {
         let moveDownAction = SKAction.moveTo(CGPoint(x: scene.frame.origin.x + currentPowerUp!.frame.width * 0.5, y: -20), duration: 0.4)
         let moveActionDone = SKAction.removeFromParent()
         currentPowerUp?.runAction(SKAction.sequence([moveDownAction, moveActionDone]))
+        scene.currentPowerUpLabelNode = self.powerUpLabel
     }
 }
