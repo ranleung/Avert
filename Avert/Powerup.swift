@@ -14,8 +14,10 @@ class Powerup: Shape {
         switch team {
         case .Friend:
             powerup.sprite?.color = UIColor.greenColor()
+            powerup.sprite?.texture = SKTexture(image: UIImage(named: "goodpowerup")!)
         case .Enemy:
             powerup.sprite?.color = UIColor.redColor()
+            powerup.sprite?.texture = SKTexture(image: UIImage(named: "badpowerup")!)
         }
         return powerup
     }

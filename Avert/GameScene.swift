@@ -294,7 +294,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Create starting hero and position center
         let heroSideLength = self.heroView!.frame.width * 0.035
         let heroSize = CGSize(width: heroSideLength, height: heroSideLength)
-        self.hero = SKSpriteNode(texture: nil, color: UIColor.whiteColor(), size: heroSize)
+        var texture = SKTexture(image: UIImage(named: "hero")!)
+        self.hero = SKSpriteNode(texture: texture, size: heroSize)
         self.hero.position = CGPointMake(self.heroView!.frame.width/2, self.heroView!.frame.height/2)
         self.heroCategory = (self.friendCategory | self.enemyCategory | self.powerupCategory)
         
@@ -304,7 +305,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.hero.physicsBody?.contactTestBitMask = self.heroCategory!
         
         // Setting hero rotation
-        let action = SKAction.rotateByAngle(CGFloat(M_PI), duration: 1)
+        let action = SKAction.rotateByAngle(CGFloat(M_PI), duration: 2)
         self.hero.runAction(SKAction.repeatActionForever(action))
         
         // Adding gesture and hero to scene
