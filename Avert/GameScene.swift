@@ -73,6 +73,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Sound Properties
     var audioPlayer : AVAudioPlayer?
     var optionSelectedSound : SystemSoundID?
+    var audioSession = AVAudioSession.sharedInstance()
 
     // Dimming Layer Properties
     var dimmingLayer: SKSpriteNode?
@@ -138,12 +139,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
 
         // Play music
-        self.playMusic()
+      //  self.playMusic()
         
         // Initialize menu sound effect
         self.initializeOptionSelectedSound()
         self.registerAppTransitionEvents()
-    }
+        
+        }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
@@ -372,14 +374,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.dimmingLayer?.removeFromParent()
                 self.paused = false
                 self.pointsShouldIncrease = true
-                AudioServicesPlaySystemSound(self.optionSelectedSound!)
-
+                if self.soundPlaying == true {
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                }
             }
             if nodeAtTouch?.name == "HelpButton" {
                 self.dimmingLayer?.removeFromParent()
                 self.menuNode?.removeFromParent()
                 self.menuController.addHelpScreen(self)
-                AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                if self.soundPlaying == true {
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                }
             }
         }
     }
@@ -391,7 +396,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.helpNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.menuController.addMenuScreen(self)
-                AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                if self.soundPlaying == true {
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                }
             }
         }
     }
@@ -403,13 +410,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.menuController.addMenuScreen(self)
-                AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                if self.soundPlaying == true {
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                }
             }
             if nodeAtTouch?.name == "HelpButton" {
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
                 self.menuController.addHelpScreen(self)
-                AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                if self.soundPlaying == true {
+                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                }
             }
         }
     }
@@ -424,7 +435,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.pauseGame()
                     self.menuController.addSoundButtons(self, sound: self.soundPlaying)
                     self.addChild(self.gameCenterButton!)
-                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                    if self.soundPlaying == true {
+                        AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                    }
                 }
             }
         } else {
@@ -436,7 +449,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.menuController.removeSoundButtons(self)
                     self.pointsShouldIncrease = true
                     self.gameCenterButton?.removeFromParent()
-                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                    if self.soundPlaying == true {
+                        AudioServicesPlaySystemSound(self.optionSelectedSound!)
+                    }
                 }
             }
         }
@@ -533,7 +548,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.hero.xScale = self.hero.xScale + 0.03
                             self.hero.yScale = self.hero.yScale + 0.03
                         }
-                        let collectSFX = SKAction.playSoundFileNamed("avert_collect.mp3", waitForCompletion: false)
+                        let collectSFX = SKAction.playSoundFileNamed("avert_collect.caf", waitForCompletion: false)
                         if self.soundPlaying == true {
                             self.hero.runAction(collectSFX)
                         }
@@ -542,7 +557,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.userDefaultsController?.checkForHighScores(self)
                         
                         // Death Sound Effect Activated
-                        let deathSFX = SKAction.playSoundFileNamed("avert_death.mp3", waitForCompletion: false)
+                        let deathSFX = SKAction.playSoundFileNamed("avert_death.caf", waitForCompletion: false)
                         if self.soundPlaying == true {
                             shape.sprite?.runAction(deathSFX)
                         }
@@ -579,8 +594,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         switch powerup!.team {
                         case .Friend:
                             self.powerupsDictionary["Friend"] = nil
+                            let powerupSFX = SKAction.playSoundFileNamed("avert_powerup.caf", waitForCompletion: false)
+                            if self.soundPlaying == true {
+                                self.hero.runAction(powerupSFX)
+                            }
+
                         case .Enemy:
                             self.powerupsDictionary["Enemy"] = nil
+                            let powerdownSFX = SKAction.playSoundFileNamed("avert_powerdown.caf", waitForCompletion: false)
+                            if self.soundPlaying == true {
+                                self.hero.runAction(powerdownSFX)
+                            }
+
                         }
                         powerup?.sprite?.removeFromParent()
                     }

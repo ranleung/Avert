@@ -7,15 +7,31 @@
 //
 
 import UIKit
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var gameScene: GameScene?
+    var audioSession = AVAudioSession.sharedInstance()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Check if the user is already playing music
+        var audioAlreadyPlaying = self.audioSession?.otherAudioPlaying
+        
+        if audioAlreadyPlaying == true {
+            var error: NSError?
+            self.audioSession?.setCategory("AVAudioSessionCategoryAmbient", error: &error)
+            if error != nil {
+                println(error!.description)
+            }
+        } else {
+            gameScene?.playMusic()
+        }
+
         
         return true
     }
@@ -35,7 +51,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        var audioAlreadyPlaying = self.audioSession?.otherAudioPlaying
+        if audioAlreadyPlaying == true {
+            var error: NSError?
+            self.audioSession?.setCategory("AVAudioSessionCategoryAmbient", error: &error)
+            if error != nil {
+                println(error!.description)
+            }
+        } else {
+            gameScene?.playMusic()
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
