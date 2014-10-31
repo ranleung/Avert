@@ -20,10 +20,10 @@ class PowerUpLabelNode : SKNode {
         self.powerUpLabel.fontName = self.font
         self.powerUpLabel.fontSize = 20
         self.powerUpLabel.name = "PowerUpLabel"
-        self.powerUpLabel.position = CGPoint(x: scene.frame.origin.x + self.powerUpLabel.frame.width * 0.5, y: -20)
+        self.powerUpLabel.position = CGPoint(x: scene.frame.origin.x + self.powerUpLabel.frame.width * 0.6, y: -20)
         self.powerUpLabel.zPosition = -1
-        let moveUpAction = SKAction.moveTo(CGPoint(x: scene.frame.origin.x + self.powerUpLabel.frame.width * 0.5, y: scene.frame.height * 0.05), duration: 0.4)
-        let moveDownAction = SKAction.moveTo(CGPoint(x: scene.frame.origin.x + self.powerUpLabel.frame.width * 0.5, y: -20), duration: 0.4)
+        let moveUpAction = SKAction.moveTo(CGPoint(x: scene.frame.origin.x + self.powerUpLabel.frame.width * 0.6, y: scene.frame.height * 0.05), duration: 0.4)
+        let moveDownAction = SKAction.moveTo(CGPoint(x: scene.frame.origin.x + self.powerUpLabel.frame.width * 0.6, y: -20), duration: 0.4)
         var waitAction = SKAction.waitForDuration(3)
         var removePowerUpLabelFromScreen = SKAction.runBlock { () -> Void in
             scene.powerUpLabelIsActive = false
