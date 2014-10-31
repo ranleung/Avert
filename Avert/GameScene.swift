@@ -338,11 +338,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addHero()
                 self.addChild(self.pointsCounterLabel!)
                 self.particleEmitter?.removeFromParent()
+                
                 if !self.shapesArray.isEmpty {
                     for shape in self.shapesArray {
                         shape.sprite?.removeFromParent()
                     }
                 }
+                
+                for (team, powerup) in powerupsDictionary {
+                    if powerup != nil {
+                        powerup?.sprite?.removeFromParent()
+                        powerupsDictionary[team] = nil
+                    }
+                }
+                
+                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 4)
+                self.timeSinceLastGoodPowerup = 1.0
+                self.timeSinceLastBadPowerup = 0.0
+                
                 self.shapesArray = [Shape]()
                 startSpawn()
                 self.addChild(self.pauseButton!)
