@@ -160,7 +160,7 @@ class Shape {
         case .Enemy:
             self.team = Shape.ShapeTeam.Friend
             self.sprite?.color = UIColor(red: 0, green: 144/255, blue: 1, alpha: 1)
-            self.sprite?.texture = SKTexture(image: UIImage(named: "friendlies")!)
+            self.sprite?.texture = SKTexture(image: UIImage(named: "friendlies2")!)
             self.sprite?.physicsBody?.categoryBitMask = scene.friendCategory
         }
     }
