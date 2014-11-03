@@ -159,8 +159,8 @@
 				28A5B10C1A016343005911B8 /* MenuController.swift */,
 				15E8D8CA1A000E4E007BFE60 /* Shape.swift */,
 				701E6A2E19FECCC0005D63BE /* GameViewController.swift */,
-				6B49FD9A1A02ABB000AA100F /* Animations */,
 				284F2FDE1A02AD9B00F3F246 /* UserDefaultsController.swift */,
+				6B49FD9A1A02ABB000AA100F /* Animations */,
 				28EDBB9B1A000CD200A8FD4F /* Menus */,
 				701E6A3019FECCC0005D63BE /* Main.storyboard */,
 				701E6A3319FECCC0005D63BE /* Images.xcassets */,
@@ -259,7 +259,7 @@
 				TargetAttributes = {
 					701E6A2219FECCC0005D63BE = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = 23Q3452ECP;
+						DevelopmentTeam = WHKMH85L4X;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 1;

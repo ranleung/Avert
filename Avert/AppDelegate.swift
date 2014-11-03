@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Check if the user is already playing music
         var audioAlreadyPlaying = self.audioSession?.otherAudioPlaying
+        var audioPreference: Bool = NSUserDefaults.standardUserDefaults().boolForKey("SoundIsOn")
         
         if audioAlreadyPlaying == true {
             var error: NSError?
@@ -29,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 println(error!.description)
             }
         } else {
-            if gameScene?.soundPlaying == true {
+            if gameScene?.soundPlaying == true && NSUserDefaults.standardUserDefaults().boolForKey("SoundIsOn") {
                 gameScene?.playMusic()
             }
         }
@@ -62,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 println(error!.description)
             }
         } else {
-            if gameScene?.soundPlaying == true {
+            if gameScene?.soundPlaying == true && NSUserDefaults.standardUserDefaults().boolForKey("SoundIsOn") {
                 gameScene?.playMusic()
             }
         }
