@@ -253,7 +253,7 @@
 				TargetAttributes = {
 					701E6A2219FECCC0005D63BE = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = 23Q3452ECP;
+						DevelopmentTeam = W4PDJPG4TJ;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 1;
@@ -262,6 +262,7 @@
 					};
 					701E6A3B19FECCC0005D63BE = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = W4PDJPG4TJ;
 						TestTargetID = 701E6A2219FECCC0005D63BE;
 					};
 				};
