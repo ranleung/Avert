@@ -337,52 +337,59 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // MARK: - Touch Helper Methods
+    func beginNewGame() {
+        self.heroView = view
+        addHero()
+        self.addChild(self.pointsCounterLabel!)
+        self.addChild(self.squaresCounterLabel!)
+        self.particleEmitter?.removeFromParent()
         
+        if !self.shapesArray.isEmpty {
+            for shape in self.shapesArray {
+                shape.sprite?.removeFromParent()
+            }
+        }
+        
+        for (team, powerup) in powerupsDictionary {
+            if powerup != nil {
+                powerup?.sprite?.removeFromParent()
+                powerupsDictionary[team] = nil
+            }
+        }
+        
+        self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 6)
+        self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 6)
+        self.timeSinceLastGoodPowerup = 1.0
+        self.timeSinceLastBadPowerup = 0.0
+        
+        self.shapesArray = [Shape]()
+        startSpawn()
+        self.addChild(self.pauseButton!)
+        self.showGameOver = false
+        self.showMenu = false
+        self.menuNode?.removeFromParent()
+        self.dimmingLayer?.removeFromParent()
+        self.paused = false
+        self.pointsShouldIncrease = true
+        if self.soundPlaying == true {
+            AudioServicesPlaySystemSound(self.optionSelectedSound!)
+        }
+        
+        if self.soundPlaying == true {
+            AudioServicesPlaySystemSound(self.optionSelectedSound!)
+        }
+
+    }
+    
+    // MARK: - Touch Helper Methods
+    
     func menuHelper(touches: NSSet) {
         for touch in touches {
             var nodeAtTouch = self.menuNode?.nodeAtPoint(touch.locationInNode(self.menuNode))
             if nodeAtTouch?.name == "PlayButton" {
                 self.menuController.removeSoundButtons(self)
                 self.gameCenterButton?.removeFromParent()
-                
-                // Instantiate game
-                self.heroView = view
-                addHero()
-                self.addChild(self.pointsCounterLabel!)
-                self.addChild(self.squaresCounterLabel!)
-                self.particleEmitter?.removeFromParent()
-                
-                if !self.shapesArray.isEmpty {
-                    for shape in self.shapesArray {
-                        shape.sprite?.removeFromParent()
-                    }
-                }
-                
-                for (team, powerup) in powerupsDictionary {
-                    if powerup != nil {
-                        powerup?.sprite?.removeFromParent()
-                        powerupsDictionary[team] = nil
-                    }
-                }
-                
-                self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 6)
-                self.timeIntervalForBadPowerup = Double(Float(arc4random() % 5) + 6)
-                self.timeSinceLastGoodPowerup = 1.0
-                self.timeSinceLastBadPowerup = 0.0
-                
-                self.shapesArray = [Shape]()
-                startSpawn()
-                self.addChild(self.pauseButton!)
-                self.showGameOver = false
-                self.showMenu = false
-                self.menuNode?.removeFromParent()
-                self.dimmingLayer?.removeFromParent()
-                self.paused = false
-                self.pointsShouldIncrease = true
-                if self.soundPlaying == true {
-                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
-                }
+                self.beginNewGame()
             }
             if nodeAtTouch?.name == "HelpButton" {
                 self.dimmingLayer?.removeFromParent()
@@ -415,10 +422,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if nodeAtTouch?.name == "NewGameButton" {
                 self.gameOverNode?.removeFromParent()
                 self.dimmingLayer?.removeFromParent()
-                self.menuController.addMenuScreen(self)
-                if self.soundPlaying == true {
-                    AudioServicesPlaySystemSound(self.optionSelectedSound!)
-                }
+                self.menuController.removeSoundButtons(self)
+                self.gameCenterButton?.removeFromParent()
+                self.beginNewGame()
             }
             if nodeAtTouch?.name == "HelpButton" {
                 self.gameOverNode?.removeFromParent()
