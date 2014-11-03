@@ -11,9 +11,15 @@ class UserDefaultsController {
     func userSoundPreference(scene: GameScene) {
         let soundKey = "SoundIsOn"
         
-        if let previousSoundPreference = NSUserDefaults.standardUserDefaults().valueForKey(soundKey) as? Bool {
-            if scene.soundPlaying != previousSoundPreference {
-                scene.soundPlaying = previousSoundPreference
+        if NSUserDefaults.standardUserDefaults().valueForKey(soundKey) != nil {
+            let previousSoundPreference = NSUserDefaults.standardUserDefaults().boolForKey(soundKey)
+            
+            if previousSoundPreference == false {
+                scene.soundPlaying = false
+            } else {
+                scene.soundPlaying = true
+                NSUserDefaults.standardUserDefaults().setValue(previousSoundPreference, forKey: soundKey)
+                NSUserDefaults.standardUserDefaults().synchronize()
             }
         } else {
             NSUserDefaults.standardUserDefaults().setValue(scene.soundPlaying, forKey: soundKey)
@@ -24,13 +30,12 @@ class UserDefaultsController {
     func userSoundPreferenceSave(scene: GameScene) {
         let soundKey = "SoundIsOn"
         
-        if let previousSoundPreference = NSUserDefaults.standardUserDefaults().valueForKey(soundKey) as? Bool {
-            if scene.soundPlaying != previousSoundPreference {
-                NSUserDefaults.standardUserDefaults().setValue(scene.soundPlaying, forKey: soundKey)
-                NSUserDefaults.standardUserDefaults().synchronize()
-            }
+        let soundPreference = scene.soundPlaying
+        if soundPreference == true {
+            NSUserDefaults.standardUserDefaults().setValue(soundPreference, forKey: soundKey)
+            NSUserDefaults.standardUserDefaults().synchronize()
         } else {
-            NSUserDefaults.standardUserDefaults().setValue(scene.soundPlaying, forKey: soundKey)
+            NSUserDefaults.standardUserDefaults().setValue(soundPreference, forKey: soundKey)
             NSUserDefaults.standardUserDefaults().synchronize()
         }
     }
