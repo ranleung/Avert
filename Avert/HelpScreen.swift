@@ -137,7 +137,7 @@ class HelpScreen: SKNode {
         self.playerAsset.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width / 1.5, y: scene.frame.height * 0.79)
         self.addChild(self.playerAsset)
         
-        self.friendlyAsset = SKSpriteNode(imageNamed: "friendlies")
+        self.friendlyAsset = SKSpriteNode(imageNamed: "friendlies2")
         self.friendlyAsset.xScale = 0.2
         self.friendlyAsset.yScale = 0.2
         self.friendlyAsset.position = CGPoint(x: scene.frame.origin.x + self.friendlyAsset.frame.width, y: scene.frame.height * 0.59)

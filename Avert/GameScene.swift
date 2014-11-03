@@ -128,11 +128,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.soundOff = self.menuController.soundOff
         self.addChild(self.menuNode!)
         self.addChild(self.gameCenterButton!)
-        self.addChild(self.soundOn!)
+        
+        if self.soundPlaying == true {
+            self.addChild(self.soundOn!)
+        } else {
+            self.addChild(self.soundOff!)
+        }
+
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.paused = true
-        println(self.deathTimer)
         
         // Initializing powerup spawns
         self.timeIntervalForGoodPowerup = Double(Float(arc4random() % 5) + 6)
@@ -294,7 +299,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Create starting hero and position center
         let heroSideLength = self.heroView!.frame.width * 0.035
         let heroSize = CGSize(width: heroSideLength, height: heroSideLength)
-        var texture = SKTexture(image: UIImage(named: "hero")!)
+        var texture = SKTexture(image: UIImage(named: "hero2")!)
         self.hero = SKSpriteNode(texture: texture, size: heroSize)
         self.hero.position = CGPointMake(self.heroView!.frame.width/2, self.heroView!.frame.height/2)
         self.heroCategory = (self.friendCategory | self.enemyCategory | self.powerupCategory)
@@ -467,6 +472,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.addChild(self.soundOff!)
                     self.soundPlaying = false
                     self.stopMusic()
+                    self.userDefaultsController?.userSoundPreferenceSave(self)
                 }
             }
         } else {
@@ -479,6 +485,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.soundPlaying = true
                     self.audioPlayer?.volume = 0.25
                     self.audioPlayer?.play()
+                    self.playMusic()
+                    self.userDefaultsController?.userSoundPreferenceSave(self)
                 }
             }
         }
@@ -702,9 +710,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.paused = self.playerHasPaused
         }
     }
-    
-    func applicationWillTerminate(application: UIApplication) {
-        self.userDefaultsController?.userSoundPreferenceSave(self)
-    }
-    
 }
