@@ -585,7 +585,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.addChild(self.particleEmitter!)
                         self.pointsCounterLabel?.removeFromParent()
                         self.squaresCounterLabel?.removeFromParent()
-                        self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points)
+                        self.gameOverNode = self.menuController.generateGameOverScreen(self, score: self.points, squaresAcquired: self.squaresAcquired)
                         self.paused = false
                         self.pauseButton?.removeFromParent()
                         self.hero.removeFromParent()

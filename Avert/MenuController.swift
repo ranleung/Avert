@@ -107,8 +107,8 @@ class MenuController {
         }
     }
     
-    func generateGameOverScreen(scene: GameScene, score: Int) -> GameOverNode {
-        self.gameOverNode = GameOverNode(scene: scene, score: score)
+    func generateGameOverScreen(scene: GameScene, score: Int, squaresAcquired: Int) -> GameOverNode {
+        self.gameOverNode = GameOverNode(scene: scene, score: score, squaresAcquired: squaresAcquired)
         scene.addChild(self.gameOverNode!)
         scene.showGameOver = true
         scene.showMenu = false
