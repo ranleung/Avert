@@ -41,7 +41,7 @@ class HelpScreen: SKNode {
         self.titleLabel.position = CGPoint(x: scene.frame.origin.x + self.titleLabel.frame.width * 0.75, y: scene.frame.height - self.titleLabel.frame.height)
         self.addChild(self.titleLabel)
         
-        self.backLabel = SKLabelNode(text: "Back ->")
+        self.backLabel = SKLabelNode(text: "Main Menu ->")
         self.backLabel.fontName = self.font
         self.backLabel.fontSize = self.myFontSize
         self.backLabel.position = CGPoint(x: scene.frame.width - self.backLabel.frame.width, y: scene.frame.origin.y + self.backLabel.frame.height / 2)
