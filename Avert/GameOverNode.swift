@@ -40,7 +40,7 @@ class GameOverNode: SKNode {
         self.newGameLabel.fontSize = 20
         self.newGameLabel.name = "NewGameButton"
         
-        self.newGameLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) - (self.scoreLabel.frame.width / 1.2), y: CGRectGetMidY(scene.frame) - self.titleLabel.frame.height * 4.4)
+        self.newGameLabel.position = CGPoint(x: scene.frame.origin.x + self.newGameLabel.frame.width * 1.0, y: scene.frame.origin.y + self.newGameLabel.frame.height * 1.25)
         self.addChild(self.newGameLabel)
         
         self.helpScreenLabel = SKLabelNode(text: "Help")
@@ -48,7 +48,7 @@ class GameOverNode: SKNode {
         self.helpScreenLabel.fontSize = 20
         self.helpScreenLabel.name = "HelpButton"
         
-        self.helpScreenLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) + (self.scoreLabel.frame.width / 1.2), y: CGRectGetMidY(scene.frame) - self.titleLabel.frame.height * 4.4)
+        self.helpScreenLabel.position = CGPoint(x: scene.frame.width - self.newGameLabel.frame.width * 1.0, y: scene.frame.origin.y + self.helpScreenLabel.frame.height * 1.25)
         self.addChild(self.helpScreenLabel)
         
         self.highScoreLabel = SKLabelNode(text: "High Score: \(UserDefaultsController.returnHighScore())")
@@ -57,14 +57,14 @@ class GameOverNode: SKNode {
         var alignmentLeft = SKLabelHorizontalAlignmentMode(rawValue: 1)
         self.highScoreLabel.horizontalAlignmentMode = alignmentLeft!
         
-        self.highScoreLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) * 0.04, y: CGRectGetMidY(scene.frame) + self.highScoreLabel.frame.height * 5.9)
+        self.highScoreLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) * 0.04, y: scene.frame.height - self.highScoreLabel.frame.height * 1.25)
         self.addChild(self.highScoreLabel)
         
         self.highSquaresLabel = SKLabelNode(text: "High Squares: \(UserDefaultsController.returnHighSquares())")
         self.highSquaresLabel.fontName = self.font
         self.highSquaresLabel.fontSize = 20
         
-        self.highSquaresLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) * 1.93, y: CGRectGetMidY(scene.frame) + self.highSquaresLabel.frame.height * 5.9)
+        self.highSquaresLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) * 1.93, y: scene.frame.height - self.highSquaresLabel.frame.height * 1.25)
         var alignment = SKLabelHorizontalAlignmentMode(rawValue: 2)
         self.highSquaresLabel.horizontalAlignmentMode = alignment!
         self.addChild(self.highSquaresLabel)
