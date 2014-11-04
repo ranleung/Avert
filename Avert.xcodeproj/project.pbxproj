@@ -13,6 +13,7 @@
 		0369B23C1A0417CF00DE9262 /* avert_powerdown.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0369B2381A0417CF00DE9262 /* avert_powerdown.caf */; };
 		0369B23D1A0417CF00DE9262 /* avert_powerup.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0369B2391A0417CF00DE9262 /* avert_powerup.caf */; };
 		03D391231A02ADB7004DDA52 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D391221A02ADB7004DDA52 /* GameKit.framework */; };
+		03EB70681A0853A60063D3E7 /* trophy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03EB70671A0853A60063D3E7 /* trophy@2x.png */; };
 		15BA3A251A01715D00FA7AB7 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA3A241A01715D00FA7AB7 /* Timer.swift */; };
 		15BA3A271A019E6300FA7AB7 /* Powerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BA3A261A019E6300FA7AB7 /* Powerup.swift */; };
 		15E8D8CB1A000E4E007BFE60 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E8D8CA1A000E4E007BFE60 /* Shape.swift */; };
@@ -59,6 +60,7 @@
 		0369B2381A0417CF00DE9262 /* avert_powerdown.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avert_powerdown.caf; path = ../avert_powerdown.caf; sourceTree = "<group>"; };
 		0369B2391A0417CF00DE9262 /* avert_powerup.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avert_powerup.caf; path = ../avert_powerup.caf; sourceTree = "<group>"; };
 		03D391221A02ADB7004DDA52 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		03EB70671A0853A60063D3E7 /* trophy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trophy@2x.png"; sourceTree = "<group>"; };
 		15BA3A241A01715D00FA7AB7 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		15BA3A261A019E6300FA7AB7 /* Powerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Powerup.swift; sourceTree = "<group>"; };
 		15E8D8CA1A000E4E007BFE60 /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				28EDBB9B1A000CD200A8FD4F /* Menus */,
 				701E6A3019FECCC0005D63BE /* Main.storyboard */,
 				701E6A3319FECCC0005D63BE /* Images.xcassets */,
+				03EB70671A0853A60063D3E7 /* trophy@2x.png */,
 				701E6A2619FECCC0005D63BE /* Supporting Files */,
 			);
 			path = Avert;
@@ -259,7 +262,7 @@
 				TargetAttributes = {
 					701E6A2219FECCC0005D63BE = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = W4PDJPG4TJ;
+						DevelopmentTeam = 23Q3452ECP;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 1;
@@ -268,7 +271,7 @@
 					};
 					701E6A3B19FECCC0005D63BE = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = W4PDJPG4TJ;
+						DevelopmentTeam = 23Q3452ECP;
 						TestTargetID = 701E6A2219FECCC0005D63BE;
 					};
 				};
@@ -299,6 +302,7 @@
 			files = (
 				0369B23D1A0417CF00DE9262 /* avert_powerup.caf in Resources */,
 				6B781D711A0455550009E8FD /* badpowerup.png in Resources */,
+				03EB70681A0853A60063D3E7 /* trophy@2x.png in Resources */,
 				6B781D631A0437DC0009E8FD /* hero.png in Resources */,
 				6B49FDA01A02ADFB00AA100F /* Audiowide-Regular.ttf in Resources */,
 				0369B23C1A0417CF00DE9262 /* avert_powerdown.caf in Resources */,
@@ -473,6 +477,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Avert/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -487,6 +492,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Avert/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
