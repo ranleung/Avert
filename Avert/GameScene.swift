@@ -332,6 +332,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.soundPlaying == true {
             AudioServicesPlaySystemSound(self.optionSelectedSound!)
         }
+        if self.gameCenterButton?.parent != nil {
+            self.gameCenterButton?.removeFromParent()
+        }
+        if self.soundOff?.parent != nil {
+            self.soundOff?.removeFromParent()
+        }
+        if self.soundOn?.parent != nil {
+            self.soundOn?.removeFromParent()
+        }
     }
     
     func addHero() {
@@ -708,5 +717,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.playerHasPaused == true {
             self.paused = self.playerHasPaused
         }
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }
