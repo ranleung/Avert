@@ -81,26 +81,26 @@ class HelpScreen: SKNode {
         self.friendLabel = SKLabelNode(text: " - Friendlies")
         self.friendLabel.fontName = self.font
         self.friendLabel.fontSize = self.myFontSize
-        self.friendLabel.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width * 1.75, y: scene.frame.height * 0.6 - self.friendLabel.frame.height / 2)
+        self.friendLabel.position = CGPoint(x: scene.frame.origin.x + self.friendLabel.frame.width * 0.85, y: scene.frame.height * 0.6 - self.friendLabel.frame.height / 2)
         self.addChild(self.friendLabel)
         
         self.playerLabel = SKLabelNode(text: " - Player")
         self.playerLabel.fontName = self.font
         self.playerLabel.fontSize = self.myFontSize
-        self.playerLabel.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width * 1.75, y: scene.frame.height * 0.8 - self.playerLabel.frame.height / 2)
+        self.playerLabel.position = CGPoint(x: scene.frame.origin.x + self.playerLabel.frame.width, y: scene.frame.height * 0.8 - self.playerLabel.frame.height / 2)
         self.addChild(self.playerLabel)
         
         
         self.enemyLabel = SKLabelNode(text: " - Enemies")
         self.enemyLabel.fontName = self.font
         self.enemyLabel.fontSize = self.myFontSize
-        self.enemyLabel.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width * 1.75, y: scene.frame.height * 0.4 - self.enemyLabel.frame.height / 2)
+        self.enemyLabel.position = CGPoint(x: scene.frame.origin.x + self.enemyLabel.frame.width * 0.9, y: scene.frame.height * 0.4 - self.enemyLabel.frame.height / 2)
         self.addChild(self.enemyLabel)
         
         self.powerUpsLabel = SKLabelNode(text: " - PowerUps")
         self.powerUpsLabel.fontName = self.font
         self.powerUpsLabel.fontSize = self.myFontSize
-        self.powerUpsLabel.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width * 2.75, y: scene.frame.height * 0.2 - self.powerUpsLabel.frame.height / 2)
+        self.powerUpsLabel.position = CGPoint(x: scene.frame.origin.x + self.powerUpsLabel.frame.width * 1.2, y: scene.frame.height * 0.2 - self.powerUpsLabel.frame.height / 2)
         self.addChild(self.powerUpsLabel)
         
         var rulesPosition = CGPoint(x: scene.frame.width * 0.2 + self.friendLabel.frame.width * 3.7, y: scene.frame.height - self.titleLabel.frame.height * 5)
