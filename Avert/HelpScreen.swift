@@ -74,7 +74,7 @@ class HelpScreen: SKNode {
         self.backLabel = SKLabelNode(text: "Main Menu ->")
         self.backLabel.fontName = self.font
         self.backLabel.fontSize = self.myFontSize
-        self.backLabel.position = CGPoint(x: scene.frame.width - self.backLabel.frame.width, y: scene.frame.origin.y + self.backLabel.frame.height / 2)
+        self.backLabel.position = CGPoint(x: scene.frame.width - self.backLabel.frame.width * 0.55, y: scene.frame.origin.y + self.backLabel.frame.height / 2)
         self.backLabel.name = "BackButton"
         self.addChild(self.backLabel)
         
