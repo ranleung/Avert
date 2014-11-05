@@ -320,6 +320,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.timeSinceLastGoodPowerup = 1.0
         self.timeSinceLastBadPowerup = 0.0
         
+        if self.timer != nil {
+            self.timer!.removeFromParent()
+            self.timer = nil
+        }
+        
+        
         self.shapesArray = [Shape]()
         startSpawn()
         self.addChild(self.pauseButton!)

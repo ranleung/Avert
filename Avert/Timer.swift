@@ -29,7 +29,6 @@ class Timer : SKSpriteNode {
     
     func runTimer(completionHandler: () -> Void) {
         let timerTickAction = SKAction.runBlock({ () -> Void in
-            println("TICK")
             var removedPixel = self.timerArray.removeLast()
             removedPixel.removeFromParent()
         })
@@ -39,9 +38,6 @@ class Timer : SKSpriteNode {
         self.runAction(timerSequence, completion: { () -> Void in
             completionHandler()
         })
-        
-            
     }
-    
     
 }
