@@ -35,6 +35,36 @@ class HelpScreen: SKNode {
     init(scene: SKScene) {
         super.init()
         
+        self.playerAsset = SKSpriteNode(imageNamed: "hero")
+        self.playerAsset.xScale = 0.2
+        self.playerAsset.yScale = 0.2
+        self.playerAsset.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width * 0.75, y: scene.frame.height * 0.8)
+        self.addChild(self.playerAsset)
+        
+        self.friendlyAsset = SKSpriteNode(imageNamed: "friendlies2")
+        self.friendlyAsset.xScale = 0.2
+        self.friendlyAsset.yScale = 0.2
+        self.friendlyAsset.position = CGPoint(x: scene.frame.origin.x + self.friendlyAsset.frame.width * 0.75, y: scene.frame.height * 0.6)
+        self.addChild(self.friendlyAsset)
+        
+        self.enemyAsset = SKSpriteNode(imageNamed: "enemies")
+        self.enemyAsset.xScale = 0.2
+        self.enemyAsset.yScale = 0.2
+        self.enemyAsset.position = CGPoint(x: scene.frame.origin.x + self.enemyAsset.frame.width * 0.75, y: scene.frame.height * 0.4)
+        self.addChild(self.enemyAsset)
+        
+        self.powerUpsGoodAsset = SKSpriteNode(imageNamed: "goodpowerup")
+        self.powerUpsGoodAsset.xScale = 0.2
+        self.powerUpsGoodAsset.yScale = 0.2
+        self.powerUpsGoodAsset.position = CGPoint(x: scene.frame.origin.x + self.powerUpsGoodAsset.frame.width * 0.75, y: scene.frame.height * 0.2)
+        self.addChild(self.powerUpsGoodAsset)
+        
+        self.powerUpsBadAsset = SKSpriteNode(imageNamed: "badpowerup")
+        self.powerUpsBadAsset.xScale = 0.2
+        self.powerUpsBadAsset.yScale = 0.2
+        self.powerUpsBadAsset.position = CGPoint(x: scene.frame.origin.x + self.powerUpsGoodAsset.frame.width * 2, y: scene.frame.height * 0.2)
+        self.addChild(self.powerUpsBadAsset)
+        
         self.titleLabel = SKLabelNode(text: "Help!")
         self.titleLabel.fontName = self.font
         self.titleLabel.fontSize = self.myFontSize + 10
@@ -51,26 +81,26 @@ class HelpScreen: SKNode {
         self.friendLabel = SKLabelNode(text: " - Friendlies")
         self.friendLabel.fontName = self.font
         self.friendLabel.fontSize = self.myFontSize
-        self.friendLabel.position = CGPoint(x: scene.frame.width * 0.2, y: scene.frame.height * 0.6 - self.friendLabel.frame.height / 2)
+        self.friendLabel.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width * 1.75, y: scene.frame.height * 0.6 - self.friendLabel.frame.height / 2)
         self.addChild(self.friendLabel)
         
         self.playerLabel = SKLabelNode(text: " - Player")
         self.playerLabel.fontName = self.font
         self.playerLabel.fontSize = self.myFontSize
-        self.playerLabel.position = CGPoint(x: scene.frame.width * 0.2 - ((self.friendLabel.frame.width / 2) - (self.playerLabel.frame.width / 2)), y: scene.frame.height * 0.8 - self.playerLabel.frame.height / 2)
+        self.playerLabel.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width * 1.75, y: scene.frame.height * 0.8 - self.playerLabel.frame.height / 2)
         self.addChild(self.playerLabel)
         
         
         self.enemyLabel = SKLabelNode(text: " - Enemies")
         self.enemyLabel.fontName = self.font
         self.enemyLabel.fontSize = self.myFontSize
-        self.enemyLabel.position = CGPoint(x: scene.frame.width * 0.2 - ((self.friendLabel.frame.width / 2) - (self.enemyLabel.frame.width / 2)), y: scene.frame.height * 0.4 - self.enemyLabel.frame.height / 2)
+        self.enemyLabel.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width * 1.75, y: scene.frame.height * 0.4 - self.enemyLabel.frame.height / 2)
         self.addChild(self.enemyLabel)
         
         self.powerUpsLabel = SKLabelNode(text: " - PowerUps")
         self.powerUpsLabel.fontName = self.font
         self.powerUpsLabel.fontSize = self.myFontSize
-        self.powerUpsLabel.position = CGPoint(x: scene.frame.origin.x + self.powerUpsLabel.frame.width * 1.8, y: scene.frame.height * 0.2 - self.powerUpsLabel.frame.height / 2)
+        self.powerUpsLabel.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width * 2.75, y: scene.frame.height * 0.2 - self.powerUpsLabel.frame.height / 2)
         self.addChild(self.powerUpsLabel)
         
         var rulesPosition = CGPoint(x: scene.frame.width * 0.2 + self.friendLabel.frame.width * 3.7, y: scene.frame.height - self.titleLabel.frame.height * 5)
@@ -130,36 +160,6 @@ class HelpScreen: SKNode {
         self.addChild(self.fifthRuleLabel)
         
         self.zPosition = 2.0
-        
-        self.playerAsset = SKSpriteNode(imageNamed: "hero")
-        self.playerAsset.xScale = 0.2
-        self.playerAsset.yScale = 0.2
-        self.playerAsset.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width / 1.5, y: scene.frame.height * 0.79)
-        self.addChild(self.playerAsset)
-        
-        self.friendlyAsset = SKSpriteNode(imageNamed: "friendlies2")
-        self.friendlyAsset.xScale = 0.2
-        self.friendlyAsset.yScale = 0.2
-        self.friendlyAsset.position = CGPoint(x: scene.frame.origin.x + self.friendlyAsset.frame.width, y: scene.frame.height * 0.59)
-        self.addChild(self.friendlyAsset)
-        
-        self.enemyAsset = SKSpriteNode(imageNamed: "enemies")
-        self.enemyAsset.xScale = 0.2
-        self.enemyAsset.yScale = 0.2
-        self.enemyAsset.position = CGPoint(x: scene.frame.origin.x + self.enemyAsset.frame.width / 1.6, y: scene.frame.height * 0.39)
-        self.addChild(self.enemyAsset)
-        
-        self.powerUpsGoodAsset = SKSpriteNode(imageNamed: "goodpowerup")
-        self.powerUpsGoodAsset.xScale = 0.2
-        self.powerUpsGoodAsset.yScale = 0.2
-        self.powerUpsGoodAsset.position = CGPoint(x: scene.frame.origin.x + self.powerUpsGoodAsset.frame.width / 1.1, y: scene.frame.height * 0.19)
-        self.addChild(self.powerUpsGoodAsset)
-        
-        self.powerUpsBadAsset = SKSpriteNode(imageNamed: "badpowerup")
-        self.powerUpsBadAsset.xScale = 0.2
-        self.powerUpsBadAsset.yScale = 0.2
-        self.powerUpsBadAsset.position = CGPoint(x: scene.frame.origin.x + self.powerUpsGoodAsset.frame.width + self.powerUpsBadAsset.frame.width * 2, y: scene.frame.height * 0.19)
-        self.addChild(self.powerUpsBadAsset)
     }
 
     required init?(coder aDecoder: NSCoder) {

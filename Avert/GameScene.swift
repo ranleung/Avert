@@ -709,4 +709,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.paused = self.playerHasPaused
         }
     }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
 }
