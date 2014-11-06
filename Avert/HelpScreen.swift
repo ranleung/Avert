@@ -159,7 +159,7 @@ class HelpScreen: SKNode {
         self.fifthRuleLabel.position = CGPoint(x: self.rulesTitleLabel.position.x, y: self.fourthRuleLabelLine2.frame.origin.y - self.fifthRuleLabel.frame.height * 1.5)
         self.addChild(self.fifthRuleLabel)
         
-        self.zPosition = 2.0
+        self.zPosition = 3.0
     }
 
     required init?(coder aDecoder: NSCoder) {

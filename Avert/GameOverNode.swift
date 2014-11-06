@@ -76,7 +76,7 @@ class GameOverNode: SKNode {
         self.squaresLabel.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame))
         self.addChild(self.squaresLabel)
         
-        self.zPosition = 2.0
+        self.zPosition = 3.0
     }
     
     required init?(coder aDecoder: NSCoder) {
