@@ -637,23 +637,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func pauseGame() {
-        if self.gameOverNode?.parent == nil && self.menuNode?.parent == nil && self.helpNode?.parent == nil {
-            if self.paused == false {
-                self.pauseButton?.removeFromParent()
-                self.addChild(self.resumeButton!)
-                self.panGestureRecognizer.enabled = false
-                self.addChild(self.pausedLabel!)
-                self.pointsShouldIncrease = true
-            } else {
-                self.resumeButton?.removeFromParent()
-                self.addChild(self.pauseButton!)
-                self.panGestureRecognizer.enabled = true
-                self.pausedLabel?.removeFromParent()
-                self.pointsShouldIncrease = false
+        if self.paused == false {
+            self.pauseButton?.removeFromParent()
+            self.addChild(self.resumeButton!)
+            self.panGestureRecognizer.enabled = false
+            self.addChild(self.pausedLabel!)
+            if self.dimmingLayer?.parent == nil {
+                self.addChild(self.dimmingLayer!)
             }
-            self.playerHasPaused = !self.playerHasPaused
-            self.paused = self.playerHasPaused
+            self.pointsShouldIncrease = true
+        } else {
+            self.resumeButton?.removeFromParent()
+            self.addChild(self.pauseButton!)
+            self.panGestureRecognizer.enabled = true
+            self.pausedLabel?.removeFromParent()
+            if self.dimmingLayer?.parent != nil {
+                self.dimmingLayer?.removeFromParent()
+            }
+            self.pointsShouldIncrease = false
         }
+        self.playerHasPaused = !self.playerHasPaused
+        self.paused = self.playerHasPaused
     }
     
     func createParticleEmitter() {
@@ -717,11 +721,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.playerHasPaused == true {
             self.paused = self.playerHasPaused
         }
+        self.view?.paused = true
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
-        if self.playerHasPaused == true {
-            self.paused = self.playerHasPaused
+        self.view?.paused = false
+        if self.playerHasPaused {
+            self.paused = true
+        } else {
+            self.playerHasPaused = false
+            self.pauseGame()
         }
     }
     
