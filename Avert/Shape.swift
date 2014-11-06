@@ -64,6 +64,7 @@ class Shape {
         case .Enemy:
             sprite.color = UIColor(red: 1, green: 150/255, blue: 0, alpha: 1)
             sprite.texture = SKTexture(image: UIImage(named: "enemies")!)
+            sprite.zPosition = 1.0
         }
         
         var destination: CGPoint!
@@ -156,12 +157,14 @@ class Shape {
             self.sprite?.color = UIColor(red: 1, green: 150/255, blue: 0, alpha: 1)
             self.sprite?.texture = SKTexture(image: UIImage(named: "enemies")!)
             self.sprite?.physicsBody?.categoryBitMask = scene.enemyCategory
+            self.sprite?.zPosition = 1.0
             
         case .Enemy:
             self.team = Shape.ShapeTeam.Friend
             self.sprite?.color = UIColor(red: 0, green: 144/255, blue: 1, alpha: 1)
             self.sprite?.texture = SKTexture(image: UIImage(named: "friendlies2")!)
             self.sprite?.physicsBody?.categoryBitMask = scene.friendCategory
+            self.sprite?.zPosition = 0.0
         }
     }
     

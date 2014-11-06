@@ -36,24 +36,24 @@ class MenuController {
         self.pausedLabel?.fontName = "Audiowide-Regular"
         self.pausedLabel?.fontSize = 50
         self.pausedLabel?.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame))
-        self.pauseButton?.zPosition = 2.0
-        self.resumeButton?.zPosition = 2.0
-        self.pausedLabel?.zPosition = 2.0
+        self.pauseButton?.zPosition = 3.0
+        self.resumeButton?.zPosition = 3.0
+        self.pausedLabel?.zPosition = 3.0
         
         self.dimmingLayer = SKSpriteNode(color: UIColor.blackColor(), size: scene.frame.size)
         self.dimmingLayer?.alpha = 0.5
-        self.dimmingLayer?.zPosition = 1.0
+        self.dimmingLayer?.zPosition = 2.0
         self.dimmingLayer?.position = CGPoint(x: CGRectGetMidX(scene.frame), y: CGRectGetMidY(scene.frame))
         
         self.scoreLabel = SKLabelNode(text: "Points: 0")
         self.scoreLabel?.position = CGPoint(x: scene.frame.origin.x + scene.frame.width * 0.03, y: scene.frame.height - scene.frame.height * 0.07)
-        self.scoreLabel?.zPosition = 2.0
+        self.scoreLabel?.zPosition = 3.0
         self.scoreLabel?.fontName = "Audiowide-Regular"
         self.scoreLabel?.fontSize = 20
         
         self.squaresLabel = SKLabelNode(text: "Squares: 0")
         self.squaresLabel?.position = CGPoint(x: scene.frame.origin.x + scene.frame.width * 0.03, y: scene.frame.height - scene.frame.height * 0.07 - self.scoreLabel!.frame.height)
-        self.squaresLabel?.zPosition = 2.0
+        self.squaresLabel?.zPosition = 3.0
         self.squaresLabel?.fontName = "Audiowide-Regular"
         self.squaresLabel?.fontSize = 15
         
@@ -67,8 +67,8 @@ class MenuController {
         self.soundOn.yScale = 0.5
         self.soundOff.xScale = 0.5
         self.soundOff.yScale = 0.5
-        self.soundOn.zPosition = 2.0
-        self.soundOff.zPosition = 2.0
+        self.soundOn.zPosition = 3.0
+        self.soundOff.zPosition = 3.0
         
         self.pauseButton?.xScale = 0.4
         self.pauseButton?.yScale = 0.4
@@ -80,7 +80,7 @@ class MenuController {
         self.gameCenterButton.position = CGPoint(x: scene.frame.origin.x + self.gameCenterButton.frame.width/4, y: scene.frame.origin.y + self.gameCenterButton.frame.height/4)
         self.gameCenterButton.xScale = 0.35
         self.gameCenterButton.yScale = 0.35
-        self.gameCenterButton.zPosition = 2.0
+        self.gameCenterButton.zPosition = 3.0
     }
     
     func addHelpScreen(scene: GameScene) {
