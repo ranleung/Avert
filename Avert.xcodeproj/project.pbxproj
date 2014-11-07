@@ -32,6 +32,7 @@
 		6B781D711A0455550009E8FD /* badpowerup.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B781D6E1A0455550009E8FD /* badpowerup.png */; };
 		6B781D721A0455550009E8FD /* enemies.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B781D6F1A0455550009E8FD /* enemies.png */; };
 		6B781D731A0455550009E8FD /* goodpowerup.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B781D701A0455550009E8FD /* goodpowerup.png */; };
+		6BC067011A0C418D0010E974 /* avert_launchscreen.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 6BC067001A0C418D0010E974 /* avert_launchscreen.pdf */; };
 		70121F1D1A02D9C9000A1A9D /* PowerUpLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70121F1C1A02D9C9000A1A9D /* PowerUpLabelNode.swift */; };
 		701E6A2919FECCC0005D63BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2819FECCC0005D63BE /* AppDelegate.swift */; };
 		701E6A2D19FECCC0005D63BE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701E6A2C19FECCC0005D63BE /* GameScene.swift */; };
@@ -79,6 +80,7 @@
 		6B781D6E1A0455550009E8FD /* badpowerup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badpowerup.png; sourceTree = "<group>"; };
 		6B781D6F1A0455550009E8FD /* enemies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemies.png; sourceTree = "<group>"; };
 		6B781D701A0455550009E8FD /* goodpowerup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goodpowerup.png; sourceTree = "<group>"; };
+		6BC067001A0C418D0010E974 /* avert_launchscreen.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = avert_launchscreen.pdf; sourceTree = "<group>"; };
 		70121F1C1A02D9C9000A1A9D /* PowerUpLabelNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpLabelNode.swift; sourceTree = "<group>"; };
 		701E6A2319FECCC0005D63BE /* Avert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Avert.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		701E6A2719FECCC0005D63BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				286F95DD1A017E7B0085C1E6 /* DeathParticleEmitter.sks */,
 				286F95DE1A017E7B0085C1E6 /* spark.png */,
 				6B49FD9F1A02AD9500AA100F /* Audiowide-Regular.ttf */,
+				6BC067001A0C418D0010E974 /* avert_launchscreen.pdf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				6B781D721A0455550009E8FD /* enemies.png in Resources */,
 				701E6A3219FECCC0005D63BE /* Main.storyboard in Resources */,
 				6B49FD4E1A015A8300AA100F /* avertmusic.mp3 in Resources */,
+				6BC067011A0C418D0010E974 /* avert_launchscreen.pdf in Resources */,
 				0369B23B1A0417CF00DE9262 /* avert_death.caf in Resources */,
 				6B781D6B1A0452510009E8FD /* hero2.png in Resources */,
 				6B781D731A0455550009E8FD /* goodpowerup.png in Resources */,
