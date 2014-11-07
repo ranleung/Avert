@@ -31,7 +31,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var resumeButton: SKSpriteNode?
     var pausedLabel: SKLabelNode?
     
-    // Hero properties
+    // Hero Properties
     var hero : SKSpriteNode!
     var heroRotationSpeed = 5
     var panGestureRecognizer : UIPanGestureRecognizer!
@@ -188,34 +188,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.timeSinceLastGoodPowerup = self.timeSinceLastGoodPowerup + self.deltaTime
                 self.timeSinceLastBadPowerup = self.timeSinceLastBadPowerup + self.deltaTime
                 var timeIntervalForPoints = 1.0
+                var pointsMultiplier = 1
                 
                 // Rate for accumulating points
                 switch self.squaresAcquired {
                 case 0...5:
                     timeIntervalForPoints = 1.0
+                    pointsMultiplier = 1
                 case 6...10:
                     timeIntervalForPoints = 0.9
+                    pointsMultiplier = 1
                 case 11...15:
                     timeIntervalForPoints = 0.8
+                    pointsMultiplier = 1
                 case 16...20:
                     timeIntervalForPoints = 0.7
+                    pointsMultiplier = 1
                 case 21...25:
                     timeIntervalForPoints = 0.6
+                    pointsMultiplier = 1
                 case 26...30:
                     timeIntervalForPoints = 0.5
+                    pointsMultiplier = 1
                 case 31...35:
                     timeIntervalForPoints = 0.4
+                    pointsMultiplier = 2
                 case 36...40:
                     timeIntervalForPoints = 0.3
+                    pointsMultiplier = 2
                 case 41...45:
                     timeIntervalForPoints = 0.2
+                    pointsMultiplier = 3
                 case 46...50:
                     timeIntervalForPoints = 0.1
+                    pointsMultiplier = 4
                 default:
                     timeIntervalForPoints = 0.1
+                    pointsMultiplier = 5
                 }
                 if self.timeSincePointGiven > timeIntervalForPoints {
-                    self.points += 1
+                    self.points += 1 * pointsMultiplier
                     self.timeSincePointGiven = 0
                 }
             }
