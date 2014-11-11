@@ -2,7 +2,7 @@
 
 Get The Squares!
 
-Avert is an aracade game, the goal of which is to absorb as many blue squares as possible without crashing into an orange square.  Try to collect the blue power-ups, but watch out for Mr.Red, who will surely play shenanigans with your hero!
+Avert is an arcade game, the goal of which is to absorb as many blue squares as possible without crashing into an orange square.  Try to collect the blue power-ups, but watch out for Mr.Red, who will surely play shenanigans with your hero!
  
 ![AvertMenu](http://i.imgur.com/olXsF2r.png)
 ![AvertPlay](http://i.imgur.com/vueO8kk.png)
