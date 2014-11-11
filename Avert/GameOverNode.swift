@@ -40,7 +40,7 @@ class GameOverNode: SKNode {
         self.newGameLabel.fontSize = 20
         self.newGameLabel.name = "NewGameButton"
         
-        self.newGameLabel.position = CGPoint(x: scene.frame.origin.x + self.newGameLabel.frame.width * 1.1, y: scene.frame.origin.y + self.newGameLabel.frame.height * 1.25)
+        self.newGameLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) - self.newGameLabel.frame.width, y: self.scoreLabel.frame.origin.y - self.newGameLabel.frame.height * 6)
         self.addChild(self.newGameLabel)
         
         self.helpScreenLabel = SKLabelNode(text: "Help")
@@ -48,9 +48,9 @@ class GameOverNode: SKNode {
         self.helpScreenLabel.fontSize = 20
         self.helpScreenLabel.name = "HelpButton"
         
-        self.helpScreenLabel.position = CGPoint(x: scene.frame.width - self.newGameLabel.frame.width * 0.9, y: scene.frame.origin.y + self.newGameLabel.frame.height * 1.25)
+        self.helpScreenLabel.position = CGPoint(x: CGRectGetMidX(scene.frame) + self.newGameLabel.frame.width, y: self.scoreLabel.frame.origin.y - self.newGameLabel.frame.height * 6)
         self.addChild(self.helpScreenLabel)
-        
+
         self.highScoreLabel = SKLabelNode(text: "High Score: \(UserDefaultsController.returnHighScore())")
         self.highScoreLabel.fontName = self.font
         self.highScoreLabel.fontSize = 20
