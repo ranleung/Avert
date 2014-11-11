@@ -35,10 +35,12 @@ class HelpScreen: SKNode {
     init(scene: SKScene) {
         super.init()
         
-        self.playerAsset = SKSpriteNode(imageNamed: "hero")
+        self.playerAsset = SKSpriteNode(imageNamed: "hero2")
         self.playerAsset.xScale = 0.2
         self.playerAsset.yScale = 0.2
         self.playerAsset.position = CGPoint(x: scene.frame.origin.x + self.playerAsset.frame.width * 0.75, y: scene.frame.height * 0.8)
+        let rotateAction = SKAction.rotateByAngle(CGFloat(M_PI), duration: 2)
+        self.playerAsset.runAction(SKAction.repeatActionForever(rotateAction))
         self.addChild(self.playerAsset)
         
         self.friendlyAsset = SKSpriteNode(imageNamed: "friendlies2")
