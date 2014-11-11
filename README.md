@@ -1,17 +1,17 @@
 # Avert
 
-Get The Squares.
- 
-- 1 - 4 pictures of the app
+Get The Squares!
 
+Avert is an aracade game, the goal of which is to absorb as many blue squares as possible without crashing into an orange square.  Try to collect the blue power-ups, but watch out for Mr.Red, who will surely play shenanigans with your hero!
+ 
+![AvertMenu](http://i.imgur.com/olXsF2r.png)
+![AvertPlay](http://i.imgur.com/vueO8kk.png)
 
 ## Gameplay
 
 Use your hero to avert the enemies at all costs!
 
-(Good Square Asset) is the good square.
-
-(Bad Square Asset) is the bad square.
+![AvertHelp](http://i.imgur.com/433UFQt.png)
 
 All the squares on the screen increase speed and size as you acquire more squares.
 
@@ -33,7 +33,7 @@ Avert is written in Swift on Xcode 6.1.  We decided to use Sprite Kit as our gam
 - [Matthew Brightbill](https://github.com/mbrightbill)
 - [Reid Weber](https://github.com/Reidweb1)
 - [Will Richnan](https://github.com/willrichman)
-- [Randall Leung](ttps://github.com/ranleung)
+- [Randall Leung](https://github.com/ranleung)
 
 ### Shout Out
 
