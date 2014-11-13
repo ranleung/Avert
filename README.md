@@ -23,9 +23,9 @@ Avert is written in Swift on Xcode 6.1.  We decided to use Sprite Kit as our gam
 
 ## Compatibility
 - iOS 8
-- iPhone 4s - iPhone 6+
-- iPad 2 - iPad Air 2
-- iPad Mini - iPad Mini 3
+- iPhone 4s  -  iPhone 6+
+- iPad 2  -  iPad Air 2
+- iPad Mini  -  iPad Mini 3
 
 ## Authors
 - [Jeff Chavez](https://github.com/jeffChavez)
