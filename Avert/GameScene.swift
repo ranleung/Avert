@@ -652,7 +652,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.paused == false {
             self.pauseButton?.removeFromParent()
             self.addChild(self.resumeButton!)
-            self.panGestureRecognizer.enabled = false
+            if self.panGestureRecognizer != nil {
+                self.panGestureRecognizer.enabled = false
+            }
             self.addChild(self.pausedLabel!)
             if self.dimmingLayer?.parent == nil {
                 self.addChild(self.dimmingLayer!)
@@ -740,7 +742,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.paused = false
         if self.playerHasPaused {
             self.paused = true
-        } else {
+        } else if self.gameOverNode?.parent == nil && self.menuNode?.parent == nil && self.helpNode?.parent == nil {
             self.playerHasPaused = false
             self.pauseGame()
         }
